@@ -188,100 +188,132 @@ window.addEventListener("scroll", onScroll, { passive: true });
 // Initial call
 updateCinematic();
 
-// ── Global Navbar: circle → bar (open) / bar → circle → float away (close) ──
-(() => {
-  const nav = document.getElementById("globalNav");
-  const featureSections = document.querySelectorAll(".feature-section");
-  // Non-feature sections that should trigger an immediate close
-  const otherSections = document.querySelectorAll(".about-section, .hero-section");
-  if (!nav || !featureSections.length) return;
+// ══════════════════════════════════════════════
+//  Student Grid & Detail Overlay
+// ══════════════════════════════════════════════
 
-  const allPhases = ["phase-drop", "phase-expand", "phase-collapse", "phase-exit"];
-  function clearPhases() { allPhases.forEach((c) => nav.classList.remove(c)); }
+// ── Render list ──
+function renderGrid(students) {
+  const grid = document.getElementById("studentGrid");
+  if (!grid) return;
 
-  let state = "hidden"; // hidden | opening | open | closing
-  let closeTimer = null;
-  let openTimer = null;
-  let closeDebounce = null;
-  const visibleFeatures = new Set();
+  grid.innerHTML = students
+    .map(
+      (s, i) => `
+    <button class="sg-item" data-id="${s.id}" data-index="${i}" aria-label="${s.nameJa}の紹介を見る">
+      <span class="sg-item__num">${String(i + 1).padStart(2, "0")}</span>
+      <span class="sg-item__name">${s.nameJa}</span>
+      <span class="sg-item__tags">
+        ${s.tags.map((t) => `<span class="sg-item__tag">#${t}</span>`).join("")}
+      </span>
+    </button>
+  `,
+    )
+    .join("");
 
-  function openNav() {
-    if (state === "open" || state === "opening") return;
-    // Cancel any ongoing close
-    if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
-    state = "opening";
+  // Show first student in spotlight on load
+  updateSpotlight(students[0], 0);
+  grid.querySelector(".sg-item").classList.add("is-active");
 
-    clearPhases();
-    nav.classList.add("phase-drop");
+  // Hover → update spotlight
+  grid.addEventListener("mouseover", (e) => {
+    const item = e.target.closest(".sg-item");
+    if (!item) return;
+    const idx = parseInt(item.dataset.index);
+    document.querySelectorAll(".sg-item").forEach((el) => el.classList.remove("is-active"));
+    item.classList.add("is-active");
+    updateSpotlight(students[idx], idx);
+  });
 
-    openTimer = setTimeout(() => {
-      nav.classList.remove("phase-drop");
-      nav.classList.add("phase-expand");
-      state = "open";
-      openTimer = null;
-    }, 550);
-  }
+  // Click → open detail overlay
+  grid.addEventListener("click", (e) => {
+    const item = e.target.closest(".sg-item");
+    if (!item) return;
+    const student = students.find((s) => s.id === item.dataset.id);
+    if (student) openDetail(student);
+  });
+}
 
-  function closeNav() {
-    if (state === "hidden" || state === "closing") return;
-    if (openTimer) { clearTimeout(openTimer); openTimer = null; }
-    state = "closing";
+// ── Spotlight update ──
+let _spotlightTimer = null;
 
-    clearPhases();
-    // Collapse bar → circle
-    nav.classList.add("phase-collapse");
+function updateSpotlight(student, index) {
+  const spotlight = document.getElementById("sgSpotlight");
+  if (!spotlight) return;
 
-    closeTimer = setTimeout(() => {
-      nav.classList.remove("phase-collapse");
-      nav.classList.add("phase-exit");
+  spotlight.classList.add("is-transitioning");
+  clearTimeout(_spotlightTimer);
 
-      setTimeout(() => {
-        clearPhases();
-        state = "hidden";
-        closeTimer = null;
-      }, 500);
-    }, 550); // wait for border-radius to fully round before floating up
-  }
+  _spotlightTimer = setTimeout(() => {
+    document.getElementById("sgSpotlightBg").style.background = student.gradient;
+    document.getElementById("sgSpotlightName").textContent = student.nameJa;
+    document.getElementById("sgSpotlightDept").textContent = student.dept;
+    document.getElementById("sgSpotlightNum").textContent = String(index + 1).padStart(2, "0");
+    document.getElementById("sgSpotlightTags").innerHTML = student.tags
+      .map((t) => `<span class="sg-spotlight__tag">#${t}</span>`)
+      .join("");
+    spotlight.classList.remove("is-transitioning");
+  }, 220);
+}
 
-  // Watch feature sections — open when any is visible
-  const featureObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          visibleFeatures.add(entry.target);
-        } else {
-          visibleFeatures.delete(entry.target);
-        }
-      });
+// ── Open detail overlay ──
+function openDetail(student) {
+  const overlay = document.getElementById("studentDetail");
+  const hero = document.getElementById("detailHero");
+  const content = document.getElementById("detailContent");
 
-      if (visibleFeatures.size > 0) {
-        if (closeDebounce) { clearTimeout(closeDebounce); closeDebounce = null; }
-        openNav();
-      } else {
-        // セクション間スクロール時の一瞬の空白を無視するためデバウンス
-        if (closeDebounce) clearTimeout(closeDebounce);
-        closeDebounce = setTimeout(() => {
-          closeDebounce = null;
-          if (visibleFeatures.size === 0) closeNav();
-        }, 150);
-      }
-    },
-    { threshold: 0.15 },
-  );
-  featureSections.forEach((s) => featureObserver.observe(s));
+  hero.style.background = student.gradient;
+  hero.innerHTML = `
+    <div class="sd-hero__inner">
+      <h2 class="sd-hero__name">${student.nameJa}</h2>
+      <p class="sd-hero__roman">${student.nameEn}</p>
+      <p class="sd-hero__dept">${student.dept} / ${student.year}</p>
+      <div class="sd-hero__tags">
+        ${student.tags.map((t) => `<span class="sd-hero__tag">#${t}</span>`).join("")}
+      </div>
+    </div>
+  `;
 
-  // Watch non-feature sections — close immediately when they enter view
-  const otherObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          closeNav();
-        }
-      });
-    },
-    { threshold: 0.15 },
-  );
-  otherSections.forEach((s) => otherObserver.observe(s));
-})();
+  content.innerHTML = `
+    <dl class="sd-profile-dl">
+      <dt>出身</dt><dd>${student.from}</dd>
+      <dt>学年</dt><dd>${student.year}</dd>
+      <dt>趣味</dt><dd>${student.hobbies}</dd>
+    </dl>
+    <blockquote class="sd-quote">「${student.quote}」</blockquote>
+    <p class="sd-bio">${student.bio}</p>
+    <div class="sd-message-wrap">
+      <p class="sd-message-label">Message</p>
+      <p class="sd-message-body">${student.message}</p>
+      <footer class="sd-message-sig">
+        <span class="sd-message-sig__name">${student.nameJa}</span>
+        <span class="sd-message-sig__dept">${student.dept} ${student.year}</span>
+      </footer>
+    </div>
+  `;
 
+  overlay.querySelector(".sd-scroll").scrollTop = 0;
+  overlay.classList.add("is-open");
+  overlay.removeAttribute("aria-hidden");
+  document.body.style.overflow = "hidden";
+}
 
+// ── Close detail overlay ──
+function closeDetail() {
+  const overlay = document.getElementById("studentDetail");
+  overlay.classList.remove("is-open");
+  overlay.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+document.getElementById("detailClose").addEventListener("click", closeDetail);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeDetail();
+});
+
+// ── Load students from JSON ──
+fetch("students.json")
+  .then((res) => res.json())
+  .then((students) => renderGrid(students))
+  .catch((err) => console.error("students.json の読み込みに失敗しました:", err));

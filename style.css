@@ -1065,6 +1065,15 @@ body {
   padding-top: 20px;
 }
 
+.global-nav[hidden] {
+  display: none;
+}
+
+.student-profile-root {
+  position: relative;
+  z-index: 2;
+}
+
 .global-nav__circle {
   position: absolute;
   top: 20px;
@@ -1267,133 +1276,460 @@ body {
   width: 70%;
 }
 
-/* ── Feature Sections ── */
-.feature-section {
+/* ══════════════════════════════════════════════
+   Student Grid  (sg-*)  &  Detail Overlay  (sd-*)
+   ══════════════════════════════════════════════ */
+
+/* ── Grid section ── */
+.sg-section {
   position: relative;
   z-index: 2;
-  width: 100%;
+}
+
+/* ── Split layout ── */
+.sg-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  min-height: 100vh;
+}
+
+/* ── Spotlight (left, sticky) ── */
+.sg-spotlight {
+  position: sticky;
+  top: 0;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   overflow: hidden;
 }
 
-/* Alternating alignment */
-.feature-align-center {
-  justify-content: center;
-}
-
-.feature-align-center .feature-content {
-  text-align: center;
-}
-
-.feature-align-right {
-  justify-content: flex-end;
-}
-
-.feature-align-left {
-  justify-content: flex-start;
-}
-
-.feature-align-right .feature-content {
-  margin-right: 10%;
-  text-align: right;
-}
-
-.feature-align-left .feature-content {
-  margin-left: 10%;
-  text-align: left;
-}
-
-.feature-overlay {
+.sg-spotlight__bg {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: #d8d0c8;
+  transition: opacity 0.25s ease;
+}
+
+.sg-spotlight__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.08) 55%,
+    transparent 100%
+  );
   z-index: 1;
 }
 
-.feature-content {
-  position: relative;
+.sg-spotlight.is-transitioning .sg-spotlight__bg {
+  opacity: 0;
+}
+
+.sg-spotlight__info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 52px 48px;
   z-index: 2;
-  color: #fff;
-  max-width: 500px;
+  transition: opacity 0.25s ease;
 }
 
-.feature-sub {
-  font-family: "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
+.sg-spotlight.is-transitioning .sg-spotlight__info {
+  opacity: 0;
+}
+
+.sg-spotlight__num {
+  display: block;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.18em;
   margin-bottom: 1rem;
-  opacity: 0.7;
 }
 
-.feature-title {
-  font-family: "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
-  font-size: 3rem;
+.sg-spotlight__name {
+  font-family:
+    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
   font-weight: 700;
-  letter-spacing: 0.15em;
-  margin-bottom: 1.5rem;
+  color: #fff;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  margin-bottom: 0.6rem;
 }
 
-.feature-desc {
+.sg-spotlight__dept {
+  font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.08em;
+  margin-bottom: 1.4rem;
+}
+
+.sg-spotlight__tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sg-spotlight__tag {
+  padding: 4px 13px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.68rem;
+  font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
+  letter-spacing: 0.06em;
+}
+
+/* ── Right column ── */
+.sg-right {
+  background: #faf7f4;
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.sg-header {
+  padding: 64px 40px 40px;
+  border-bottom: 1px solid #ede8e2;
+}
+
+.sg-header__eyebrow {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: #c0a898;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.sg-header__title {
+  font-family:
+    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: #2a2a2a;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+}
+
+.sg-header__sub {
+  font-family: "neue-haas-grotesk-text", "Hiragino Sans", sans-serif;
+  font-size: 0.82rem;
+  color: #a8a098;
+  letter-spacing: 0.03em;
+  line-height: 1.8;
+}
+
+/* ── List ── */
+.sg-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.sg-item {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 22px 40px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  border-bottom: 1px solid #ede8e2;
+  transition:
+    background 0.2s ease,
+    padding-left 0.25s ease;
+}
+
+.sg-item:hover,
+.sg-item.is-active {
+  background: #fff;
+  padding-left: 48px;
+}
+
+.sg-item__num {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.62rem;
+  color: #c8beb5;
+  letter-spacing: 0.08em;
+}
+
+.sg-item__name {
+  font-family:
+    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2a2a2a;
+  letter-spacing: 0.04em;
+}
+
+.sg-item__tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.sg-item__tag {
+  font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
+  font-size: 0.58rem;
+  color: #7a6e66;
+  background: #f2ede8;
+  border-radius: 100px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+/* ── Detail Overlay ── */
+.sd-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: #faf7f4;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.sd-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sd-scroll {
+  height: 100%;
+  overflow-y: auto;
+  transform: translateY(16px);
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sd-overlay.is-open .sd-scroll {
+  transform: translateY(0);
+}
+
+/* ── Close button ── */
+.sd-close {
+  position: fixed;
+  top: 24px;
+  right: 28px;
+  z-index: 210;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.35s ease 0.2s,
+    background 0.25s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.sd-overlay.is-open .sd-close {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sd-close:hover {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.sd-close span {
+  position: absolute;
+  width: 18px;
+  height: 1px;
+  background: #fff;
+  display: block;
+}
+
+.sd-close span:nth-child(1) {
+  transform: rotate(45deg);
+}
+
+.sd-close span:nth-child(2) {
+  transform: rotate(-45deg);
+}
+
+/* ── Detail hero ── */
+.sd-hero {
+  min-height: 65vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 80px 10% 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sd-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.05) 60%,
+    transparent 100%
+  );
+}
+
+.sd-hero__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.sd-hero__name {
+  font-family:
+    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  margin-bottom: 0.4rem;
+}
+
+.sd-hero__roman {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 1.6rem;
+}
+
+.sd-hero__dept {
+  font-family: "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.08em;
+  margin-bottom: 2rem;
+}
+
+.sd-hero__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sd-hero__tag {
+  padding: 0.25rem 0.85rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
+}
+
+/* ── Detail content ── */
+.sd-content {
+  padding: 80px 10% 120px;
+  max-width: 960px;
+}
+
+.sd-profile-dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  margin-bottom: 3.5rem;
+  max-width: 560px;
+}
+
+.sd-profile-dl dt {
+  font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
+  font-size: 0.7rem;
+  color: #c0b0a8;
+  letter-spacing: 0.08em;
+  padding: 0.85rem 2rem 0.85rem 0;
+  border-top: 1px solid #ede8e2;
+  white-space: nowrap;
+}
+
+.sd-profile-dl dd {
+  font-family: "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 0.88rem;
+  color: #3a3530;
+  letter-spacing: 0.03em;
+  padding: 0.85rem 0;
+  border-top: 1px solid #ede8e2;
+  margin: 0;
+  line-height: 1.7;
+}
+
+.sd-quote {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.6rem 2rem;
+  font-family:
+    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 1rem;
+  color: #3a3530;
+  line-height: 1.9;
+  letter-spacing: 0.04em;
+  margin: 0 0 3.5rem;
+}
+
+.sd-bio {
+  font-family:
+    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 0.93rem;
+  line-height: 2.5;
+  color: #555;
+  letter-spacing: 0.05em;
+  margin-bottom: 5rem;
+  max-width: 680px;
+}
+
+.sd-message-wrap {
+  border-top: 1px solid #ede8e2;
+  padding-top: 4rem;
+}
+
+.sd-message-label {
+  font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: #bbb;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.sd-message-body {
+  font-family:
+    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 0.93rem;
+  line-height: 2.7;
+  color: #555;
+  letter-spacing: 0.05em;
+  max-width: 680px;
+  margin-bottom: 2.5rem;
+}
+
+.sd-message-sig {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: flex-end;
+}
+
+.sd-message-sig__name {
   font-family: "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
   font-size: 1rem;
+  color: #333;
   letter-spacing: 0.1em;
-  line-height: 1.8;
-  opacity: 0.85;
 }
 
-/* ── Feature Button ── */
-.feature-btn {
-  display: inline-block;
-  margin-top: 2rem;
-  padding: 14px 40px;
-  font-family: "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
-  color: #fff;
-  text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 0;
-  background: transparent;
-  transition:
-    background 0.3s ease,
-    border-color 0.3s ease;
-  cursor: pointer;
-}
-
-.feature-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: #fff;
-}
-
-/* Background images – replace with actual images */
-.feature-about {
-  background-image: url("/img/image.png");
-  background-color: #fff;
-}
-
-.feature-learning {
-  background-image: url("https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=1600&q=80");
-  background-color: #3a5a3a;
-}
-
-.feature-campus {
-  background-image: url("https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80");
-  background-color: #5a4a3a;
-}
-
-.feature-life {
-  background-image: url("https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600&q=80");
-  background-color: #4a3a5a;
-}
-
-.feature-admission {
-  background-image: url("https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1600&q=80");
-  background-color: #6a3a3a;
+.sd-message-sig__dept {
+  font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
+  font-size: 0.7rem;
+  color: #bbb;
+  letter-spacing: 0.08em;
 }

@@ -51,3 +51,61 @@
     gap: 0.3em;
   }
 }
+
+/* ── Student Layout: Mobile (max-width: 768px) ── */
+
+@media (max-width: 768px) {
+  .sg-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sg-spotlight {
+    position: relative;
+    height: 50vw;
+    min-height: 240px;
+  }
+
+  .sg-spotlight__info {
+    padding: 28px 24px;
+  }
+
+  .sg-spotlight__name {
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+  }
+
+  .sg-header {
+    padding: 40px 24px 28px;
+  }
+
+  .sg-item {
+    padding: 18px 24px;
+    grid-template-columns: 28px 1fr auto;
+    gap: 12px;
+  }
+
+  .sg-item:hover,
+  .sg-item.is-active {
+    padding-left: 30px;
+  }
+
+  .sd-hero {
+    min-height: 55vh;
+    padding: 60px 6% 48px;
+  }
+
+  .sd-hero__name {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+  }
+
+  .sd-content {
+    padding: 60px 6% 80px;
+  }
+
+  .sd-profile-dl {
+    max-width: 100%;
+  }
+
+  .sd-quote {
+    font-size: 0.95rem;
+  }
+}
