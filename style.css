@@ -1,0 +1,1399 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  overflow-x: hidden;
+  background-color: #1a3a6b;
+}
+
+/* ── Scroll container ── */
+.about-section {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  z-index: 1;
+  overflow: hidden;
+  will-change: transform, filter, opacity;
+}
+
+.about-section::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(
+      ellipse 60% 50% at 20% 30%,
+      rgba(232, 160, 180, 0.8) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 60% at 80% 20%,
+      rgba(168, 184, 232, 0.7) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 55% 45% at 60% 80%,
+      rgba(124, 200, 232, 0.7) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 45% 55% at 30% 70%,
+      rgba(212, 160, 208, 0.6) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 50% at 50% 50%,
+      rgba(232, 200, 112, 0.5) 0%,
+      transparent 70%
+    );
+  background-color: #dfc8d8;
+  animation: ambientDrift 25s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+.about-section::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(
+      ellipse 50% 40% at 70% 40%,
+      rgba(136, 212, 228, 0.6) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 40% 50% at 25% 55%,
+      rgba(232, 160, 180, 0.5) 0%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 55% 50% at 50% 20%,
+      rgba(168, 184, 232, 0.5) 0%,
+      transparent 65%
+    );
+  animation: ambientDrift2 30s ease-in-out infinite alternate;
+  z-index: 0;
+  mix-blend-mode: soft-light;
+}
+
+@keyframes ambientDrift {
+  0% {
+    transform: translate(0%, 0%) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translate(10%, -8%) rotate(3deg) scale(1.05);
+  }
+  66% {
+    transform: translate(-8%, 6%) rotate(-2deg) scale(0.98);
+  }
+  100% {
+    transform: translate(5%, -3%) rotate(1.5deg) scale(1.02);
+  }
+}
+
+@keyframes ambientDrift2 {
+  0% {
+    transform: translate(0%, 0%) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translate(-6%, 10%) rotate(-3deg) scale(1.03);
+  }
+  66% {
+    transform: translate(8%, -5%) rotate(2deg) scale(0.97);
+  }
+  100% {
+    transform: translate(-4%, 7%) rotate(-1.5deg) scale(1.01);
+  }
+}
+
+.about-section .fog-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #ffffff;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 5s ease;
+}
+
+.about-section.gradient-active .fog-layer {
+  opacity: 0;
+  transition-delay: 4s;
+}
+
+.lead-text {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.lead-text img {
+  width: 20vw;
+  max-width: 260px;
+}
+
+.lead-text .fade-in {
+  display: block;
+  opacity: 0;
+  filter: blur(12px);
+  transition:
+    opacity 2s ease,
+    filter 2s ease;
+}
+
+.lead-text .fade-in.visible {
+  opacity: 1;
+  filter: blur(0);
+}
+
+/* ── About Logo (top-left) ── */
+.about-logo {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  z-index: 2;
+  width: auto;
+  height: 2.5vh;
+}
+
+/* ── Questions Background ── */
+.questions-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  font-family: "游明朝", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.04);
+  font-size: 2.2rem;
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.questions-bg .q-row {
+  display: block;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.questions-bg .q-row span {
+  margin-right: 0.2em;
+}
+
+/* ── Hero Section ── */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 110vh;
+  overflow: hidden;
+  display: flex;
+  z-index: 2;
+  margin-top: 100vh; /* push below the fixed about-section */
+  will-change: opacity, filter;
+}
+
+/* ── Sidebar Common ── */
+.sidebar {
+  position: relative;
+  z-index: 10;
+  height: 100vh;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "游明朝", "Yu Mincho", "Hiragino Mincho ProN", serif;
+}
+
+/* ── Left Sidebar ── */
+.sidebar-left {
+  width: 60px;
+  background: #fff;
+  justify-content: space-between;
+  padding: 20px 0 40px;
+  border-right: 1px solid #e0e0e0;
+}
+
+.sidebar-left__logo img {
+  width: 36px;
+}
+
+.sidebar-left__scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.scroll-text {
+  writing-mode: vertical-rl;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: #333;
+}
+
+.scroll-arrow {
+  display: block;
+  width: 1px;
+  height: 40px;
+  background: #333;
+  position: relative;
+  animation: scrollArrow 1.8s ease-in-out infinite;
+}
+
+.scroll-arrow::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -4px;
+  width: 9px;
+  height: 9px;
+  border-right: 1px solid #333;
+  border-bottom: 1px solid #333;
+  transform: rotate(45deg);
+}
+
+@keyframes scrollArrow {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* ── Hero Main ── */
+.hero-main {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 25%);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: -1px;
+  background: url("img/cover1.jpg") center / cover no-repeat;
+  transform: scale(1);
+  opacity: 0;
+  transition: none;
+}
+
+.hero-bg.active {
+  opacity: 1;
+  transform: scale(1.15);
+  transition:
+    opacity 2s ease,
+    transform 8s ease-out;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+.hero-white {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 2s ease;
+}
+
+.hero-white.fade-out {
+  opacity: 0;
+}
+
+.hero-bottom-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 10%;
+  background: linear-gradient(to bottom, transparent, white);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.hero-line {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease;
+}
+
+.hero-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 3;
+}
+
+.hero-copy img {
+  filter: brightness(0) invert(1);
+  max-width: 280px;
+  width: 60vw;
+  border: none;
+  outline: none;
+  display: block;
+}
+
+.hero-vertical-text {
+  writing-mode: vertical-rl;
+  direction: ltr;
+  color: #fff;
+  font-family:
+    "Noto Serif JP", "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", serif;
+  font-size: 1rem;
+  line-height: 2.2;
+  letter-spacing: 0.1em;
+  display: flex;
+  gap: 0.8em;
+  overflow-x: auto;
+  flex-direction: column;
+}
+
+.hero-vertical-text p {
+  margin: 0;
+}
+
+/* ── Middle-right Sidebar ── */
+.sidebar-mid {
+  width: 60px;
+  background: #111;
+  color: #fff;
+  justify-content: flex-start;
+  padding: 20px 0;
+  cursor: pointer;
+  border-left: 1px solid #333;
+  position: relative;
+}
+
+.hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  align-items: center;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #fff;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.sidebar-mid__nav {
+  position: absolute;
+  top: 0;
+  right: 60px;
+  width: 280px;
+  height: 100%;
+  background: #111;
+  display: flex;
+  align-items: center;
+  padding: 40px 30px;
+  transform: translateX(100%);
+  opacity: 0;
+  transition:
+    transform 0.4s ease,
+    opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.sidebar-mid__nav.open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar-mid__nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sidebar-mid__nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  transition: opacity 0.2s;
+}
+
+.sidebar-mid__nav a:hover {
+  opacity: 0.6;
+}
+
+.sidebar-mid__text {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Hover slide text (shared) ── */
+.hover-slide {
+  position: relative;
+  overflow: hidden;
+  writing-mode: vertical-rl;
+  color: #fff;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+}
+
+.hover-slide__current,
+.hover-slide__next {
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.hover-slide__current {
+  transform: translateX(0);
+}
+
+.hover-slide__next {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-100%);
+}
+
+.hover-slide:hover .hover-slide__current {
+  transform: translateX(100%);
+}
+
+.hover-slide:hover .hover-slide__next {
+  transform: translateX(0);
+}
+
+/* ── Rightmost Sidebar ── */
+.sidebar-right {
+  width: 60px;
+  background: #c8102e;
+  justify-content: space-between;
+  cursor: pointer;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-right__top-spacer {
+  height: 0;
+  flex-shrink: 0;
+}
+
+.sidebar-right__icon {
+  width: 24px;
+  flex-shrink: 0;
+  padding: 20px 0;
+  display: block;
+  margin: 0 auto;
+}
+
+.sidebar-right__link {
+  text-decoration: none;
+  color: #fff;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Sidebar bottom english label (shared) ── */
+.sidebar-bottom {
+  padding-bottom: 30px;
+  writing-mode: vertical-rl;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  flex-shrink: 0;
+}
+
+/* ── Content Section ── */
+.content-section {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+}
+
+.content-inner {
+  flex: 1;
+  padding: 80px 40px;
+}
+
+.content-section__heading {
+  font-family:
+    "Noto Serif JP", "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", serif;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #111;
+}
+
+/* ── FV Section (fvpc1) ── */
+.fv-section {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: #e0a8b8;
+}
+
+.fv-section::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(
+      ellipse 60% 60% at 5% 10%,
+      rgba(190, 160, 220, 0.95) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 50% 50% at 0% 50%,
+      rgba(230, 140, 150, 0.9) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 55% 55% at 10% 90%,
+      rgba(225, 155, 130, 0.9) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 60% 60% at 90% 10%,
+      rgba(100, 185, 240, 0.9) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 50% 50% at 95% 90%,
+      rgba(240, 210, 80, 0.85) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 70% 70% at 50% 50%,
+      rgba(220, 165, 185, 0.6) 0%,
+      transparent 60%
+    );
+  background-color: #d8a0b0;
+  animation: fvDrift 20s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+.fv-section::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background:
+    radial-gradient(
+      ellipse 50% 50% at 20% 15%,
+      rgba(175, 150, 210, 0.5) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 45% 45% at 85% 30%,
+      rgba(130, 200, 240, 0.4) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 45% 45% at 80% 85%,
+      rgba(240, 200, 100, 0.4) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 50% 50% at 15% 75%,
+      rgba(230, 160, 140, 0.4) 0%,
+      transparent 55%
+    );
+  animation: fvDrift2 25s ease-in-out infinite alternate;
+  z-index: 0;
+  mix-blend-mode: soft-light;
+}
+
+@keyframes fvDrift {
+  0% {
+    transform: translate(0%, 0%) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translate(8%, -6%) rotate(2deg) scale(1.04);
+  }
+  66% {
+    transform: translate(-6%, 5%) rotate(-1.5deg) scale(0.97);
+  }
+  100% {
+    transform: translate(4%, -2%) rotate(1deg) scale(1.02);
+  }
+}
+
+@keyframes fvDrift2 {
+  0% {
+    transform: translate(0%, 0%) rotate(0deg) scale(1);
+  }
+  33% {
+    transform: translate(-5%, 8%) rotate(-2deg) scale(1.03);
+  }
+  66% {
+    transform: translate(7%, -4%) rotate(1.5deg) scale(0.98);
+  }
+  100% {
+    transform: translate(-3%, 5%) rotate(-1deg) scale(1.01);
+  }
+}
+
+.fv-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 40px;
+}
+
+.fv-logo img {
+  width: 60px;
+  height: auto;
+}
+
+/* ── Intro Section ── */
+.intro-section {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  padding: 160px 40px 160px 35%;
+  text-align: left;
+  font-family:
+    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+    sans-serif;
+  overflow: hidden;
+}
+
+.intro-accent-line {
+  position: absolute;
+  left: 30%;
+  top: 80px;
+  bottom: 80px;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    #ccc 30%,
+    #ccc 70%,
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+.intro-section.in-view .intro-accent-line {
+  opacity: 1;
+}
+
+.intro-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s ease;
+}
+
+.intro-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intro-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.intro-logo {
+  position: relative;
+  z-index: 1;
+  width: 120px;
+  height: auto;
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.intro-lead {
+  position: relative;
+  z-index: 1;
+  font-size: 1.1rem;
+  color: #666;
+  letter-spacing: 0.12em;
+  line-height: 2.2;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+}
+
+.intro-greeting {
+  position: relative;
+  z-index: 1;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+  font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+}
+
+/* ── Link Items Section (Carousel) ── */
+.t_link_section {
+  position: relative;
+  z-index: 2;
+  background:
+    linear-gradient(to bottom, #fff 0%, transparent 30%),
+    radial-gradient(
+      ellipse 70% 70% at 0% 0%,
+      rgba(200, 160, 210, 0.8) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 60% at 100% 0%,
+      rgba(100, 185, 240, 0.85) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 60% 70% at 0% 100%,
+      rgba(230, 150, 140, 0.8) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 50% 60% at 100% 100%,
+      rgba(245, 215, 80, 0.8) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 80% 80% at 50% 50%,
+      rgba(220, 170, 190, 0.6) 0%,
+      transparent 60%
+    );
+  background-color: #deb8c8;
+  padding: 100px 0 80px;
+  overflow: hidden;
+}
+
+.t_link_carousel {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.t_link_stage {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  height: 500px;
+  position: relative;
+  perspective: 1200px;
+}
+
+/* ── Slots ── */
+.t_link_slot {
+  display: block;
+  text-decoration: none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-style: preserve-3d;
+  transition:
+    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+.t_link_slot--center {
+  transform: translate(-50%, -50%) translateZ(0px) rotateY(0deg) scale(1);
+  z-index: 3;
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.t_link_slot--left {
+  transform: translate(calc(-50% - 300px), calc(-50% - 80px)) translateZ(-120px)
+    rotateY(25deg) scale(0.85);
+  z-index: 2;
+  opacity: 0.35;
+  cursor: pointer;
+}
+
+.t_link_slot--right {
+  transform: translate(calc(-50% + 300px), calc(-50% - 80px)) translateZ(-120px)
+    rotateY(-25deg) scale(0.85);
+  z-index: 2;
+  opacity: 0.35;
+  cursor: pointer;
+}
+
+/* ── Back row (behind front 3) ── */
+.t_link_slot--back-left {
+  transform: translate(calc(-50% - 200px), calc(-50% - 120px))
+    translateZ(-280px) rotateY(18deg) scale(0.65);
+  z-index: 0;
+  opacity: 0.06;
+  cursor: pointer;
+}
+
+.t_link_slot--back-center {
+  transform: translate(-50%, calc(-50% - 150px)) translateZ(-280px)
+    rotateY(0deg) scale(0.65);
+  z-index: 0;
+  opacity: 0.06;
+  cursor: pointer;
+}
+
+.t_link_slot--back-right {
+  transform: translate(calc(-50% + 200px), calc(-50% - 120px))
+    translateZ(-280px) rotateY(-18deg) scale(0.65);
+  z-index: 0;
+  opacity: 0.06;
+  cursor: pointer;
+}
+
+/* ── Card inside slot ── */
+.t_link_card {
+  display: block;
+  text-decoration: none;
+  color: #111;
+  position: relative;
+  width: 340px;
+  height: 340px;
+  text-align: center;
+  pointer-events: none;
+}
+
+.t_link_card_circle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 1;
+}
+
+.t_link_card_body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.t_link_card_prefix {
+  font-family:
+    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+    sans-serif;
+  font-size: 0.85rem;
+  color: #666;
+  letter-spacing: 0.05em;
+}
+
+.t_link_card_title {
+  font-family:
+    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+    sans-serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #111;
+  margin: 10px 0 6px;
+  letter-spacing: 0.05em;
+}
+
+.t_link_card_sub {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: #aaa;
+  text-transform: uppercase;
+}
+
+.t_link_card_desc {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 16px;
+  line-height: 1.6;
+}
+
+/* ── Navigation arrows ── */
+.t_link_nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  margin-top: -10px;
+}
+
+.t_link_arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.t_link_arrow:hover {
+  background: #111;
+  border-color: #111;
+  color: #fff;
+}
+
+/* ── Transition classes for role changes ── */
+.t_link_slot--exit-left {
+  transform: translate(calc(-50% - 180px), calc(-50% - 140px))
+    translateZ(-450px) rotateY(18deg) scale(0.4);
+  opacity: 0;
+  z-index: -1;
+}
+
+.t_link_slot--exit-right {
+  transform: translate(calc(-50% + 180px), calc(-50% - 140px))
+    translateZ(-450px) rotateY(-18deg) scale(0.4);
+  opacity: 0;
+  z-index: -1;
+}
+
+.fv-copy {
+  font-family:
+    "Noto Serif JP", "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", serif;
+  font-size: 1.4rem;
+  line-height: 2;
+  letter-spacing: 0.08em;
+  color: #fff;
+}
+
+/* ── Global Navbar ── */
+.global-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  padding-top: 20px;
+}
+
+.global-nav__circle {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 50%;
+  transform: translateX(-50%) translateY(-100px) scale(0.3);
+  opacity: 0;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  z-index: 1;
+  will-change: transform, width, height, border-radius, opacity;
+  /* default: fast collapse for close */
+  transition:
+    transform 0.45s cubic-bezier(0.6, 0, 0.3, 1),
+    width 0.45s cubic-bezier(0.6, 0, 0.3, 1),
+    height 0.45s cubic-bezier(0.6, 0, 0.3, 1),
+    border-radius 0.45s cubic-bezier(0.6, 0, 0.3, 1),
+    opacity 0.3s ease,
+    box-shadow 0.4s ease;
+}
+
+/* ── Phase 1: circle drops in with overshoot bounce ── */
+.global-nav.phase-drop .global-nav__circle {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+  /* spring-like overshoot */
+  transition:
+    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.4s ease;
+}
+
+/* ── Phase 2: expand to pill bar ── */
+.global-nav.phase-expand .global-nav__circle {
+  opacity: 1;
+  width: min(92vw, 1100px);
+  height: 48px;
+  border-radius: 24px;
+  transform: translateX(-50%) translateY(0) scale(1);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.92);
+  transition:
+    transform 0.2s ease,
+    width 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-radius 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease,
+    box-shadow 0.5s ease,
+    background 0.4s ease;
+}
+
+/* ── Phase 3: collapse back to circle before exit ──
+   width shrinks first, then height catches up, border-radius last → feels like it "rounds into" a circle */
+.global-nav.phase-collapse .global-nav__circle {
+  opacity: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  transform: translateX(-50%) translateY(0) scale(1);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.97);
+  transition:
+    width 0.45s cubic-bezier(0.6, 0, 0.3, 1),
+    height 0.5s cubic-bezier(0.6, 0, 0.3, 1) 0.08s,
+    border-radius 0.55s cubic-bezier(0.4, 0, 0.2, 1) 0.15s,
+    opacity 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+
+/* ── Phase 4: float up and vanish ── */
+.global-nav.phase-exit .global-nav__circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translateX(-50%) translateY(-60px) scale(0.5);
+  transition:
+    transform 0.5s cubic-bezier(0.6, 0, 0.3, 1),
+    opacity 0.4s ease 0.05s;
+}
+
+/* ── Nav links container ── */
+.global-nav__bar {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+  pointer-events: none;
+}
+
+.global-nav.phase-expand .global-nav__bar {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition:
+    opacity 0.4s ease 0.35s,
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.35s;
+}
+
+.global-nav__list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  height: 48px;
+  padding: 0 20px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.global-nav__list li {
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.global-nav.phase-expand .global-nav__list li {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* stagger each item */
+.global-nav.phase-expand .global-nav__list li:nth-child(1) {
+  transition-delay: 0.4s;
+}
+.global-nav.phase-expand .global-nav__list li:nth-child(2) {
+  transition-delay: 0.43s;
+}
+.global-nav.phase-expand .global-nav__list li:nth-child(3) {
+  transition-delay: 0.46s;
+}
+.global-nav.phase-expand .global-nav__list li:nth-child(4) {
+  transition-delay: 0.49s;
+}
+.global-nav.phase-expand .global-nav__list li:nth-child(5) {
+  transition-delay: 0.52s;
+}
+.global-nav.phase-expand .global-nav__list li:nth-child(6) {
+  transition-delay: 0.55s;
+}
+.global-nav.phase-expand .global-nav__list li:nth-child(7) {
+  transition-delay: 0.58s;
+}
+.global-nav.phase-expand .global-nav__list li:nth-child(8) {
+  transition-delay: 0.61s;
+}
+.global-nav.phase-expand .global-nav__list li:nth-child(9) {
+  transition-delay: 0.64s;
+}
+.global-nav.phase-expand .global-nav__list li:nth-child(10) {
+  transition-delay: 0.67s;
+}
+.global-nav.phase-expand .global-nav__list li:nth-child(11) {
+  transition-delay: 0.7s;
+}
+
+.global-nav__list li a {
+  display: block;
+  padding: 0 10px;
+  font-family:
+    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+    sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #444;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  pointer-events: auto;
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+.global-nav__list li a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 1.5px;
+  background: #c8102e;
+  transform: translateX(-50%);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.global-nav__list li a:hover {
+  color: #c8102e;
+}
+
+.global-nav__list li a:hover::after {
+  width: 70%;
+}
+
+/* ── Feature Sections ── */
+.feature-section {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+/* Alternating alignment */
+.feature-align-center {
+  justify-content: center;
+}
+
+.feature-align-center .feature-content {
+  text-align: center;
+}
+
+.feature-align-right {
+  justify-content: flex-end;
+}
+
+.feature-align-left {
+  justify-content: flex-start;
+}
+
+.feature-align-right .feature-content {
+  margin-right: 10%;
+  text-align: right;
+}
+
+.feature-align-left .feature-content {
+  margin-left: 10%;
+  text-align: left;
+}
+
+.feature-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.feature-content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  max-width: 500px;
+}
+
+.feature-sub {
+  font-family: "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.feature-title {
+  font-family: "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  margin-bottom: 1.5rem;
+}
+
+.feature-desc {
+  font-family: "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+  opacity: 0.85;
+}
+
+/* ── Feature Button ── */
+.feature-btn {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 14px 40px;
+  font-family: "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: #fff;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 0;
+  background: transparent;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.feature-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #fff;
+}
+
+/* Background images – replace with actual images */
+.feature-about {
+  background-image: url("/img/image.png");
+  background-color: #fff;
+}
+
+.feature-learning {
+  background-image: url("https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=1600&q=80");
+  background-color: #3a5a3a;
+}
+
+.feature-campus {
+  background-image: url("https://images.unsplash.com/photo-1562774053-701939374585?w=1600&q=80");
+  background-color: #5a4a3a;
+}
+
+.feature-life {
+  background-image: url("https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600&q=80");
+  background-color: #4a3a5a;
+}
+
+.feature-admission {
+  background-image: url("https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1600&q=80");
+  background-color: #6a3a3a;
+}
