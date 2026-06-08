@@ -52,16 +52,7 @@
   }
 }
 
-/* ── Student Grid: Tablet (max-width: 900px) ── */
-
-@media (max-width: 900px) {
-  .sg-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-}
-
-/* ── Student Grid & Detail: Mobile (max-width: 768px) ── */
+/* ── Student Grid: Mobile (max-width: 768px) ── */
 
 @media (max-width: 768px) {
   .sg-section {
@@ -69,12 +60,16 @@
   }
 
   .sg-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: 1fr;
+    column-gap: 0;
   }
 
-  .sg-card__body {
-    padding: 14px 16px 18px;
+  .sg-header__title {
+    font-size: clamp(2.4rem, 9vw, 3.2rem);
+  }
+
+  .sg-card__tags {
+    display: none;
   }
 
   .sd-hero {

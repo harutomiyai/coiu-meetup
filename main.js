@@ -198,21 +198,24 @@ function renderGrid(students) {
   if (!grid) return;
 
   grid.innerHTML = students
-    .map((s) => {
-      const photo = s.image
+    .map((s, i) => {
+      const avatar = s.image
         ? `<img src="${s.image}" alt="${s.nameJa}" class="sg-card__img" loading="lazy">`
         : `<div class="sg-card__photo-fallback" style="background: ${s.gradient}"></div>`;
 
+      const idx = String(i + 1).padStart(2, "0");
+      const deptShort = s.dept.split(" ").slice(1).join(" ");
+
       return `
-        <button class="sg-card" data-id="${s.id}" aria-label="${s.nameJa}の紹介を見る">
-          <div class="sg-card__photo">${photo}</div>
-          <div class="sg-card__body">
-            <p class="sg-card__name">${s.nameJa}</p>
-            <p class="sg-card__meta">${s.dept.split(" ").slice(1).join(" ")} · ${s.year}</p>
-            <p class="sg-card__quote">「${s.quote}」</p>
-            <div class="sg-card__tags">
-              ${s.tags.map((t) => `<span class="sg-tag">#${t}</span>`).join("")}
-            </div>
+        <button class="sg-card" data-id="${s.id}" aria-label="${s.nameJa}の紹介を見る" style="--c-gradient: ${s.gradient}">
+          <span class="sg-card__idx">${idx}</span>
+          <div class="sg-card__photo">${avatar}</div>
+          <div class="sg-card__info">
+            <span class="sg-card__name">${s.nameJa}</span>
+            <span class="sg-card__meta">${deptShort} · ${s.year}</span>
+          </div>
+          <div class="sg-card__tags">
+            ${s.tags.slice(0, 2).map((t) => `<span class="sg-tag">#${t}</span>`).join("")}
           </div>
         </button>
       `;
@@ -234,7 +237,11 @@ function openDetail(student) {
   const content = document.getElementById("detailContent");
 
   hero.style.background = student.gradient;
+  const heroPhoto = student.image
+    ? `<img src="${student.image}" alt="${student.nameJa}" class="sd-hero__photo">`
+    : "";
   hero.innerHTML = `
+    ${heroPhoto}
     <div class="sd-hero__inner">
       <h2 class="sd-hero__name">${student.nameJa}</h2>
       <p class="sd-hero__roman">${student.nameEn}</p>
