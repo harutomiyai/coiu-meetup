@@ -1284,122 +1284,20 @@ body {
 .sg-section {
   position: relative;
   z-index: 2;
-}
-
-/* ── Split layout ── */
-.sg-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: start;
-  min-height: 100vh;
-}
-
-/* ── Spotlight (left, sticky) ── */
-.sg-spotlight {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.sg-spotlight__bg {
-  position: absolute;
-  inset: 0;
-  background: #d8d0c8;
-  transition: opacity 0.25s ease;
-}
-
-.sg-spotlight__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.55) 0%,
-    rgba(0, 0, 0, 0.08) 55%,
-    transparent 100%
-  );
-  z-index: 1;
-}
-
-.sg-spotlight.is-transitioning .sg-spotlight__bg {
-  opacity: 0;
-}
-
-.sg-spotlight__info {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 52px 48px;
-  z-index: 2;
-  transition: opacity 0.25s ease;
-}
-
-.sg-spotlight.is-transitioning .sg-spotlight__info {
-  opacity: 0;
-}
-
-.sg-spotlight__num {
-  display: block;
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  font-size: 0.68rem;
-  color: rgba(255, 255, 255, 0.45);
-  letter-spacing: 0.18em;
-  margin-bottom: 1rem;
-}
-
-.sg-spotlight__name {
-  font-family:
-    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
-  font-size: clamp(2.2rem, 4vw, 3.4rem);
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.05em;
-  line-height: 1.2;
-  margin-bottom: 0.6rem;
-}
-
-.sg-spotlight__dept {
-  font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.6);
-  letter-spacing: 0.08em;
-  margin-bottom: 1.4rem;
-}
-
-.sg-spotlight__tags {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.sg-spotlight__tag {
-  padding: 4px 13px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 100px;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.68rem;
-  font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
-  letter-spacing: 0.06em;
-}
-
-/* ── Right column ── */
-.sg-right {
-  background: #faf7f4;
-  min-height: 100vh;
+  background: #f5f0eb;
+  padding: 100px 5% 120px;
 }
 
 /* ── Header ── */
 .sg-header {
-  padding: 64px 40px 40px;
-  border-bottom: 1px solid #ede8e2;
+  margin-bottom: 56px;
 }
 
 .sg-header__eyebrow {
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-size: 0.68rem;
-  letter-spacing: 0.2em;
-  color: #c0a898;
+  letter-spacing: 0.22em;
+  color: #b8a898;
   text-transform: uppercase;
   margin-bottom: 0.6rem;
 }
@@ -1407,81 +1305,133 @@ body {
 .sg-header__title {
   font-family:
     "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
-  font-size: clamp(1.5rem, 2.5vw, 2rem);
-  font-weight: 700;
-  color: #2a2a2a;
-  letter-spacing: 0.04em;
-  margin-bottom: 0.4rem;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.5rem;
 }
 
 .sg-header__sub {
   font-family: "neue-haas-grotesk-text", "Hiragino Sans", sans-serif;
-  font-size: 0.82rem;
-  color: #a8a098;
-  letter-spacing: 0.03em;
-  line-height: 1.8;
+  font-size: 0.95rem;
+  color: #8a7e74;
+  letter-spacing: 0.04em;
+  line-height: 1.6;
 }
 
-/* ── List ── */
-.sg-list {
+/* ── Card grid ── */
+.sg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* ── Student card ── */
+.sg-card {
+  background: #fff;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
   display: flex;
   flex-direction: column;
-}
-
-.sg-item {
-  display: grid;
-  grid-template-columns: 36px 1fr auto;
-  gap: 16px;
-  align-items: center;
-  padding: 22px 40px;
-  cursor: pointer;
-  border: none;
-  background: none;
-  width: 100%;
-  text-align: left;
-  border-bottom: 1px solid #ede8e2;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.07);
   transition:
-    background 0.2s ease,
-    padding-left 0.25s ease;
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease;
 }
 
-.sg-item:hover,
-.sg-item.is-active {
-  background: #fff;
-  padding-left: 48px;
+.sg-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.13);
 }
 
-.sg-item__num {
-  font-family: "Helvetica Neue", Arial, sans-serif;
-  font-size: 0.62rem;
-  color: #c8beb5;
+/* ── Photo area ── */
+.sg-card__photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.sg-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sg-card:hover .sg-card__img {
+  transform: scale(1.05);
+}
+
+.sg-card__photo-fallback {
+  position: absolute;
+  inset: 0;
+}
+
+/* ── Card body ── */
+.sg-card__body {
+  padding: 20px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.sg-card__name {
+  font-family:
+    "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+}
+
+.sg-card__meta {
+  font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
+  font-size: 0.65rem;
+  color: #b8a898;
   letter-spacing: 0.08em;
 }
 
-.sg-item__name {
+.sg-card__quote {
   font-family:
     "neue-haas-grotesk-text", "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #2a2a2a;
-  letter-spacing: 0.04em;
+  font-size: 0.82rem;
+  color: #5a5048;
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.sg-item__tags {
+.sg-card__tags {
   display: flex;
-  gap: 5px;
   flex-wrap: wrap;
-  justify-content: flex-end;
+  gap: 5px;
+  margin-top: 2px;
 }
 
-.sg-item__tag {
+.sg-tag {
   font-family: "Helvetica Neue", "Hiragino Sans", sans-serif;
-  font-size: 0.58rem;
-  color: #7a6e66;
-  background: #f2ede8;
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: #6a6058;
+  background: #f0ebe4;
   border-radius: 100px;
-  padding: 2px 8px;
+  padding: 3px 10px;
   white-space: nowrap;
+  letter-spacing: 0.03em;
 }
 
 /* ── Detail Overlay ── */

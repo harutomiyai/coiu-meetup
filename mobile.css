@@ -52,40 +52,29 @@
   }
 }
 
-/* ── Student Layout: Mobile (max-width: 768px) ── */
+/* ── Student Grid: Tablet (max-width: 900px) ── */
+
+@media (max-width: 900px) {
+  .sg-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+/* ── Student Grid & Detail: Mobile (max-width: 768px) ── */
 
 @media (max-width: 768px) {
-  .sg-layout {
-    grid-template-columns: 1fr;
+  .sg-section {
+    padding: 72px 5% 80px;
   }
 
-  .sg-spotlight {
-    position: relative;
-    height: 50vw;
-    min-height: 240px;
-  }
-
-  .sg-spotlight__info {
-    padding: 28px 24px;
-  }
-
-  .sg-spotlight__name {
-    font-size: clamp(1.6rem, 6vw, 2.2rem);
-  }
-
-  .sg-header {
-    padding: 40px 24px 28px;
-  }
-
-  .sg-item {
-    padding: 18px 24px;
-    grid-template-columns: 28px 1fr auto;
+  .sg-grid {
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
 
-  .sg-item:hover,
-  .sg-item.is-active {
-    padding-left: 30px;
+  .sg-card__body {
+    padding: 14px 16px 18px;
   }
 
   .sd-hero {

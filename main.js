@@ -192,68 +192,39 @@ updateCinematic();
 //  Student Grid & Detail Overlay
 // ══════════════════════════════════════════════
 
-// ── Render list ──
+// ── Render card grid ──
 function renderGrid(students) {
   const grid = document.getElementById("studentGrid");
   if (!grid) return;
 
   grid.innerHTML = students
-    .map(
-      (s, i) => `
-    <button class="sg-item" data-id="${s.id}" data-index="${i}" aria-label="${s.nameJa}の紹介を見る">
-      <span class="sg-item__num">${String(i + 1).padStart(2, "0")}</span>
-      <span class="sg-item__name">${s.nameJa}</span>
-      <span class="sg-item__tags">
-        ${s.tags.map((t) => `<span class="sg-item__tag">#${t}</span>`).join("")}
-      </span>
-    </button>
-  `,
-    )
+    .map((s) => {
+      const photo = s.image
+        ? `<img src="${s.image}" alt="${s.nameJa}" class="sg-card__img" loading="lazy">`
+        : `<div class="sg-card__photo-fallback" style="background: ${s.gradient}"></div>`;
+
+      return `
+        <button class="sg-card" data-id="${s.id}" aria-label="${s.nameJa}の紹介を見る">
+          <div class="sg-card__photo">${photo}</div>
+          <div class="sg-card__body">
+            <p class="sg-card__name">${s.nameJa}</p>
+            <p class="sg-card__meta">${s.dept.split(" ").slice(1).join(" ")} · ${s.year}</p>
+            <p class="sg-card__quote">「${s.quote}」</p>
+            <div class="sg-card__tags">
+              ${s.tags.map((t) => `<span class="sg-tag">#${t}</span>`).join("")}
+            </div>
+          </div>
+        </button>
+      `;
+    })
     .join("");
 
-  // Show first student in spotlight on load
-  updateSpotlight(students[0], 0);
-  grid.querySelector(".sg-item").classList.add("is-active");
-
-  // Hover → update spotlight
-  grid.addEventListener("mouseover", (e) => {
-    const item = e.target.closest(".sg-item");
-    if (!item) return;
-    const idx = parseInt(item.dataset.index);
-    document.querySelectorAll(".sg-item").forEach((el) => el.classList.remove("is-active"));
-    item.classList.add("is-active");
-    updateSpotlight(students[idx], idx);
-  });
-
-  // Click → open detail overlay
   grid.addEventListener("click", (e) => {
-    const item = e.target.closest(".sg-item");
-    if (!item) return;
-    const student = students.find((s) => s.id === item.dataset.id);
+    const card = e.target.closest(".sg-card");
+    if (!card) return;
+    const student = students.find((s) => s.id === card.dataset.id);
     if (student) openDetail(student);
   });
-}
-
-// ── Spotlight update ──
-let _spotlightTimer = null;
-
-function updateSpotlight(student, index) {
-  const spotlight = document.getElementById("sgSpotlight");
-  if (!spotlight) return;
-
-  spotlight.classList.add("is-transitioning");
-  clearTimeout(_spotlightTimer);
-
-  _spotlightTimer = setTimeout(() => {
-    document.getElementById("sgSpotlightBg").style.background = student.gradient;
-    document.getElementById("sgSpotlightName").textContent = student.nameJa;
-    document.getElementById("sgSpotlightDept").textContent = student.dept;
-    document.getElementById("sgSpotlightNum").textContent = String(index + 1).padStart(2, "0");
-    document.getElementById("sgSpotlightTags").innerHTML = student.tags
-      .map((t) => `<span class="sg-spotlight__tag">#${t}</span>`)
-      .join("");
-    spotlight.classList.remove("is-transitioning");
-  }, 220);
 }
 
 // ── Open detail overlay ──
