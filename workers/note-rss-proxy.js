@@ -133,10 +133,13 @@ function extractDescription(xml) {
   return m ? m[1].trim() : "";
 }
 
-// <media:thumbnail url="..." />
+// <media:thumbnail url="..." /> or <media:thumbnail>https://...</media:thumbnail>
 function extractMediaThumbnail(xml) {
-  const m = xml.match(/<media:thumbnail[^>]+url="([^"]+)"/);
-  return m ? m[1] : "";
+  const attrMatch = xml.match(/<media:thumbnail[^>]+url="([^"]+)"/);
+  if (attrMatch) return attrMatch[1].trim();
+
+  const textMatch = xml.match(/<media:thumbnail[^>]*>\s*(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?\s*<\/media:thumbnail>/);
+  return textMatch ? textMatch[1].trim() : "";
 }
 
 function stripHtml(html) {

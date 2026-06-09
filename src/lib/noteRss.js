@@ -13,9 +13,11 @@ const getNodeText = (node, tagName) => {
 
 const getMediaThumbnail = (item) => {
   const mediaNode = Array.from(item.children).find(
-    (child) => child.tagName.toLowerCase() === "media:thumbnail",
+    (child) =>
+      child.tagName.toLowerCase() === "media:thumbnail" ||
+      (child.localName?.toLowerCase() === "thumbnail" && child.prefix?.toLowerCase() === "media"),
   );
-  return toText(mediaNode?.getAttribute("url"));
+  return toText(mediaNode?.getAttribute("url")) || toText(mediaNode?.textContent);
 };
 
 const stripHtml = (html) =>

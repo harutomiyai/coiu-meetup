@@ -95,8 +95,6 @@ const topicButton = (topic, isActive = false, className = "topic-chip") => `
 
 const tagPill = (tag) => `<span class="tag-pill ${getTagThemeClass(tag)}">#${escapeHtml(tag)}</span>`;
 
-const talkPill = (topic) => `<span class="talk-pill">${escapeHtml(topic)}</span>`;
-
 const getProfileLead = (student) => {
   if (student.profileLead) return student.profileLead;
 
@@ -193,20 +191,37 @@ const getRecommendationNote = () => {
 const getEmptyTitle = () =>
   state.selectedTopics.length ? "このテーマの学生は準備中です" : "条件に合う学生は準備中です";
 
-const heroStudentCard = (student, index) => `
+const heroSpotlightCard = (student) => `
   <a
-    class="hero-student-card hero-student-card-${index + 1}"
+    class="hero-spotlight-card"
     href="#student/${escapeHtml(student.slug)}"
     aria-label="${escapeHtml(student.name)}さんの詳細を見る"
   >
-    <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
-    <span class="hero-student-body">
+    <span class="hero-spotlight-image">
+      <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
+    </span>
+    <span class="hero-spotlight-body">
+      <span class="hero-card-label">PICK UP STUDENT</span>
       <strong>${escapeHtml(student.name)}</strong>
-      <span class="hero-student-meta">${escapeHtml(student.generation)} / ${escapeHtml(student.currentQuestion)}</span>
       <span class="hero-student-catch">${escapeHtml(student.catch)}</span>
+      <span class="hero-student-meta">${escapeHtml(student.currentQuestion)}</span>
       <span class="hero-student-tags">
-        ${student.tags.slice(0, 2).map((tag) => `<span class="${getTagThemeClass(tag)}">#${escapeHtml(tag)}</span>`).join("")}
+        ${student.tags.slice(0, 3).map((tag) => `<span class="${getTagThemeClass(tag)}">#${escapeHtml(tag)}</span>`).join("")}
       </span>
+    </span>
+  </a>
+`;
+
+const heroQueueCard = (student, index) => `
+  <a
+    class="hero-queue-card"
+    href="#student/${escapeHtml(student.slug)}"
+    aria-label="${escapeHtml(student.name)}さんの詳細を見る"
+  >
+    <span class="hero-queue-index">${String(index + 1).padStart(2, "0")}</span>
+    <span class="hero-queue-copy">
+      <strong>${escapeHtml(student.name)}</strong>
+      <span>${escapeHtml(student.catch)}</span>
     </span>
   </a>
 `;
@@ -219,6 +234,7 @@ const cardImage = (student) => `
 
 const personCard = (student, variant = "grid") => {
   const isPickup = variant === "pickup";
+  const visibleTags = student.tags.slice(0, variant === "grid" ? 2 : 3);
 
   return `
     <article class="person-card person-card-${variant}" data-student-slug="${escapeHtml(student.slug)}">
@@ -228,7 +244,7 @@ const personCard = (student, variant = "grid") => {
         <p class="person-meta">${escapeHtml(student.generation)}</p>
         <p class="person-catch">${escapeHtml(student.catch)}</p>
         <div class="tag-row">
-          ${student.tags.slice(0, 3).map(tagPill).join("")}
+          ${visibleTags.map(tagPill).join("")}
         </div>
         <p class="card-question"><span>QUESTION</span><strong>${escapeHtml(student.currentQuestion)}</strong></p>
         <p class="activity-line">${escapeHtml(student.currentProject)}</p>
@@ -332,6 +348,14 @@ const getFilteredStudents = () => (hasActiveDiscoveryFilters() ? getRankedStuden
 
 const detailList = (items) => items.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
 
+const profileAbout = (student) => {
+  if (Array.isArray(student.about) && student.about.length) {
+    return student.about.filter(Boolean);
+  }
+
+  return student.story ? [student.story] : [];
+};
+
 const detailLinks = (student) =>
   linkOrder
     .map((key) => [key, getLinkUrl(student, key)])
@@ -429,6 +453,11 @@ const renderProfileLinks = (student) => {
 
 const studentNoteArticleCard = (article) => `
   <a class="student-note-card" href="${escapeHtml(article.link)}" target="_blank" rel="noreferrer">
+    ${
+      article.thumbnail
+        ? `<span class="student-note-thumb"><img src="${escapeHtml(article.thumbnail)}" alt="${escapeHtml(article.title)}" loading="lazy" /></span>`
+        : ""
+    }
     <span class="student-note-date">${escapeHtml(article.pubDate || "note")}</span>
     <strong>${escapeHtml(article.title)}</strong>
     <span class="student-note-arrow">記事を読む</span>
@@ -447,16 +476,6 @@ const renderStudentNoteArticles = async (student) => {
 
   grid.innerHTML = articles.map(studentNoteArticleCard).join("");
   section.hidden = false;
-};
-
-const bindDetailScrollActions = () => {
-  selectors.studentView.querySelectorAll("[data-detail-scroll]").forEach((button) => {
-    button.addEventListener("click", () => {
-      selectors.studentView
-        .querySelector(`[data-detail-section="${button.dataset.detailScroll}"]`)
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  });
 };
 
 const noteArticleCard = (article) => `
@@ -479,9 +498,9 @@ const noteArticleCard = (article) => `
 
 export const renderStudentDetail = (student) => {
   const projectLead = student.projectDetail || student.currentProject;
-  const topTalkTopics = (student.talkTopics || []).slice(0, 3);
   const recentActivities = student.recentActivities || [];
   const relatedExperience = student.canConsult || [];
+  const aboutParagraphs = profileAbout(student);
 
   selectors.studentView.innerHTML = `
     <div class="detail-shell">
@@ -498,19 +517,9 @@ export const renderStudentDetail = (student) => {
             ${student.tags.map(tagPill).join("")}
           </div>
           <p class="detail-lead">${escapeHtml(getProfileLead(student))}</p>
-          <div class="detail-actions">
-            <button class="button button-cta detail-primary-cta" type="button" data-detail-scroll="profile">この人を知る</button>
-            <button class="button button-light detail-secondary-cta" type="button" data-detail-scroll="works">活動を見る</button>
-          </div>
           <div class="detail-question-strip">
             <span class="card-hint-label">今持っている問い</span>
             <p>${escapeHtml(student.currentQuestion)}</p>
-          </div>
-          <div class="detail-quick-box">
-            <span class="card-hint-label">関心の入口</span>
-            <div class="talk-row">
-              ${topTalkTopics.map(talkPill).join("")}
-            </div>
           </div>
         </div>
       </div>
@@ -519,7 +528,9 @@ export const renderStudentDetail = (student) => {
         <article class="detail-card detail-profile" data-detail-section="profile">
           <p class="eyebrow">PROFILE</p>
           <h2>この人について</h2>
-          <p class="profile-copy">${escapeHtml(student.story)}</p>
+          <div class="profile-copy">
+            ${aboutParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+          </div>
           ${renderProfileArticle(student)}
           ${renderProfileLinks(student)}
         </article>
@@ -561,7 +572,6 @@ export const renderStudentDetail = (student) => {
     </div>
   `;
 
-  bindDetailScrollActions();
   renderStudentNoteArticles(student);
 };
 
@@ -598,8 +608,14 @@ export const renderTopicControls = () => {
 export const renderHeroVisual = () => {
   const heroStudents = students.filter((student) => student.featured).slice(0, HERO_PREVIEW_LIMIT);
   const fallbackStudents = heroStudents.length ? heroStudents : students.slice(0, HERO_PREVIEW_LIMIT);
+  const [spotlightStudent, ...queueStudents] = fallbackStudents;
 
-  selectors.heroVisual.innerHTML = fallbackStudents.map(heroStudentCard).join("");
+  selectors.heroVisual.innerHTML = `
+    ${spotlightStudent ? heroSpotlightCard(spotlightStudent) : ""}
+    <div class="hero-queue" aria-label="次に見る学生">
+      ${queueStudents.map(heroQueueCard).join("")}
+    </div>
+  `;
 };
 
 export const renderRecommendations = () => {
