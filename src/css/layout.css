@@ -83,28 +83,25 @@
 .section {
   width: 100%;
   margin: 0 auto;
-  padding: 84px max(20px, calc((100% - 1240px) / 2));
+  padding: 76px max(20px, calc((100% - 1240px) / 2));
   border-bottom: 4px solid var(--ink);
 }
 
+.section-pickup,
 .section-today-question {
   background: var(--white);
 }
 
 .section-featured {
-  background: var(--mint-soft);
+  background: var(--cream);
 }
 
 .section-topics {
+  background: var(--mint-soft);
+}
+
+.section-about {
   background: var(--blue-soft);
-}
-
-.section-questions {
-  background: var(--pink-soft);
-}
-
-.section-start {
-  background: var(--cream);
 }
 
 .section-tags {
@@ -147,7 +144,7 @@
 
 .section-heading h2 {
   margin: 0;
-  font-size: 3.4rem;
+  font-size: 3rem;
   font-weight: 950;
   letter-spacing: 0;
   line-height: 0.95;

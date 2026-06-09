@@ -1,13 +1,134 @@
 .featured-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  gap: 24px;
+}
+
+.pickup-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.pickup-slider {
+  display: grid;
+  gap: 18px;
+}
+
+.pickup-viewport {
+  overflow: hidden;
+  border: 4px solid var(--ink);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.pickup-track {
+  display: flex;
+  transition: transform 420ms ease;
+  will-change: transform;
+}
+
+.pickup-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.pickup-slide .person-card-pickup {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.85fr) minmax(320px, 1fr);
+  min-height: 430px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.pickup-slide .person-card-pickup:hover,
+.pickup-slide .person-card-pickup:focus-within {
+  box-shadow: none;
+  transform: none;
+}
+
+.pickup-slide .person-card-pickup .card-image {
+  border-right: 4px solid var(--ink);
+  border-bottom: 0;
+}
+
+.pickup-slide .person-card-pickup .card-image img {
+  height: 100%;
+  min-height: 430px;
+}
+
+.pickup-slide .person-card-pickup .person-card-body {
+  justify-content: center;
+  gap: 14px;
+  padding: 34px;
+}
+
+.pickup-controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+}
+
+.pickup-arrow {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 5px 5px 0 var(--ink);
+  font-size: 1.35rem;
+  font-weight: 950;
+  line-height: 1;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.pickup-arrow:hover,
+.pickup-arrow:focus-visible {
+  background: var(--key);
+  box-shadow: 7px 7px 0 var(--ink);
+  outline: none;
+  transform: translate(-2px, -2px);
+}
+
+.pickup-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+}
+
+.pickup-dot {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--white);
+  padding: 0;
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
+}
+
+.pickup-dot.is-active,
+.pickup-dot:hover,
+.pickup-dot:focus-visible {
+  background: var(--ink);
+  outline: none;
+  transform: scale(1.18);
 }
 
 .people-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
+  gap: 22px;
 }
 
 .person-card,
@@ -42,11 +163,11 @@
 }
 
 .person-card-featured:nth-child(2) {
-  transform: translateY(24px) rotate(1.2deg);
+  transform: translateY(18px) rotate(0.8deg);
 }
 
 .person-card-featured:nth-child(3) {
-  transform: translateY(-10px) rotate(-1deg);
+  transform: translateY(-8px) rotate(-0.8deg);
 }
 
 .person-card-featured:nth-child(2):hover,
@@ -56,12 +177,22 @@
   transform: translate(-4px, -4px);
 }
 
+.people-grid .person-card {
+  border-width: 3px;
+  box-shadow: 6px 6px 0 var(--ink);
+}
+
+.people-grid .person-card:hover,
+.people-grid .person-card:focus-within {
+  box-shadow: 9px 9px 0 var(--ink);
+}
+
 .people-grid .person-card:nth-child(4n + 2) {
-  transform: translateY(18px) rotate(0.6deg);
+  transform: translateY(10px) rotate(0.3deg);
 }
 
 .people-grid .person-card:nth-child(4n + 3) {
-  transform: translateY(-8px) rotate(-0.6deg);
+  transform: translateY(-4px) rotate(-0.3deg);
 }
 
 .people-grid .person-card:nth-child(4n + 2):hover,
@@ -71,7 +202,6 @@
   transform: translate(-4px, -4px);
 }
 
-/* Featured cards keep a top image */
 .card-image {
   display: block;
   overflow: hidden;
@@ -81,9 +211,18 @@
 
 .card-image img {
   width: 100%;
-  height: 180px;
+  height: 220px;
   object-fit: cover;
   transition: transform 300ms ease;
+}
+
+.person-card-grid .card-image img {
+  height: 155px;
+}
+
+.person-card-pickup .card-image img,
+.person-card-featured .card-image img {
+  height: 220px;
 }
 
 .person-card:hover .card-image img,
@@ -93,7 +232,6 @@
   transform: scale(1.06);
 }
 
-/* Question label — memo-like badge */
 .card-q-label {
   display: inline-flex;
   align-self: flex-start;
@@ -108,26 +246,37 @@
   transform: rotate(-1.5deg);
 }
 
-/* Card body */
 .person-card-body {
   display: flex;
   flex: 1;
   flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+}
+
+.person-card-grid .person-card-body {
   gap: 10px;
   padding: 16px;
 }
 
-/* Question text — primary focus of the card */
 .person-card h3 {
   margin: 0;
-  font-size: 1.22rem;
+  font-size: 1.6rem;
   font-weight: 950;
   letter-spacing: 0;
-  line-height: 1.45;
+  line-height: 1.12;
 }
 
 .person-card-featured h3 {
-  font-size: 1.52rem;
+  font-size: 1.85rem;
+}
+
+.person-card-pickup h3 {
+  font-size: 2.35rem;
+}
+
+.person-card-grid h3 {
+  font-size: 1.38rem;
 }
 
 /* Small avatar + name row for grid cards */
@@ -177,7 +326,24 @@
 .today-catch {
   margin: 0;
   font-weight: 950;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.activity-line {
+  margin: 0;
+  border-top: 2px solid var(--ink);
+  padding-top: 9px;
   font-size: 0.88rem;
+  font-weight: 850;
+  line-height: 1.55;
+}
+
+.person-card-grid .activity-line {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 /* Hint box — "話しかける入口" */
@@ -186,7 +352,7 @@
   border-radius: 0 6px 6px 0;
   background: rgba(84, 211, 155, 0.1);
   padding: 10px 12px;
-  margin-top: 2px;
+  margin-top: 0;
 }
 
 .card-hint-label {
@@ -201,7 +367,7 @@
 
 .card-hint-box p {
   margin: 0;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 800;
   line-height: 1.5;
 }
@@ -213,13 +379,17 @@
   gap: 6px;
 }
 
+.card-actions {
+  margin-top: auto;
+}
+
 /* Today card */
 .today-card {
   display: grid;
   grid-template-columns: minmax(320px, 1.1fr) minmax(320px, 0.9fr);
   overflow: hidden;
   background: var(--white);
-  transform: rotate(-0.7deg);
+  transform: rotate(-0.35deg);
 }
 
 .today-image {
@@ -233,7 +403,7 @@
 .today-image img {
   width: 100%;
   height: 100%;
-  min-height: 480px;
+  min-height: 430px;
   object-fit: cover;
   transition: transform 300ms ease;
 }
@@ -242,14 +412,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 14px;
+  gap: 13px;
   padding: 34px;
 }
 
-/* Question is now the h3 — make it big but not overflow */
 .today-card h3 {
   margin: 0;
-  font-size: 2.6rem;
+  font-size: 2.45rem;
   font-weight: 950;
   letter-spacing: 0;
   line-height: 1.18;

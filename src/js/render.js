@@ -1,5 +1,13 @@
-import { students, state, fixedTopics, featureCards, getAllTopics } from "./state.js";
+import { students, state, fixedTopics, getAllTopics } from "./state.js";
 import { selectors } from "./selectors.js";
+
+const FEATURED_PREVIEW_LIMIT = 3;
+const PICKUP_AUTOPLAY_DELAY = 7000;
+const PICKUP_RESUME_DELAY = 12000;
+
+let pickupIndex = 0;
+let pickupTimerId;
+let pickupResumeTimerId;
 
 export const escapeHtml = (value) =>
   String(value)
@@ -46,85 +54,113 @@ const cardImage = (student) => `
 `;
 
 const personCard = (student, variant = "grid") => {
-  const isFeatured = variant === "featured";
+  const isPickup = variant === "pickup";
+
   return `
     <article class="person-card person-card-${variant}">
-      ${isFeatured ? cardImage(student) : ""}
+      ${cardImage(student)}
       <div class="person-card-body">
-        <span class="card-q-label">問い</span>
-        <h3>${escapeHtml(student.currentQuestion)}</h3>
-        <div class="card-person-info">
-          ${!isFeatured ? `
-          <a class="card-avatar" href="#student/${escapeHtml(student.slug)}" tabindex="-1" aria-hidden="true">
-            <img src="${escapeHtml(student.image)}" alt="" />
-          </a>
-          ` : ""}
-          <div>
-            <p class="person-name">${escapeHtml(student.name)} / ${escapeHtml(student.generation)}</p>
-            <p class="person-catch">${escapeHtml(student.catch)}</p>
+        <h3>${escapeHtml(student.name)}</h3>
+        <p class="person-catch">${escapeHtml(student.catch)}</p>
+        <div class="tag-row">
+          ${student.tags.slice(0, 3).map(tagPill).join("")}
+        </div>
+        <p class="activity-line">${escapeHtml(student.currentProject)}</p>
+        ${isPickup ? `
+          <div class="card-hint-box">
+            <span class="card-hint-label">話してみたいこと</span>
+            <p>${escapeHtml(student.oneOnOneMessage)}</p>
           </div>
-        </div>
-        <div class="talk-row">
-          ${student.talkTopics.slice(0, 3).map(talkPill).join("")}
-        </div>
-        <div class="card-hint-box">
-          <span class="card-hint-label">話しかける入口</span>
-          <p>${escapeHtml(student.oneOnOneMessage)}</p>
-        </div>
+        ` : ""}
         <div class="card-actions">
-          <a class="button button-dark button-small" href="#student/${escapeHtml(student.slug)}">もっと知る</a>
+          <a class="button button-dark button-small" href="#student/${escapeHtml(student.slug)}">詳しく見る</a>
         </div>
       </div>
     </article>
   `;
 };
 
-const todayQuestionCard = (student) => `
-  <article class="today-card">
-    <a class="today-image" href="#student/${escapeHtml(student.slug)}">
-      <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
-    </a>
-    <div class="today-body">
-      <p class="eyebrow">TODAY'S QUESTION</p>
-      <h3>${escapeHtml(student.currentQuestion)}</h3>
-      <p class="person-name">${escapeHtml(student.name)} / ${escapeHtml(student.generation)}</p>
-      <p class="today-catch">${escapeHtml(student.catch)}</p>
-      <div class="talk-row">
-        ${student.talkTopics.map(talkPill).join("")}
-      </div>
-      <div class="card-hint-box">
-        <span class="card-hint-label">話しかける入口</span>
-        <p>${escapeHtml(student.oneOnOneMessage)}</p>
-      </div>
-      <a class="button button-dark" href="#student/${escapeHtml(student.slug)}">この人と話してみる</a>
-    </div>
-  </article>
+const pickupSlide = (student, index) => `
+  <div class="pickup-slide" role="group" aria-label="${index + 1}人目のピックアップ学生">
+    ${personCard(student, "pickup")}
+  </div>
 `;
 
-const recentQuestionCard = (student, index) => `
-  <article class="question-card">
-    <a href="#student/${escapeHtml(student.slug)}">
-      <span>Q.${String(index + 1).padStart(2, "0")}</span>
-      <h3>${escapeHtml(student.currentQuestion)}</h3>
-      <p>${escapeHtml(student.name)} — ${escapeHtml(student.catch)}</p>
-      <div class="talk-row">
-        ${student.talkTopics.slice(0, 2).map(talkPill).join("")}
-      </div>
-    </a>
-  </article>
-`;
+const updatePickupSlider = (root, index) => {
+  const slides = root.querySelectorAll(".pickup-slide");
+  const dots = root.querySelectorAll("[data-pickup-dot]");
+  const track = root.querySelector(".pickup-track");
+  if (!slides.length || !track) return;
 
-const topicFeatureCard = (feature, index) => `
-  <article class="story-card" data-topic="${escapeHtml(feature.topic)}" tabindex="0" role="button" aria-label="${escapeHtml(feature.title)}を探す">
-    <img src="${escapeHtml(feature.image)}" alt="" />
-    <div class="story-body">
-      <span>THEME ${String(index + 1).padStart(2, "0")}</span>
-      <h3>${escapeHtml(feature.title)}</h3>
-      <p>${escapeHtml(feature.copy)}</p>
-      <strong>#${escapeHtml(feature.topic)}</strong>
-    </div>
-  </article>
-`;
+  pickupIndex = (index + slides.length) % slides.length;
+  track.style.transform = `translateX(-${pickupIndex * 100}%)`;
+
+  slides.forEach((slide, slideIndex) => {
+    slide.toggleAttribute("aria-hidden", slideIndex !== pickupIndex);
+  });
+
+  dots.forEach((dot, dotIndex) => {
+    dot.classList.toggle("is-active", dotIndex === pickupIndex);
+    dot.setAttribute("aria-current", dotIndex === pickupIndex ? "true" : "false");
+  });
+};
+
+const clearPickupTimers = () => {
+  window.clearInterval(pickupTimerId);
+  window.clearTimeout(pickupResumeTimerId);
+};
+
+const startPickupAutoplay = (root) => {
+  const slideCount = root.querySelectorAll(".pickup-slide").length;
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  clearPickupTimers();
+
+  if (slideCount <= 1 || reduceMotion) return;
+
+  pickupTimerId = window.setInterval(() => {
+    updatePickupSlider(root, pickupIndex + 1);
+  }, PICKUP_AUTOPLAY_DELAY);
+};
+
+const pausePickupAutoplay = (root) => {
+  clearPickupTimers();
+  pickupResumeTimerId = window.setTimeout(() => startPickupAutoplay(root), PICKUP_RESUME_DELAY);
+};
+
+const initPickupSlider = () => {
+  const root = selectors.todayQuestionCard.querySelector("[data-pickup-slider]");
+  if (!root) return;
+
+  const slideCount = root.querySelectorAll(".pickup-slide").length;
+  pickupIndex = 0;
+  updatePickupSlider(root, 0);
+
+  root.querySelector("[data-pickup-prev]")?.addEventListener("click", () => {
+    updatePickupSlider(root, pickupIndex - 1);
+    pausePickupAutoplay(root);
+  });
+
+  root.querySelector("[data-pickup-next]")?.addEventListener("click", () => {
+    updatePickupSlider(root, pickupIndex + 1);
+    pausePickupAutoplay(root);
+  });
+
+  root.querySelectorAll("[data-pickup-dot]").forEach((dot) => {
+    dot.addEventListener("click", () => {
+      updatePickupSlider(root, Number(dot.dataset.pickupDot));
+      pausePickupAutoplay(root);
+    });
+  });
+
+  root.addEventListener("mouseenter", () => clearPickupTimers());
+  root.addEventListener("mouseleave", () => startPickupAutoplay(root));
+  root.addEventListener("focusin", () => clearPickupTimers());
+  root.addEventListener("focusout", () => startPickupAutoplay(root));
+
+  root.querySelector(".pickup-controls")?.toggleAttribute("hidden", slideCount <= 1);
+  root.querySelector(".pickup-dots")?.toggleAttribute("hidden", slideCount <= 1);
+  startPickupAutoplay(root);
+};
 
 const getFilteredStudents = () => {
   if (state.selectedTopic === "すべて") return students;
@@ -148,25 +184,24 @@ const detailLinks = (student) =>
 export const renderStudentDetail = (student) => {
   selectors.studentView.innerHTML = `
     <div class="detail-shell">
-      <a class="back-link" href="#topics">← テーマで探す</a>
+      <a class="back-link" href="#students">← 学生一覧へ戻る</a>
       <div class="detail-hero">
         <div class="detail-image">
           <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
         </div>
         <div class="detail-main">
-          <p class="eyebrow">${escapeHtml(student.generation)} / CoIU QUESTIONS</p>
-          <h1>${escapeHtml(student.currentQuestion)}</h1>
-          <p class="person-name detail-name">${escapeHtml(student.name)}</p>
+          <p class="eyebrow">${escapeHtml(student.generation)} / CoIU Students</p>
+          <h1>${escapeHtml(student.name)}</h1>
           <p class="detail-catch">${escapeHtml(student.catch)}</p>
           <div class="tag-row">
             ${student.tags.map(tagPill).join("")}
           </div>
           <div class="card-hint-box detail-hint">
-            <span class="card-hint-label">この人に最初に聞いてみたいこと</span>
-            <p>${escapeHtml(student.oneOnOneMessage)}</p>
+            <span class="card-hint-label">今持っている問い</span>
+            <p>${escapeHtml(student.currentQuestion)}</p>
           </div>
           <a class="button button-dark" href="${escapeHtml(getContactLink(student))}" target="_blank" rel="noreferrer">
-            話してみる →
+            話してみる
           </a>
         </div>
       </div>
@@ -176,6 +211,14 @@ export const renderStudentDetail = (student) => {
           <p class="eyebrow">PROFILE</p>
           <h2>この人について</h2>
           <p>${escapeHtml(student.story)}</p>
+        </article>
+
+        <article class="detail-card">
+          <p class="eyebrow">INTERESTS</p>
+          <h2>関心テーマ</h2>
+          <div class="tag-row">
+            ${student.tags.map(tagPill).join("")}
+          </div>
         </article>
 
         <article class="detail-card">
@@ -220,44 +263,78 @@ export const renderStudentDetail = (student) => {
 export const renderTopicControls = () => {
   const topics = getAllTopics();
 
-  selectors.heroTopics.innerHTML = fixedTopics
+  if (selectors.heroTopics) {
+    selectors.heroTopics.innerHTML = fixedTopics
     .slice(0, 8)
     .map((topic) => topicButton(topic, topic === state.selectedTopic, "hero-tag"))
     .join("");
+  }
 
   selectors.topicList.innerHTML = topics
     .slice(1)
     .map((topic) => topicButton(topic, topic === state.selectedTopic, "topic-chip"))
     .join("");
 
-  selectors.tagCloud.innerHTML = topics
-    .slice(1)
-    .map((topic, index) => {
-      const sizes = ["tag-large", "tag-medium", "tag-small"];
-      return topicButton(topic, topic === state.selectedTopic, `cloud-tag ${sizes[index % sizes.length]}`);
-    })
-    .join("");
+  if (selectors.tagCloud) {
+    selectors.tagCloud.innerHTML = topics
+      .slice(1)
+      .map((topic, index) => {
+        const sizes = ["tag-large", "tag-medium", "tag-small"];
+        return topicButton(topic, topic === state.selectedTopic, `cloud-tag ${sizes[index % sizes.length]}`);
+      })
+      .join("");
+  }
 };
 
 export const renderFeatured = () => {
-  selectors.featuredGrid.innerHTML = students
-    .filter((student) => student.featured)
-    .slice(0, 3)
+  const previewStudents = students.filter((student) => !student.featured).slice(0, FEATURED_PREVIEW_LIMIT);
+  const fallbackStudents = previewStudents.length ? previewStudents : students.slice(0, FEATURED_PREVIEW_LIMIT);
+
+  selectors.featuredGrid.innerHTML = fallbackStudents
     .map((student) => personCard(student, "featured"))
     .join("");
 };
 
 export const renderTodayQuestion = () => {
-  const picked = students.find((student) => student.today) || students[0];
-  selectors.todayQuestionCard.innerHTML = todayQuestionCard(picked);
+  const pickupStudents = students.filter((student) => student.featured);
+  const fallbackStudents = pickupStudents.length ? pickupStudents : students.slice(0, 1);
+
+  selectors.todayQuestionCard.innerHTML = `
+    <div class="pickup-slider" data-pickup-slider>
+      <div class="pickup-viewport" aria-live="polite">
+        <div class="pickup-track">
+          ${fallbackStudents.map(pickupSlide).join("")}
+        </div>
+      </div>
+      <div class="pickup-controls" aria-label="ピックアップ学生の切り替え">
+        <button class="pickup-arrow" type="button" data-pickup-prev aria-label="前の学生">←</button>
+        <div class="pickup-dots" aria-label="現在のスライド">
+          ${fallbackStudents
+            .map(
+              (student, index) => `
+                <button
+                  class="pickup-dot"
+                  type="button"
+                  data-pickup-dot="${index}"
+                  aria-label="${escapeHtml(student.name)}さんを表示"
+                ></button>
+              `,
+            )
+            .join("")}
+        </div>
+        <button class="pickup-arrow" type="button" data-pickup-next aria-label="次の学生">→</button>
+      </div>
+    </div>
+  `;
+  initPickupSlider();
 };
 
 export const renderPeopleGrid = () => {
   const filtered = getFilteredStudents();
   const label =
     state.selectedTopic === "すべて"
-      ? "気になるテーマから、出会った学生を探す"
-      : `#${state.selectedTopic} の学生を探す`;
+      ? "すべての学生"
+      : `#${state.selectedTopic} に関心のある学生`;
 
   selectors.topicResultHead.innerHTML = `
     <p>${escapeHtml(label)}</p>
@@ -275,9 +352,9 @@ export const renderPeopleGrid = () => {
 };
 
 export const renderRecentQuestions = () => {
-  const questionCards = students.map(recentQuestionCard).join("");
-  const topicCards = featureCards.map(topicFeatureCard).join("");
-  selectors.recentQuestions.innerHTML = questionCards + topicCards;
+  if (selectors.recentQuestions) {
+    selectors.recentQuestions.innerHTML = "";
+  }
 };
 
 export const renderHome = () => {
@@ -285,7 +362,6 @@ export const renderHome = () => {
   renderTodayQuestion();
   renderFeatured();
   renderPeopleGrid();
-  renderRecentQuestions();
 };
 
 export const renderLoadError = (error) => {

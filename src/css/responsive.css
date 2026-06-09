@@ -5,10 +5,11 @@
   }
 
   .hero h1 {
-    font-size: 5.5rem;
+    font-size: 4.8rem;
   }
 
-  .featured-grid {
+  .featured-grid,
+  .pickup-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -98,15 +99,18 @@
   }
 
   .featured-grid,
+  .pickup-grid,
   .people-grid,
   .start-flow,
   .today-card,
+  .pickup-slide .person-card-pickup,
   .detail-hero,
   .detail-grid {
     grid-template-columns: 1fr;
   }
 
   .today-image,
+  .pickup-slide .person-card-pickup .card-image,
   .detail-image {
     border-right: 0;
     border-bottom: 4px solid var(--ink);
@@ -114,11 +118,19 @@
   }
 
   .today-image img,
+  .pickup-slide .person-card-pickup .card-image img,
   .detail-image img {
     min-height: 280px;
   }
 
-  /* Question is now h3 — sized for readability, not name display */
+  .pickup-slide .person-card-pickup {
+    min-height: 0;
+  }
+
+  .pickup-slide .person-card-pickup .person-card-body {
+    padding: 24px;
+  }
+
   .today-card h3 {
     font-size: 2rem;
   }
@@ -203,6 +215,18 @@
     flex-direction: column;
   }
 
+  .section:nth-of-type(2n) .section-heading,
+  .section:nth-of-type(3n) .section-heading,
+  .today-card,
+  .hero-subcopy,
+  .hero-copy,
+  .people-grid .person-card:nth-child(4n + 2),
+  .people-grid .person-card:nth-child(4n + 3),
+  .person-card-featured:nth-child(2),
+  .person-card-featured:nth-child(3) {
+    transform: none;
+  }
+
   .section-heading h2 {
     font-size: 2.25rem;
   }
@@ -222,7 +246,21 @@
   }
 
   .person-card h3 {
-    font-size: 1.08rem;
+    font-size: 1.35rem;
+  }
+
+  .person-card-pickup h3 {
+    font-size: 1.75rem;
+  }
+
+  .pickup-controls {
+    grid-template-columns: 44px 1fr 44px;
+    gap: 10px;
+  }
+
+  .pickup-arrow {
+    width: 44px;
+    height: 44px;
   }
 
   .today-card h3 {
@@ -251,7 +289,7 @@
   }
 
   .people-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
 
   .card-avatar {

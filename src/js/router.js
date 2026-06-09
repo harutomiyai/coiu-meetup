@@ -56,6 +56,6 @@ export const bindEvents = () => {
     selectTopic(topicTarget.dataset.topic);
   });
 
-  selectors.clearTopic.addEventListener("click", () => selectTopic("すべて"));
+  selectors.clearTopic?.addEventListener("click", () => selectTopic("すべて"));
   window.addEventListener("hashchange", handleRoute);
 };
