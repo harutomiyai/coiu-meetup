@@ -40,54 +40,63 @@ const tagPill = (tag) => `<span class="tag-pill">#${escapeHtml(tag)}</span>`;
 const talkPill = (topic) => `<span class="talk-pill">${escapeHtml(topic)}</span>`;
 
 const cardImage = (student) => `
-  <a class="card-image" href="#student/${escapeHtml(student.slug)}" aria-label="${escapeHtml(student.name)}さんの詳細を見る">
+  <a class="card-image" href="#student/${escapeHtml(student.slug)}" aria-label="${escapeHtml(student.name)}さんの詳細を見る" tabindex="-1">
     <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
   </a>
 `;
 
-const personCard = (student, variant = "grid") => `
-  <article class="person-card person-card-${variant}">
-    ${cardImage(student)}
-    <div class="person-card-body">
-      <div class="card-meta">
-        <span>QUESTION</span>
-        <span>${escapeHtml(student.tags[0] || "CoIU")}</span>
+const personCard = (student, variant = "grid") => {
+  const isFeatured = variant === "featured";
+  return `
+    <article class="person-card person-card-${variant}">
+      ${isFeatured ? cardImage(student) : ""}
+      <div class="person-card-body">
+        <span class="card-q-label">問い</span>
+        <h3>${escapeHtml(student.currentQuestion)}</h3>
+        <div class="card-person-info">
+          ${!isFeatured ? `
+          <a class="card-avatar" href="#student/${escapeHtml(student.slug)}" tabindex="-1" aria-hidden="true">
+            <img src="${escapeHtml(student.image)}" alt="" />
+          </a>
+          ` : ""}
+          <div>
+            <p class="person-name">${escapeHtml(student.name)} / ${escapeHtml(student.generation)}</p>
+            <p class="person-catch">${escapeHtml(student.catch)}</p>
+          </div>
+        </div>
+        <div class="talk-row">
+          ${student.talkTopics.slice(0, 3).map(talkPill).join("")}
+        </div>
+        <div class="card-hint-box">
+          <span class="card-hint-label">話しかける入口</span>
+          <p>${escapeHtml(student.oneOnOneMessage)}</p>
+        </div>
+        <div class="card-actions">
+          <a class="button button-dark button-small" href="#student/${escapeHtml(student.slug)}">もっと知る</a>
+        </div>
       </div>
-      <h3>${escapeHtml(student.currentQuestion)}</h3>
-      <p class="person-name">${escapeHtml(student.name)} / ${escapeHtml(student.generation)}</p>
-      <p class="person-catch">${escapeHtml(student.catch)}</p>
-      <div class="talk-row">
-        ${student.talkTopics.slice(0, 3).map(talkPill).join("")}
-      </div>
-      <p class="activity-line">${escapeHtml(student.currentProject)}</p>
-      <div class="tag-row">
-        ${student.tags.slice(0, 4).map(tagPill).join("")}
-      </div>
-      <div class="card-actions">
-        <a class="button button-dark button-small" href="#student/${escapeHtml(student.slug)}">もっと知る</a>
-      </div>
-    </div>
-  </article>
-`;
+    </article>
+  `;
+};
 
 const todayQuestionCard = (student) => `
-  <article class="today-card question-led-card">
+  <article class="today-card">
     <a class="today-image" href="#student/${escapeHtml(student.slug)}">
       <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
     </a>
     <div class="today-body">
       <p class="eyebrow">TODAY'S QUESTION</p>
-      <div class="question-feature">
-        <span>今日、気になった問い</span>
-        <strong>${escapeHtml(student.currentQuestion)}</strong>
-      </div>
-      <h3>${escapeHtml(student.name)}</h3>
+      <h3>${escapeHtml(student.currentQuestion)}</h3>
+      <p class="person-name">${escapeHtml(student.name)} / ${escapeHtml(student.generation)}</p>
       <p class="today-catch">${escapeHtml(student.catch)}</p>
       <div class="talk-row">
         ${student.talkTopics.map(talkPill).join("")}
       </div>
-      <p class="activity-line">${escapeHtml(student.currentProject)}</p>
-      <a class="button button-dark" href="#student/${escapeHtml(student.slug)}">もっと知る</a>
+      <div class="card-hint-box">
+        <span class="card-hint-label">話しかける入口</span>
+        <p>${escapeHtml(student.oneOnOneMessage)}</p>
+      </div>
+      <a class="button button-dark" href="#student/${escapeHtml(student.slug)}">この人と話してみる</a>
     </div>
   </article>
 `;
@@ -95,9 +104,9 @@ const todayQuestionCard = (student) => `
 const recentQuestionCard = (student, index) => `
   <article class="question-card">
     <a href="#student/${escapeHtml(student.slug)}">
-      <span>QUESTION ${String(index + 1).padStart(2, "0")}</span>
+      <span>Q.${String(index + 1).padStart(2, "0")}</span>
       <h3>${escapeHtml(student.currentQuestion)}</h3>
-      <p>${escapeHtml(student.name)} / ${escapeHtml(student.tags.slice(0, 2).join("・"))}</p>
+      <p>${escapeHtml(student.name)} — ${escapeHtml(student.catch)}</p>
       <div class="talk-row">
         ${student.talkTopics.slice(0, 2).map(talkPill).join("")}
       </div>
@@ -139,25 +148,25 @@ const detailLinks = (student) =>
 export const renderStudentDetail = (student) => {
   selectors.studentView.innerHTML = `
     <div class="detail-shell">
-      <a class="back-link" href="#topics">学生を探す</a>
+      <a class="back-link" href="#topics">← テーマで探す</a>
       <div class="detail-hero">
         <div class="detail-image">
           <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
         </div>
         <div class="detail-main">
-          <p class="eyebrow">${escapeHtml(student.generation)} / CoIU PEOPLE</p>
+          <p class="eyebrow">${escapeHtml(student.generation)} / CoIU QUESTIONS</p>
           <h1>${escapeHtml(student.currentQuestion)}</h1>
           <p class="person-name detail-name">${escapeHtml(student.name)}</p>
           <p class="detail-catch">${escapeHtml(student.catch)}</p>
           <div class="tag-row">
             ${student.tags.map(tagPill).join("")}
           </div>
-          <div class="question-feature detail-question">
-            <span>この学生についてもう少し知る</span>
-            <strong>${escapeHtml(student.oneOnOneMessage)}</strong>
+          <div class="card-hint-box detail-hint">
+            <span class="card-hint-label">この人に最初に聞いてみたいこと</span>
+            <p>${escapeHtml(student.oneOnOneMessage)}</p>
           </div>
           <a class="button button-dark" href="${escapeHtml(getContactLink(student))}" target="_blank" rel="noreferrer">
-            話してみる
+            話してみる →
           </a>
         </div>
       </div>
@@ -165,7 +174,7 @@ export const renderStudentDetail = (student) => {
       <div class="detail-grid">
         <article class="detail-card detail-profile">
           <p class="eyebrow">PROFILE</p>
-          <h2>本文プロフィール</h2>
+          <h2>この人について</h2>
           <p>${escapeHtml(student.story)}</p>
         </article>
 
@@ -248,7 +257,7 @@ export const renderPeopleGrid = () => {
   const label =
     state.selectedTopic === "すべて"
       ? "気になるテーマから、出会った学生を探す"
-      : `#${state.selectedTopic} から学生を探す`;
+      : `#${state.selectedTopic} の学生を探す`;
 
   selectors.topicResultHead.innerHTML = `
     <p>${escapeHtml(label)}</p>

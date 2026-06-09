@@ -88,23 +88,23 @@
 }
 
 .section-today-question {
-  background: var(--soft-yellow);
+  background: var(--white);
 }
 
 .section-featured {
-  background: var(--people-green);
+  background: var(--mint-soft);
 }
 
 .section-topics {
-  background: var(--topic-blue);
+  background: var(--blue-soft);
 }
 
 .section-questions {
-  background: var(--question-lavender);
+  background: var(--pink-soft);
 }
 
 .section-start {
-  background: var(--paper);
+  background: var(--cream);
 }
 
 .section-tags {

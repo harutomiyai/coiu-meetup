@@ -71,6 +71,7 @@
   transform: translate(-4px, -4px);
 }
 
+/* Featured cards keep a top image */
 .card-image {
   display: block;
   overflow: hidden;
@@ -80,13 +81,9 @@
 
 .card-image img {
   width: 100%;
-  height: 260px;
+  height: 180px;
   object-fit: cover;
   transition: transform 300ms ease;
-}
-
-.person-card-grid .card-image img {
-  height: 190px;
 }
 
 .person-card:hover .card-image img,
@@ -96,46 +93,71 @@
   transform: scale(1.06);
 }
 
+/* Question label — memo-like badge */
+.card-q-label {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-bottom: 8px;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  background: var(--key);
+  font-size: 0.68rem;
+  font-weight: 950;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  transform: rotate(-1.5deg);
+}
+
+/* Card body */
 .person-card-body {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   padding: 16px;
 }
 
-.card-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-}
-
-.card-meta span {
-  border: 2px solid var(--ink);
-  border-radius: 999px;
-  background: var(--key);
-  font-size: 0.73rem;
-  font-weight: 950;
-  line-height: 1;
-  padding: 6px 8px;
-}
-
-.person-card h3,
-.today-card h3,
-.story-card h3 {
+/* Question text — primary focus of the card */
+.person-card h3 {
   margin: 0;
+  font-size: 1.22rem;
   font-weight: 950;
   letter-spacing: 0;
-  line-height: 1.04;
-}
-
-.person-card h3 {
-  font-size: 1.28rem;
-  line-height: 1.25;
+  line-height: 1.45;
 }
 
 .person-card-featured h3 {
-  font-size: 1.58rem;
+  font-size: 1.52rem;
+}
+
+/* Small avatar + name row for grid cards */
+.card-person-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.card-avatar {
+  display: block;
+  overflow: hidden;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: var(--key);
+}
+
+.card-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms ease;
+}
+
+.person-card:hover .card-avatar img,
+.person-card:focus-within .card-avatar img {
+  transform: scale(1.1);
 }
 
 .person-name {
@@ -145,34 +167,43 @@
   border: 3px solid var(--ink);
   border-radius: 999px;
   background: var(--mint);
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   font-weight: 950;
   line-height: 1.1;
-  padding: 7px 10px;
+  padding: 6px 10px;
 }
 
 .person-catch,
 .today-catch {
   margin: 0;
   font-weight: 950;
+  font-size: 0.88rem;
 }
 
-.question-line {
-  margin: 0;
-  border-left: 5px solid var(--coral);
-  font-size: 0.93rem;
-  font-weight: 850;
-  line-height: 1.45;
-  padding-left: 10px;
+/* Hint box — "話しかける入口" */
+.card-hint-box {
+  border-left: 4px solid var(--mint);
+  border-radius: 0 6px 6px 0;
+  background: rgba(84, 211, 155, 0.1);
+  padding: 10px 12px;
+  margin-top: 2px;
 }
 
-.activity-line {
+.card-hint-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--blue);
+  font-size: 0.66rem;
+  font-weight: 950;
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+
+.card-hint-box p {
   margin: 0;
-  border-top: 3px solid var(--ink);
-  font-size: 0.86rem;
-  font-weight: 850;
-  line-height: 1.45;
-  padding-top: 10px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  line-height: 1.5;
 }
 
 .tag-row,
@@ -182,6 +213,7 @@
   gap: 6px;
 }
 
+/* Today card */
 .today-card {
   display: grid;
   grid-template-columns: minmax(320px, 1.1fr) minmax(320px, 0.9fr);
@@ -201,7 +233,7 @@
 .today-image img {
   width: 100%;
   height: 100%;
-  min-height: 520px;
+  min-height: 480px;
   object-fit: cover;
   transition: transform 300ms ease;
 }
@@ -210,12 +242,17 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 18px;
+  gap: 14px;
   padding: 34px;
 }
 
+/* Question is now the h3 — make it big but not overflow */
 .today-card h3 {
-  font-size: 4rem;
+  margin: 0;
+  font-size: 2.6rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1.18;
 }
 
 .today-body p {
@@ -223,29 +260,7 @@
   font-weight: 850;
 }
 
-.question-feature {
-  border: 4px solid var(--ink);
-  border-radius: 8px;
-  background: var(--key);
-  box-shadow: 6px 6px 0 var(--ink);
-  padding: 18px;
-}
-
-.question-feature span {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--blue);
-  font-size: 0.8rem;
-  font-weight: 950;
-}
-
-.question-feature strong {
-  display: block;
-  font-size: 1.55rem;
-  font-weight: 950;
-  line-height: 1.35;
-}
-
+/* Recent question cards */
 .question-rail {
   display: grid;
   grid-auto-columns: minmax(310px, 420px);
@@ -258,7 +273,7 @@
 
 .question-card {
   overflow: hidden;
-  min-height: 310px;
+  min-height: 280px;
   scroll-snap-align: start;
   transition:
     transform 180ms ease,
@@ -290,37 +305,42 @@
   display: grid;
   height: 100%;
   align-content: space-between;
-  gap: 18px;
+  gap: 14px;
   padding: 20px;
 }
 
 .question-card span {
   justify-self: start;
   border: 3px solid var(--ink);
-  border-radius: 999px;
+  border-radius: 4px;
   background: var(--key);
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   font-weight: 950;
+  letter-spacing: 0.04em;
   line-height: 1;
-  padding: 8px 10px;
+  padding: 5px 8px;
+  transform: rotate(-1deg);
+  display: inline-flex;
 }
 
 .question-card h3 {
   margin: 0;
-  font-size: 1.85rem;
+  font-size: 1.75rem;
   font-weight: 950;
   letter-spacing: 0;
-  line-height: 1.18;
+  line-height: 1.25;
 }
 
 .question-card p {
   margin: 0;
   font-weight: 850;
+  font-size: 0.88rem;
 }
 
+/* Topic story cards */
 .story-card {
   display: grid;
-  grid-template-rows: 210px 1fr;
+  grid-template-rows: 180px 1fr;
   overflow: hidden;
   scroll-snap-align: start;
   transition:
@@ -353,7 +373,10 @@
 }
 
 .story-body h3 {
-  font-size: 1.75rem;
+  font-size: 1.55rem;
+  margin: 0;
+  font-weight: 950;
+  line-height: 1.15;
 }
 
 .story-body p {
@@ -369,6 +392,7 @@
   padding: 7px 10px;
 }
 
+/* Empty state */
 .empty-state {
   grid-column: 1 / -1;
   border: 4px dashed var(--ink);

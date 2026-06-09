@@ -1,11 +1,11 @@
 @media (max-width: 1080px) {
   .hero::after {
-    opacity: 0.24;
+    opacity: 0.18;
     width: 52%;
   }
 
   .hero h1 {
-    font-size: 6rem;
+    font-size: 5.5rem;
   }
 
   .featured-grid {
@@ -60,7 +60,7 @@
   }
 
   .hero-logo-block {
-    padding-top: 44px;
+    padding-top: 34px;
   }
 
   .hero h1 {
@@ -68,12 +68,12 @@
   }
 
   .hero-subcopy {
-    font-size: 1.45rem;
+    font-size: 1.6rem;
   }
 
   .hero-bottom {
     grid-template-columns: 1fr;
-    margin-top: 34px;
+    margin-top: 28px;
   }
 
   .hero-topic-rail {
@@ -81,7 +81,7 @@
     right: auto;
     bottom: auto;
     left: auto;
-    margin-top: 28px;
+    margin-top: 24px;
   }
 
   .section,
@@ -110,15 +110,17 @@
   .detail-image {
     border-right: 0;
     border-bottom: 4px solid var(--ink);
+    margin-left: 0;
   }
 
   .today-image img,
   .detail-image img {
-    min-height: 360px;
+    min-height: 280px;
   }
 
+  /* Question is now h3 — sized for readability, not name display */
   .today-card h3 {
-    font-size: 3rem;
+    font-size: 2rem;
   }
 
   .detail-main h1 {
@@ -147,7 +149,7 @@
   }
 
   .hero h1 {
-    font-size: 2.5rem;
+    font-size: 2.6rem;
   }
 
   .hero {
@@ -155,17 +157,17 @@
   }
 
   .hero-logo-block {
-    padding-top: 22px;
+    padding-top: 18px;
   }
 
   .hero-subcopy {
-    font-size: 1.08rem;
-    padding: 7px 10px 9px;
+    font-size: 1.15rem;
+    padding: 8px 12px 10px;
   }
 
   .hero-bottom {
     gap: 12px;
-    margin-top: 24px;
+    margin-top: 20px;
   }
 
   .hero-copy {
@@ -220,15 +222,15 @@
   }
 
   .person-card h3 {
-    font-size: 1.55rem;
+    font-size: 1.08rem;
   }
 
   .today-card h3 {
-    font-size: 2.45rem;
+    font-size: 1.65rem;
   }
 
-  .question-feature strong {
-    font-size: 1.2rem;
+  .question-card h3 {
+    font-size: 1.45rem;
   }
 
   .question-rail {
@@ -246,5 +248,14 @@
 
   .detail-main h1 {
     font-size: 2.15rem;
+  }
+
+  .people-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card-avatar {
+    width: 44px;
+    height: 44px;
   }
 }
