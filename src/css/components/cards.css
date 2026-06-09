@@ -239,6 +239,18 @@
   transform: translate(-4px, -4px);
 }
 
+.recommendation-grid .person-card-featured:nth-child(2),
+.recommendation-grid .person-card-featured:nth-child(3) {
+  transform: none;
+}
+
+.recommendation-grid .person-card-featured:nth-child(2):hover,
+.recommendation-grid .person-card-featured:nth-child(2):focus-within,
+.recommendation-grid .person-card-featured:nth-child(3):hover,
+.recommendation-grid .person-card-featured:nth-child(3):focus-within {
+  transform: translate(-4px, -4px);
+}
+
 .people-grid .person-card {
   border-width: 3px;
   box-shadow: 6px 6px 0 var(--ink);
@@ -261,6 +273,18 @@
 .people-grid .person-card:nth-child(4n + 2):focus-within,
 .people-grid .person-card:nth-child(4n + 3):hover,
 .people-grid .person-card:nth-child(4n + 3):focus-within {
+  transform: translate(-4px, -4px);
+}
+
+.people-grid.is-grid .person-card:nth-child(4n + 2),
+.people-grid.is-grid .person-card:nth-child(4n + 3) {
+  transform: none;
+}
+
+.people-grid.is-grid .person-card:nth-child(4n + 2):hover,
+.people-grid.is-grid .person-card:nth-child(4n + 2):focus-within,
+.people-grid.is-grid .person-card:nth-child(4n + 3):hover,
+.people-grid.is-grid .person-card:nth-child(4n + 3):focus-within {
   transform: translate(-4px, -4px);
 }
 

@@ -2,6 +2,8 @@ import { students, state } from "./state.js";
 import { selectors } from "./selectors.js";
 import { renderDiscoveryResults, renderStudentDetail } from "./render.js";
 
+const THEME_MODAL_STORAGE_KEY = "coiuStudentsThemeModalSeen";
+
 export const showHome = () => {
   selectors.homeView.hidden = false;
   selectors.studentView.hidden = true;
@@ -38,6 +40,48 @@ const syncSearchInput = () => {
   }
 };
 
+const rememberThemeModalSeen = () => {
+  try {
+    window.localStorage.setItem(THEME_MODAL_STORAGE_KEY, "true");
+  } catch {
+    // Browsers can block localStorage; the modal still works for this session.
+  }
+};
+
+const hasSeenThemeModal = () => {
+  try {
+    return window.localStorage.getItem(THEME_MODAL_STORAGE_KEY) === "true";
+  } catch {
+    return false;
+  }
+};
+
+export const openThemeModal = () => {
+  if (!selectors.themeModal) return;
+
+  selectors.themeModal.hidden = false;
+  document.body.classList.add("is-theme-modal-open");
+  window.setTimeout(() => {
+    selectors.themeModal.querySelector("[data-topic], #theme-modal-skip")?.focus();
+  }, 0);
+};
+
+export const closeThemeModal = ({ remember = true } = {}) => {
+  if (!selectors.themeModal) return;
+
+  selectors.themeModal.hidden = true;
+  document.body.classList.remove("is-theme-modal-open");
+
+  if (remember) {
+    rememberThemeModalSeen();
+  }
+};
+
+const maybeShowInitialThemeModal = () => {
+  if (hasSeenThemeModal() || window.location.hash.startsWith("#student/")) return;
+  openThemeModal();
+};
+
 export const clearDiscovery = (targetHash = "#students") => {
   state.selectedTopics = [];
   state.searchQuery = "";
@@ -66,6 +110,21 @@ export const toggleTopic = (topic, targetHash = "#students") => {
   }
 };
 
+export const chooseModalTopic = (topic) => {
+  if (!topic || topic === "すべて") {
+    closeThemeModal();
+    return;
+  }
+
+  state.selectedTopics = [topic];
+  renderDiscoveryResults();
+  closeThemeModal();
+
+  if (window.location.hash !== "#students") {
+    window.location.hash = "#students";
+  }
+};
+
 export const updateSearchQuery = (query) => {
   state.searchQuery = query;
   renderDiscoveryResults();
@@ -77,8 +136,26 @@ export const updateSearchQuery = (query) => {
 
 export const bindEvents = () => {
   document.addEventListener("click", (event) => {
+    const openTarget = event.target.closest("[data-theme-modal-open]");
+    if (openTarget) {
+      openThemeModal();
+      return;
+    }
+
+    const closeTarget = event.target.closest("[data-theme-modal-close]");
+    if (closeTarget) {
+      closeThemeModal();
+      return;
+    }
+
     const topicTarget = event.target.closest("[data-topic]");
     if (!topicTarget) return;
+
+    if (topicTarget.closest("#theme-modal")) {
+      chooseModalTopic(topicTarget.dataset.topic);
+      return;
+    }
+
     const targetHash = topicTarget.closest("#topic-list") ? "#topics" : "#students";
     toggleTopic(topicTarget.dataset.topic, targetHash);
   });
@@ -102,5 +179,15 @@ export const bindEvents = () => {
   });
 
   selectors.clearTopic?.addEventListener("click", () => clearDiscovery("#topics"));
+
+  selectors.themeModalSkip?.addEventListener("click", () => closeThemeModal());
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && selectors.themeModal && !selectors.themeModal.hidden) {
+      closeThemeModal();
+    }
+  });
+
   window.addEventListener("hashchange", handleRoute);
+  window.requestAnimationFrame(maybeShowInitialThemeModal);
 };

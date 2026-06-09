@@ -339,9 +339,11 @@ export const renderTopicControls = () => {
   const topics = getAllTopics();
   const isSelected = (topic) => state.selectedTopics.includes(topic);
 
-  selectors.heroInterestTags.innerHTML = interestTopics
-    .map((topic) => topicButton(topic, isSelected(topic), "hero-tag interest-tag"))
-    .join("");
+  if (selectors.themeModalTags) {
+    selectors.themeModalTags.innerHTML = interestTopics
+      .map((topic) => topicButton(topic, isSelected(topic), "theme-modal-tag"))
+      .join("");
+  }
 
   selectors.topicList.innerHTML = topics
     .slice(1)

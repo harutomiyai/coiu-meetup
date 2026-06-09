@@ -57,9 +57,12 @@
   white-space: nowrap;
 }
 
-.site-nav a {
+.site-nav a,
+.site-nav button {
   border: 3px solid transparent;
   border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
   font-size: 0.86rem;
   font-weight: 950;
   line-height: 1;
@@ -67,7 +70,9 @@
 }
 
 .site-nav a:hover,
-.site-nav a:focus-visible {
+.site-nav a:focus-visible,
+.site-nav button:hover,
+.site-nav button:focus-visible {
   border-color: var(--ink);
   background: var(--key);
   outline: none;
@@ -198,6 +203,113 @@
 .section-note.wide {
   max-width: 720px;
   margin: -6px 0 22px;
+}
+
+.recommendation-tools {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+}
+
+.recommendation-tools .section-note {
+  text-align: right;
+}
+
+.theme-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.theme-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.58);
+}
+
+.theme-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(620px, 100%);
+  border: 4px solid var(--ink);
+  border-radius: 8px;
+  background: var(--key);
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+
+.theme-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: var(--white);
+  font-size: 1.4rem;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.theme-modal-close:hover,
+.theme-modal-close:focus-visible {
+  background: var(--mint);
+  outline: none;
+}
+
+.theme-modal-panel h2 {
+  max-width: 470px;
+  margin: 0;
+  font-size: 2.45rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.theme-modal-panel p:not(.eyebrow) {
+  margin: 12px 0 0;
+  font-weight: 850;
+}
+
+.theme-modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 22px 0 18px;
+}
+
+.theme-modal-tag {
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 0.96rem;
+  font-weight: 950;
+  line-height: 1;
+  padding: 12px 14px;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.theme-modal-tag:hover,
+.theme-modal-tag:focus-visible,
+.theme-modal-tag.is-active {
+  background: var(--mint);
+  box-shadow: 4px 4px 0 var(--ink);
+  outline: none;
+  transform: translate(-2px, -2px);
+}
+
+body.is-theme-modal-open {
+  overflow: hidden;
 }
 
 .student-detail {

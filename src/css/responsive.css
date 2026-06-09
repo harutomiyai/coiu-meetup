@@ -87,10 +87,6 @@
     margin-top: 28px;
   }
 
-  .hero-interest-panel {
-    max-width: none;
-  }
-
   .hero-visual {
     width: min(100%, 520px);
     min-height: 390px;
@@ -170,6 +166,14 @@
     grid-column: auto;
   }
 
+  .recommendation-tools {
+    justify-items: start;
+  }
+
+  .recommendation-tools .section-note {
+    text-align: left;
+  }
+
   .about-page {
     padding: 56px 18px 68px;
   }
@@ -188,7 +192,8 @@
     font-size: 0.95rem;
   }
 
-  .site-nav a {
+  .site-nav a,
+  .site-nav button {
     font-size: 0.78rem;
     padding: 8px 9px;
   }
@@ -219,35 +224,6 @@
   .hero-bottom {
     gap: 12px;
     margin-top: 20px;
-  }
-
-  .hero-copy {
-    font-size: 0.9rem;
-  }
-
-  .hero-interest-panel {
-    gap: 10px;
-    margin-top: 20px;
-    padding-top: 14px;
-  }
-
-  .hero-interest-panel h2 {
-    font-size: 0.98rem;
-  }
-
-  .hero-interest-panel p {
-    font-size: 0.82rem;
-  }
-
-  .hero-interest-tags {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    max-width: 100%;
-    padding-bottom: 6px;
-  }
-
-  .interest-tag {
-    flex: 0 0 auto;
   }
 
   .hero-visual {
@@ -382,6 +358,33 @@
 
   .people-grid {
     grid-template-columns: 1fr;
+  }
+
+  .theme-modal {
+    align-items: end;
+    padding: 14px;
+  }
+
+  .theme-modal-panel {
+    padding: 22px;
+  }
+
+  .theme-modal-panel h2 {
+    max-width: 280px;
+    font-size: 1.8rem;
+  }
+
+  .theme-modal-tags {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: 18px 0 14px;
+    padding-bottom: 6px;
+  }
+
+  .theme-modal-tag {
+    flex: 0 0 auto;
+    font-size: 0.86rem;
+    padding: 10px 12px;
   }
 
   .people-grid.is-marquee .person-card {
