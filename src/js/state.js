@@ -17,7 +17,7 @@ export const fixedTopics = [
   "起業",
   "プログラミング",
   "問い",
-  "交流歓迎",
+  "活動公開",
   "Podcast",
   "Web制作",
   "N高",
@@ -30,21 +30,21 @@ export const interestTopics = [
   "デザイン",
   "起業",
   "プログラミング",
-  "交流歓迎",
+  "活動公開",
   "Web制作",
 ];
 
 export const featureCards = [
   {
-    title: "教育について話せる人",
+    title: "教育に関心がある人",
     topic: "教育",
-    copy: "学びの面白さ、場づくり、問いの立て方を話せる学生。",
+    copy: "学びの面白さ、場づくり、問いの立て方に向き合う学生。",
     image: "/images/students/mao.jpg",
   },
   {
     title: "AIで何か作っている人",
     topic: "AI",
-    copy: "生成AI、アプリ制作、プロトタイプの相談ができる学生。",
+    copy: "生成AI、アプリ制作、プロトタイプづくりに取り組む学生。",
     image: "/images/students/nagi.jpg",
   },
   {
@@ -56,7 +56,7 @@ export const featureCards = [
   {
     title: "デザインが得意な人",
     topic: "デザイン",
-    copy: "伝え方、見せ方、ポスターやUIについて話せる学生。",
+    copy: "伝え方、見せ方、ポスターやUIに取り組む学生。",
     image: "/images/students/aoi.jpg",
   },
   {

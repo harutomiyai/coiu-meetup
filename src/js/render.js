@@ -1,7 +1,6 @@
 import { students, state, getAllTopics, interestTopics } from "./state.js";
 import { selectors } from "./selectors.js";
-
-const NOTE_WORKER_ENDPOINT = ""; // TODO: Replace with your deployed Cloudflare Worker URL
+import { fetchNoteArticles, getNoteHomeUrl, hasNoteFeedSource } from "../lib/noteRss.js";
 
 const HERO_PREVIEW_LIMIT = 3;
 const RECOMMENDATION_LIMIT = 3;
@@ -11,6 +10,7 @@ const PICKUP_RESUME_DELAY = 12000;
 let pickupIndex = 0;
 let pickupTimerId;
 let pickupResumeTimerId;
+let detailNoteRequestId = 0;
 
 const tagThemeByName = {
   教育: "tag-theme-human",
@@ -20,13 +20,13 @@ const tagThemeByName = {
   プログラミング: "tag-theme-tech",
   Web制作: "tag-theme-tech",
   地域: "tag-theme-local",
-  交流歓迎: "tag-theme-local",
+  活動公開: "tag-theme-local",
   デザイン: "tag-theme-design",
   Podcast: "tag-theme-design",
   起業: "tag-theme-business",
 };
 
-const linkOrder = ["x", "instagram", "note", "youtube", "podcast", "contact"];
+const linkOrder = ["note", "youtube", "podcast", "instagram", "x", "contact"];
 
 export const escapeHtml = (value) =>
   String(value)
@@ -35,9 +35,6 @@ export const escapeHtml = (value) =>
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
-
-const getContactLink = (student) =>
-  student.links?.contact || student.links?.x || student.links?.instagram || "#";
 
 const getExternalAttributes = (url) =>
   url && url !== "#" ? ' target="_blank" rel="noreferrer"' : "";
@@ -49,7 +46,7 @@ const getExternalLabel = (key) => {
     podcast: "Podcast",
     x: "X",
     instagram: "Instagram",
-    contact: "連絡フォーム",
+    contact: "問い合わせ",
   };
   return labels[key] || key;
 };
@@ -64,6 +61,23 @@ const getExternalIcon = (key) => {
     contact: "↗",
   };
   return icons[key] || "↗";
+};
+
+const getExternalDescription = (student, key) => {
+  const descriptions = {
+    note: "noteで記事や活動記録を読む",
+    youtube: "動画で活動や発表を見る",
+    podcast: "音声で活動の背景を聞く",
+    x: "近況や制作の断片を見る",
+    instagram: "写真で活動の雰囲気を見る",
+    contact: "必要な問い合わせを運営へ送る",
+  };
+  return student.linkDescriptions?.[key] || descriptions[key] || "外部で活動を見る";
+};
+
+const getLinkUrl = (student, key) => {
+  if (key === "note") return student.links?.note || getNoteHomeUrl(student);
+  return student.links?.[key] || "";
 };
 
 const getTagThemeClass = (tag) => tagThemeByName[tag] || "tag-theme-general";
@@ -217,12 +231,12 @@ const personCard = (student, variant = "grid") => {
         <p class="activity-line">${escapeHtml(student.currentProject)}</p>
         ${isPickup ? `
           <div class="card-hint-box">
-            <span class="card-hint-label">話してみたいこと</span>
+            <span class="card-hint-label">本人の言葉</span>
             <p>${escapeHtml(student.oneOnOneMessage)}</p>
           </div>
         ` : ""}
         <div class="card-actions">
-          <a class="button button-dark button-small" href="#student/${escapeHtml(student.slug)}">詳しく見る</a>
+          <a class="button button-dark button-small" href="#student/${escapeHtml(student.slug)}">この人を知る</a>
         </div>
       </div>
     </article>
@@ -317,13 +331,16 @@ const detailList = (items) => items.map((item) => `<li>${escapeHtml(item)}</li>`
 
 const detailLinks = (student) =>
   linkOrder
-    .map((key) => [key, student.links?.[key]])
+    .map((key) => [key, getLinkUrl(student, key)])
     .filter(([, url]) => Boolean(url))
     .map(
       ([key, url]) => `
         <a class="external-link external-link-${escapeHtml(key)} ${key === "contact" ? "is-contact-link" : ""}" href="${escapeHtml(url)}"${getExternalAttributes(url)}>
           <span class="external-link-icon" aria-hidden="true">${escapeHtml(getExternalIcon(key))}</span>
-          <span>${escapeHtml(getExternalLabel(key))}</span>
+          <span class="external-link-copy">
+            <strong>${escapeHtml(getExternalLabel(key))}</strong>
+            <small>${escapeHtml(getExternalDescription(student, key))}</small>
+          </span>
         </a>
       `,
     )
@@ -358,21 +375,85 @@ const renderArticleBlock = (block) => {
   }
 };
 
-const renderArticleSection = (student) => {
+const renderProfileArticle = (student) => {
   const article = student.article;
   if (!Array.isArray(article) || !article.length) return "";
 
   return `
-    <section class="article-section" aria-label="インタビュー記事">
-      <header class="article-header">
+    <div class="profile-article" aria-label="インタビュー記事">
+      <header class="profile-subsection-head">
         <p class="eyebrow">INTERVIEW</p>
-        <h2>インタビュー記事</h2>
+        <h3>インタビュー記事</h3>
       </header>
-      <div class="article-body">
+      <div class="article-body profile-article-body">
         ${article.map(renderArticleBlock).join("")}
       </div>
-    </section>
+    </div>
   `;
+};
+
+const renderStudentNoteShell = (student) => {
+  if (!hasNoteFeedSource(student)) return "";
+
+  return `
+    <div class="student-note-latest" data-note-latest-section hidden>
+      <header class="profile-subsection-head compact">
+        <p class="eyebrow">LATEST NOTE</p>
+        <h3>最新記事</h3>
+      </header>
+      <div class="student-note-grid" data-note-latest-grid></div>
+    </div>
+  `;
+};
+
+const renderProfileLinks = (student) => {
+  const links = detailLinks(student);
+  if (!links) return "";
+
+  return `
+    <div class="profile-links" aria-label="外部で活動を見る">
+      <header class="profile-subsection-head">
+        <p class="eyebrow">LINKS</p>
+        <h3>外部で活動を見る</h3>
+      </header>
+      <div class="link-list">
+        ${links}
+      </div>
+      ${renderStudentNoteShell(student)}
+    </div>
+  `;
+};
+
+const studentNoteArticleCard = (article) => `
+  <a class="student-note-card" href="${escapeHtml(article.link)}" target="_blank" rel="noreferrer">
+    <span class="student-note-date">${escapeHtml(article.pubDate || "note")}</span>
+    <strong>${escapeHtml(article.title)}</strong>
+    <span class="student-note-arrow">記事を読む</span>
+  </a>
+`;
+
+const renderStudentNoteArticles = async (student) => {
+  const requestId = ++detailNoteRequestId;
+  const section = selectors.studentView.querySelector("[data-note-latest-section]");
+  const grid = selectors.studentView.querySelector("[data-note-latest-grid]");
+
+  if (!section || !grid || !hasNoteFeedSource(student)) return;
+
+  const articles = await fetchNoteArticles(student, { limit: 3 });
+  if (requestId !== detailNoteRequestId || !articles.length) return;
+
+  grid.innerHTML = articles.map(studentNoteArticleCard).join("");
+  section.hidden = false;
+};
+
+const bindDetailScrollActions = () => {
+  selectors.studentView.querySelectorAll("[data-detail-scroll]").forEach((button) => {
+    button.addEventListener("click", () => {
+      selectors.studentView
+        .querySelector(`[data-detail-section="${button.dataset.detailScroll}"]`)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
 };
 
 const noteArticleCard = (article) => `
@@ -394,9 +475,10 @@ const noteArticleCard = (article) => `
 `;
 
 export const renderStudentDetail = (student) => {
-  const contactLink = getContactLink(student);
   const projectLead = student.projectDetail || student.currentProject;
-  const topTalkTopics = student.talkTopics.slice(0, 2);
+  const topTalkTopics = (student.talkTopics || []).slice(0, 3);
+  const recentActivities = student.recentActivities || [];
+  const relatedExperience = student.canConsult || [];
 
   selectors.studentView.innerHTML = `
     <div class="detail-shell">
@@ -414,16 +496,15 @@ export const renderStudentDetail = (student) => {
           </div>
           <p class="detail-lead">${escapeHtml(getProfileLead(student))}</p>
           <div class="detail-actions">
-            <a class="button button-cta detail-primary-cta" href="${escapeHtml(contactLink)}"${getExternalAttributes(contactLink)}>
-              話してみる
-            </a>
+            <button class="button button-cta detail-primary-cta" type="button" data-detail-scroll="profile">この人を知る</button>
+            <button class="button button-light detail-secondary-cta" type="button" data-detail-scroll="works">活動を見る</button>
           </div>
-          <div class="card-hint-box detail-hint">
+          <div class="detail-question-strip">
             <span class="card-hint-label">今持っている問い</span>
             <p>${escapeHtml(student.currentQuestion)}</p>
           </div>
           <div class="detail-quick-box">
-            <span class="card-hint-label">話し始めやすいテーマ</span>
+            <span class="card-hint-label">関心の入口</span>
             <div class="talk-row">
               ${topTalkTopics.map(talkPill).join("")}
             </div>
@@ -431,64 +512,54 @@ export const renderStudentDetail = (student) => {
         </div>
       </div>
 
-      ${renderArticleSection(student)}
-
       <div class="detail-grid">
-        <article class="detail-card detail-profile">
+        <article class="detail-card detail-profile" data-detail-section="profile">
           <p class="eyebrow">PROFILE</p>
           <h2>この人について</h2>
-          <p>${escapeHtml(student.story)}</p>
+          <p class="profile-copy">${escapeHtml(student.story)}</p>
+          ${renderProfileArticle(student)}
+          ${renderProfileLinks(student)}
         </article>
 
         ${interestReasonCards(student)}
 
-        <article class="detail-card">
-          <p class="eyebrow">TALK THEME</p>
-          <h2>話せるテーマ</h2>
-          <div class="talk-row">
-            ${student.talkTopics.map(talkPill).join("")}
-          </div>
-        </article>
-
-        <article class="detail-card">
-          <p class="eyebrow">RECENT PROJECT</p>
-          <h2>最近取り組んでいること</h2>
+        <article class="detail-card detail-works" data-detail-section="works">
+          <p class="eyebrow">WORKS / RECENT PROJECT</p>
+          <h2>活動・制作物</h2>
           <p>${escapeHtml(projectLead)}</p>
-          <ul>${detailList(student.recentActivities)}</ul>
+          ${
+            recentActivities.length
+              ? `
+                <div class="work-list-group">
+                  <h3>最近の取り組み</h3>
+                  <ul>${detailList(recentActivities)}</ul>
+                </div>
+              `
+              : ""
+          }
+          ${
+            relatedExperience.length
+              ? `
+                <div class="work-list-group">
+                  <h3>関連する経験</h3>
+                  <ul>${detailList(relatedExperience)}</ul>
+                </div>
+              `
+              : ""
+          }
         </article>
 
-        <article class="detail-card">
-          <p class="eyebrow">ASK ME</p>
-          <h2>相談できること</h2>
-          <ul>${detailList(student.canConsult)}</ul>
-        </article>
-
-        <article class="detail-card">
+        <article class="detail-card detail-message">
           <p class="eyebrow">MESSAGE</p>
-          <h2>話してみたい人へ</h2>
+          <h2>本人の言葉</h2>
           <p class="message-box">「${escapeHtml(student.oneOnOneMessage)}」</p>
         </article>
-
-        <article class="detail-card">
-          <p class="eyebrow">LINKS</p>
-          <h2>SNS・各種リンク</h2>
-          <div class="link-list">
-            ${detailLinks(student) || '<p class="link-empty">公開リンクは準備中です。</p>'}
-          </div>
-        </article>
       </div>
-      <section class="detail-final-cta" aria-label="話してみる">
-        <div>
-          <p class="eyebrow">CONTACT</p>
-          <h2>読んで気になったら、話してみる</h2>
-          <p>${escapeHtml(student.oneOnOneMessage)}</p>
-        </div>
-        <a class="button button-cta" href="${escapeHtml(contactLink)}"${getExternalAttributes(contactLink)}>
-          話してみる
-        </a>
-      </section>
     </div>
   `;
+
+  bindDetailScrollActions();
+  renderStudentNoteArticles(student);
 };
 
 export const renderTopicControls = () => {
@@ -583,7 +654,6 @@ export const renderTodayQuestion = () => {
 
 export const renderPeopleGrid = () => {
   const filtered = getFilteredStudents();
-  const activeFilters = hasActiveDiscoveryFilters();
   const label = getDiscoveryLabel();
 
   selectors.topicResultHead.innerHTML = `
@@ -591,7 +661,7 @@ export const renderPeopleGrid = () => {
     <span>${filtered.length} people</span>
   `;
 
-  selectors.peopleGrid.className = activeFilters ? "people-grid is-grid" : "people-grid is-marquee";
+  selectors.peopleGrid.className = "people-grid is-grid";
 
   if (!filtered.length) {
     selectors.peopleGrid.innerHTML = `
@@ -605,18 +675,7 @@ export const renderPeopleGrid = () => {
 
   const cards = filtered.map((student) => personCard(student)).join("");
 
-  selectors.peopleGrid.innerHTML = activeFilters
-    ? cards
-    : `
-      <div class="people-marquee-track">
-        <div class="people-marquee-set">
-          ${cards}
-        </div>
-        <div class="people-marquee-set" aria-hidden="true" inert>
-          ${cards}
-        </div>
-      </div>
-    `;
+  selectors.peopleGrid.innerHTML = cards;
 };
 
 export const renderRecentQuestions = () => {
@@ -633,12 +692,11 @@ export const renderDiscoveryResults = () => {
 
 export const renderNoteArticles = async () => {
   if (!selectors.noteFeedSection || !selectors.noteFeedGrid) return;
-  if (!NOTE_WORKER_ENDPOINT) return;
+  const noteStudent = students.find(hasNoteFeedSource);
+  if (!noteStudent) return;
 
   try {
-    const res = await fetch(NOTE_WORKER_ENDPOINT);
-    if (!res.ok) throw new Error("fetch failed");
-    const articles = await res.json();
+    const articles = await fetchNoteArticles(noteStudent, { limit: 3 });
     if (!Array.isArray(articles) || !articles.length) throw new Error("empty");
 
     selectors.noteFeedGrid.innerHTML = articles.map(noteArticleCard).join("");

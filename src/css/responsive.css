@@ -203,17 +203,27 @@
     grid-column: auto;
   }
 
-  .detail-interests {
+  .detail-interests,
+  .detail-works,
+  .detail-message {
     grid-column: auto;
   }
 
   .interest-reason-grid,
+  .link-list,
+  .student-note-grid,
   .detail-final-cta {
     grid-template-columns: 1fr;
   }
 
+  .interest-reason {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
   .detail-final-cta .button,
-  .detail-primary-cta {
+  .detail-primary-cta,
+  .detail-secondary-cta {
     width: 100%;
   }
 
