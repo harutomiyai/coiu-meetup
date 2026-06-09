@@ -176,6 +176,7 @@
   .hero-topic-rail {
     flex-wrap: nowrap;
     overflow-x: auto;
+    max-width: 100%;
     padding-bottom: 6px;
   }
 

@@ -3,25 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CoIU QUESTIONS | 問いから、話したい人に出会う。</title>
+    <title>CoIU PEOPLE | イベントで出会った学生を、もう一度見つける。</title>
     <meta
       name="description"
-      content="CoIUの学生が持つ問い、関心、活動を可視化し、1on1につなげるための学生メディアです。"
+      content="CoIUのイベントや説明会で出会った学生の問い、関心、活動をもう一度見つけるための人物メディアです。"
     />
     <script type="module" src="/src/main.js"></script>
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="CoIU QUESTIONS トップへ">
+      <a class="brand" href="#top" aria-label="CoIU PEOPLE トップへ">
         <span class="brand-mark">Co</span>
-        <span class="brand-text">CoIU QUESTIONS</span>
+        <span class="brand-text">CoIU PEOPLE</span>
       </a>
       <nav class="site-nav" aria-label="メインナビゲーション">
-        <a href="#today-question">TODAY'S QUESTION</a>
-        <a href="#topics">TOPIC</a>
+        <a href="#featured">PEOPLE</a>
         <a href="#questions">QUESTIONS</a>
-        <a href="#start">1on1</a>
-        <a class="nav-clip" href="#topics">気になる問い</a>
+        <a href="#topics">TOPICS</a>
+        <a href="#encounter">ENCOUNTER</a>
+        <a class="nav-clip" href="#topics">気になる学生</a>
       </nav>
     </header>
 
@@ -29,23 +29,23 @@
       <section id="home-view">
         <section class="hero" id="top" aria-labelledby="hero-title">
           <div class="hero-topline">
-            <p>問いを探す / CoIU encounter media</p>
-            <p>Question → Topic → People → 1on1</p>
+            <p>出会った学生を探す / CoIU people media</p>
+            <p>Question → Topic → People → Encounter</p>
           </div>
 
           <div class="hero-logo-block">
-            <p class="hero-kicker">QUESTIONS FIRST, PEOPLE NEXT</p>
-            <h1 id="hero-title">CoIU QUESTIONS</h1>
-            <p class="hero-subcopy">この問いについて、話してみたい。</p>
+            <p class="hero-kicker">PEOPLE, QUESTIONS, ENCOUNTERS</p>
+            <h1 id="hero-title">CoIU PEOPLE</h1>
+            <p class="hero-subcopy">イベントで出会った学生を、もう一度見つける。</p>
           </div>
 
           <div class="hero-bottom">
             <p class="hero-copy">
-              CoIUには、面白い問いや活動を持った学生がたくさんいます。このサイトはプロフィールを眺める場所ではなく、問いからテーマへ、テーマから人へ、そして1on1へ進むための入口です。
+              CoIUには、問いを持って動いている学生がいます。気になった学生の問い・活動・関心を見て、イベントでの出会いをもう一度たどれる人物メディアです。
             </p>
             <div class="hero-actions" aria-label="主要アクション">
-              <a class="button button-dark" href="#today-question">今日の問いを見る</a>
-              <a class="button button-light" href="#topics">テーマからさがす</a>
+              <a class="button button-dark" href="#topics">出会った学生を探す</a>
+              <a class="button button-light" href="#questions">問いを見てみる</a>
             </div>
           </div>
 
@@ -57,7 +57,7 @@
             <p class="section-num">01</p>
             <div>
               <p class="eyebrow">TODAY'S QUESTION</p>
-              <h2 id="today-question-title">今日の問い</h2>
+              <h2 id="today-question-title">今日気になる問い</h2>
             </div>
           </div>
           <div id="today-question-card"></div>
@@ -67,9 +67,9 @@
           <div class="section-heading split">
             <div>
               <p class="eyebrow">FEATURED PEOPLE</p>
-              <h2 id="featured-title">話してみたい人</h2>
+              <h2 id="featured-title">話してみたい学生</h2>
             </div>
-            <a class="text-arrow" href="#topics">問いから人を探す</a>
+            <a class="text-arrow" href="#topics">関心テーマから探す</a>
           </div>
           <div class="featured-grid" id="featured-grid"></div>
         </section>
@@ -78,14 +78,14 @@
           <div class="section-heading split">
             <div>
               <p class="eyebrow">FIND BY TOPIC</p>
-              <h2 id="topics-title">テーマからさがす</h2>
+              <h2 id="topics-title">関心テーマからさがす</h2>
             </div>
             <div class="topic-filter">
               <div class="topic-list" id="topic-list" aria-label="テーマ一覧"></div>
               <button class="text-button" id="clear-topic" type="button">すべて</button>
             </div>
           </div>
-          <p class="section-note wide">教育、AI、地域、デザイン。分類のためのタグではなく、会話を始めるための入口です。</p>
+          <p class="section-note wide">教育、AI、地域、デザイン。イベントで聞いた言葉や気になったテーマから、学生の問いと活動をたどれます。</p>
           <div class="result-head" id="topic-result-head"></div>
           <div class="people-grid" id="people-grid"></div>
         </section>
@@ -95,42 +95,53 @@
             <p class="section-num">04</p>
             <div>
               <p class="eyebrow">RECENT QUESTIONS</p>
-              <h2 id="questions-title">最近気になる問い</h2>
+              <h2 id="questions-title">最近の問い</h2>
             </div>
           </div>
           <div class="question-rail" id="recent-questions" aria-label="最近気になる問い"></div>
         </section>
 
-        <section class="section section-start" id="start" aria-labelledby="start-title">
+        <section class="section section-start" id="encounter" aria-labelledby="encounter-title">
           <div class="section-heading split">
             <div>
-              <p class="eyebrow">START 1on1</p>
-              <h2 id="start-title">問いから1on1へ</h2>
+              <p class="eyebrow">ENCOUNTER</p>
+              <h2 id="encounter-title">出会いをもう一度たどる</h2>
             </div>
-            <p class="section-note">気になるプロフィールを保存するより、気になる問いをひとつ選ぶところから始めてください。</p>
+            <p class="section-note">説明会、オープンキャンパス、交流会で少し話した学生を、問いやテーマからもう一度見つけるための流れです。</p>
           </div>
-          <div class="start-flow" aria-label="1on1までの流れ">
+          <div class="start-flow" aria-label="学生を見つける流れ">
             <article>
               <span>01</span>
-              <h3>問いを読む</h3>
-              <p>名前ではなく、まずその人が今持っている問いから入ります。</p>
+              <h3>問いを思い出す</h3>
+              <p>その学生が話していた問いや違和感から探してみます。</p>
             </article>
             <article>
               <span>02</span>
-              <h3>テーマで広げる</h3>
-              <p>教育、AI、地域、デザインなど、聞いてみたい入口を選びます。</p>
+              <h3>テーマでたどる</h3>
+              <p>教育、AI、地域、デザインなど、気になった入口を選びます。</p>
             </article>
             <article>
               <span>03</span>
-              <h3>人に出会う</h3>
-              <p>問いの背景、話せること、活動を見て、会話の糸口を見つけます。</p>
+              <h3>学生を見つける</h3>
+              <p>問いの背景、話せること、最近の活動を見て人物像を知ります。</p>
             </article>
             <article>
               <span>04</span>
-              <h3>1on1する</h3>
-              <p>「この人と話してみる」から、フォームやSNSへ進みます。</p>
+              <h3>もっと知る</h3>
+              <p>詳細ページで活動を読み、必要なら「話してみる」導線へ進めます。</p>
             </article>
           </div>
+        </section>
+
+        <section class="section section-tags" id="tags" aria-labelledby="tags-title">
+          <div class="section-heading split">
+            <div>
+              <p class="eyebrow">TOPIC WALL</p>
+              <h2 id="tags-title">気になる言葉から探す</h2>
+            </div>
+            <p class="section-note">整列された名簿ではなく、気になる言葉から学生に出会うための壁です。</p>
+          </div>
+          <div class="tag-cloud" id="tag-cloud" aria-label="タグ一覧"></div>
         </section>
       </section>
 
@@ -139,10 +150,10 @@
 
     <footer class="site-footer">
       <div>
-        <strong>CoIU QUESTIONS</strong>
-        <p>問いから、1on1へ。</p>
+        <strong>CoIU PEOPLE</strong>
+        <p>イベントで出会った学生を、もう一度見つける。</p>
       </div>
-      <a class="button button-dark" href="#today-question">問いを探す</a>
+      <a class="button button-dark" href="#topics">気になる学生を探す</a>
     </footer>
 
   </body>

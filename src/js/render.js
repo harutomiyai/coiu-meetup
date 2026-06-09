@@ -64,7 +64,7 @@ const personCard = (student, variant = "grid") => `
         ${student.tags.slice(0, 4).map(tagPill).join("")}
       </div>
       <div class="card-actions">
-        <a class="button button-dark button-small" href="#student/${escapeHtml(student.slug)}">話してみる</a>
+        <a class="button button-dark button-small" href="#student/${escapeHtml(student.slug)}">もっと知る</a>
       </div>
     </div>
   </article>
@@ -78,7 +78,7 @@ const todayQuestionCard = (student) => `
     <div class="today-body">
       <p class="eyebrow">TODAY'S QUESTION</p>
       <div class="question-feature">
-        <span>今、聞いてみたい問い</span>
+        <span>今日、気になった問い</span>
         <strong>${escapeHtml(student.currentQuestion)}</strong>
       </div>
       <h3>${escapeHtml(student.name)}</h3>
@@ -87,7 +87,7 @@ const todayQuestionCard = (student) => `
         ${student.talkTopics.map(talkPill).join("")}
       </div>
       <p class="activity-line">${escapeHtml(student.currentProject)}</p>
-      <a class="button button-dark" href="#student/${escapeHtml(student.slug)}">この人と話してみる</a>
+      <a class="button button-dark" href="#student/${escapeHtml(student.slug)}">もっと知る</a>
     </div>
   </article>
 `;
@@ -139,13 +139,13 @@ const detailLinks = (student) =>
 export const renderStudentDetail = (student) => {
   selectors.studentView.innerHTML = `
     <div class="detail-shell">
-      <a class="back-link" href="#topics">問いに戻る</a>
+      <a class="back-link" href="#topics">学生を探す</a>
       <div class="detail-hero">
         <div class="detail-image">
           <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
         </div>
         <div class="detail-main">
-          <p class="eyebrow">${escapeHtml(student.generation)} / CoIU QUESTIONS</p>
+          <p class="eyebrow">${escapeHtml(student.generation)} / CoIU PEOPLE</p>
           <h1>${escapeHtml(student.currentQuestion)}</h1>
           <p class="person-name detail-name">${escapeHtml(student.name)}</p>
           <p class="detail-catch">${escapeHtml(student.catch)}</p>
@@ -153,11 +153,11 @@ export const renderStudentDetail = (student) => {
             ${student.tags.map(tagPill).join("")}
           </div>
           <div class="question-feature detail-question">
-            <span>この問いについて話せます</span>
+            <span>この学生についてもう少し知る</span>
             <strong>${escapeHtml(student.oneOnOneMessage)}</strong>
           </div>
           <a class="button button-dark" href="${escapeHtml(getContactLink(student))}" target="_blank" rel="noreferrer">
-            この人と話してみる
+            話してみる
           </a>
         </div>
       </div>
@@ -191,8 +191,8 @@ export const renderStudentDetail = (student) => {
         </article>
 
         <article class="detail-card">
-          <p class="eyebrow">1on1 MESSAGE</p>
-          <h2>1on1したい人へ</h2>
+          <p class="eyebrow">MESSAGE</p>
+          <h2>話してみたい人へ</h2>
           <p class="message-box">「${escapeHtml(student.oneOnOneMessage)}」</p>
         </article>
 
@@ -220,6 +220,14 @@ export const renderTopicControls = () => {
     .slice(1)
     .map((topic) => topicButton(topic, topic === state.selectedTopic, "topic-chip"))
     .join("");
+
+  selectors.tagCloud.innerHTML = topics
+    .slice(1)
+    .map((topic, index) => {
+      const sizes = ["tag-large", "tag-medium", "tag-small"];
+      return topicButton(topic, topic === state.selectedTopic, `cloud-tag ${sizes[index % sizes.length]}`);
+    })
+    .join("");
 };
 
 export const renderFeatured = () => {
@@ -239,8 +247,8 @@ export const renderPeopleGrid = () => {
   const filtered = getFilteredStudents();
   const label =
     state.selectedTopic === "すべて"
-      ? "気になるテーマから、問いを持つ人を探す"
-      : `#${state.selectedTopic} の問いから人を探す`;
+      ? "気になるテーマから、出会った学生を探す"
+      : `#${state.selectedTopic} から学生を探す`;
 
   selectors.topicResultHead.innerHTML = `
     <p>${escapeHtml(label)}</p>

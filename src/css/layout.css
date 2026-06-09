@@ -81,9 +81,44 @@
 }
 
 .section {
-  width: min(1240px, calc(100% - 40px));
+  width: 100%;
   margin: 0 auto;
-  padding: 74px 0;
+  padding: 84px max(20px, calc((100% - 1240px) / 2));
+  border-bottom: 4px solid var(--ink);
+}
+
+.section-today-question {
+  background: var(--soft-yellow);
+}
+
+.section-featured {
+  background: var(--people-green);
+}
+
+.section-topics {
+  background: var(--topic-blue);
+}
+
+.section-questions {
+  background: var(--question-lavender);
+}
+
+.section-start {
+  background: var(--paper);
+}
+
+.section-tags {
+  overflow: hidden;
+  background: var(--deep);
+  color: var(--white);
+}
+
+.section-tags .eyebrow {
+  color: var(--key);
+}
+
+.section-tags .section-note {
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .section-heading {
@@ -91,6 +126,14 @@
   align-items: flex-end;
   gap: 18px;
   margin-bottom: 22px;
+}
+
+.section:nth-of-type(2n) .section-heading {
+  transform: translateX(18px);
+}
+
+.section:nth-of-type(3n) .section-heading {
+  transform: translateX(-10px);
 }
 
 .section-heading.split {
@@ -121,6 +164,7 @@
   box-shadow: var(--shadow);
   font-size: 2.1rem;
   font-weight: 950;
+  transform: rotate(-2deg);
 }
 
 .section-note {
@@ -146,7 +190,8 @@
   justify-content: space-between;
   gap: 20px;
   border-top: 4px solid var(--ink);
-  background: var(--white);
+  background: var(--deep);
+  color: var(--white);
   padding: 28px 24px;
 }
 

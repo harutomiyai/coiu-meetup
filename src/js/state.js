@@ -16,7 +16,7 @@ export const fixedTopics = [
   "起業",
   "プログラミング",
   "問い",
-  "1on1歓迎",
+  "交流歓迎",
   "Podcast",
   "Web制作",
   "N高",

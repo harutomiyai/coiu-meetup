@@ -42,17 +42,32 @@
 }
 
 .person-card-featured:nth-child(2) {
-  transform: rotate(1.2deg);
+  transform: translateY(24px) rotate(1.2deg);
 }
 
 .person-card-featured:nth-child(3) {
-  transform: rotate(-1deg);
+  transform: translateY(-10px) rotate(-1deg);
 }
 
 .person-card-featured:nth-child(2):hover,
 .person-card-featured:nth-child(2):focus-within,
 .person-card-featured:nth-child(3):hover,
 .person-card-featured:nth-child(3):focus-within {
+  transform: translate(-4px, -4px);
+}
+
+.people-grid .person-card:nth-child(4n + 2) {
+  transform: translateY(18px) rotate(0.6deg);
+}
+
+.people-grid .person-card:nth-child(4n + 3) {
+  transform: translateY(-8px) rotate(-0.6deg);
+}
+
+.people-grid .person-card:nth-child(4n + 2):hover,
+.people-grid .person-card:nth-child(4n + 2):focus-within,
+.people-grid .person-card:nth-child(4n + 3):hover,
+.people-grid .person-card:nth-child(4n + 3):focus-within {
   transform: translate(-4px, -4px);
 }
 
@@ -172,6 +187,7 @@
   grid-template-columns: minmax(320px, 1.1fr) minmax(320px, 0.9fr);
   overflow: hidden;
   background: var(--white);
+  transform: rotate(-0.7deg);
 }
 
 .today-image {
@@ -179,6 +195,7 @@
   overflow: hidden;
   border-right: 4px solid var(--ink);
   background: var(--mint);
+  margin-left: -18px;
 }
 
 .today-image img {
@@ -248,6 +265,27 @@
     box-shadow 180ms ease;
 }
 
+.question-card:nth-child(3n + 1) {
+  transform: rotate(-1deg);
+}
+
+.question-card:nth-child(3n + 2) {
+  transform: translateY(18px) rotate(0.8deg);
+}
+
+.question-card:nth-child(3n) {
+  transform: translateY(-8px);
+}
+
+.question-card:nth-child(3n + 1):hover,
+.question-card:nth-child(3n + 1):focus-within,
+.question-card:nth-child(3n + 2):hover,
+.question-card:nth-child(3n + 2):focus-within,
+.question-card:nth-child(3n):hover,
+.question-card:nth-child(3n):focus-within {
+  transform: translate(-4px, -4px);
+}
+
 .question-card a {
   display: grid;
   height: 100%;
@@ -288,6 +326,10 @@
   transition:
     transform 180ms ease,
     box-shadow 180ms ease;
+}
+
+.story-card:nth-last-child(-n + 5) {
+  background: var(--paper);
 }
 
 .story-card img {

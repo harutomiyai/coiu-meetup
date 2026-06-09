@@ -32,10 +32,22 @@
 .tag-cloud {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 18px;
   align-items: center;
   min-height: 260px;
-  border-top: 4px solid var(--ink);
-  border-bottom: 4px solid var(--ink);
-  padding: 28px 0;
+  border-top: 4px solid var(--white);
+  border-bottom: 4px solid var(--white);
+  padding: 34px 0;
+}
+
+.tag-cloud .cloud-tag:nth-child(4n + 1) {
+  margin-top: 34px;
+}
+
+.tag-cloud .cloud-tag:nth-child(4n + 2) {
+  margin-bottom: 26px;
+}
+
+.tag-cloud .cloud-tag:nth-child(5n) {
+  margin-left: 24px;
 }

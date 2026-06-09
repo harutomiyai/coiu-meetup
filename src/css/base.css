@@ -4,6 +4,11 @@
   --key-deep: #e7bd21;
   --ink: #111111;
   --paper: #fffdf2;
+  --soft-yellow: #fff3a6;
+  --topic-blue: #b9d8ff;
+  --people-green: #bfe8c9;
+  --question-lavender: #d7c5ff;
+  --deep: #151515;
   --white: #ffffff;
   --blue: #2c6cff;
   --mint: #54d39b;
@@ -24,12 +29,13 @@ html {
 
 body {
   margin: 0;
-  background: var(--key);
+  background: var(--paper);
   color: var(--ink);
   font-family:
     Inter, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo,
     sans-serif;
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 body:has(#student-view:not([hidden])) {

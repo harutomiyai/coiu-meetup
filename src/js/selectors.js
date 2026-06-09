@@ -9,4 +9,5 @@ export const selectors = {
   topicResultHead: document.querySelector("#topic-result-head"),
   clearTopic: document.querySelector("#clear-topic"),
   recentQuestions: document.querySelector("#recent-questions"),
+  tagCloud: document.querySelector("#tag-cloud"),
 };
