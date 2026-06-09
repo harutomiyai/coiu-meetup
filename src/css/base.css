@@ -21,6 +21,15 @@
   --mint-soft: #e8f7ef;
   --blue-soft: #e6f1ff;
   --pink-soft: #ffeef5;
+  --radius-tight: 4px;
+  --radius-card: 8px;
+  --radius-pill: 999px;
+  --tag-human: #f3dc9a;
+  --tag-tech: #b7d7f7;
+  --tag-local: #bddfc7;
+  --tag-design: #eeb8c9;
+  --tag-business: #d4c2ef;
+  --tag-general: #f4ecd4;
 }
 
 * {

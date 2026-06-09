@@ -17,11 +17,11 @@
   }
 
   .hero-visual {
-    min-height: 430px;
+    min-height: 540px;
   }
 
   .hero-student-card {
-    width: 258px;
+    width: 248px;
   }
 
   .featured-grid,
@@ -45,6 +45,11 @@
 
   .topic-list {
     justify-content: flex-start;
+  }
+
+  .coiu-intro-inner {
+    grid-template-columns: 1fr;
+    align-items: start;
   }
 }
 
@@ -89,23 +94,23 @@
 
   .hero-visual {
     width: min(100%, 520px);
-    min-height: 390px;
+    min-height: 540px;
     margin: 0 auto;
   }
 
   .hero-student-card-1 {
     top: 0;
-    right: 16px;
+    right: 12px;
   }
 
   .hero-student-card-2 {
-    top: 86px;
+    top: 148px;
     left: 0;
   }
 
   .hero-student-card-3 {
-    right: 0;
-    bottom: 0;
+    top: 294px;
+    right: 36px;
   }
 
   .section,
@@ -140,6 +145,16 @@
     margin-left: 0;
   }
 
+  .detail-main {
+    order: 1;
+  }
+
+  .detail-image {
+    order: 2;
+    border-top: 4px solid var(--ink);
+    border-bottom: 0;
+  }
+
   .today-image img,
   .pickup-slide .person-card-pickup .card-image img,
   .detail-image img {
@@ -164,6 +179,20 @@
 
   .detail-profile {
     grid-column: auto;
+  }
+
+  .detail-interests {
+    grid-column: auto;
+  }
+
+  .interest-reason-grid,
+  .detail-final-cta {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-final-cta .button,
+  .detail-primary-cta {
+    width: 100%;
   }
 
   .recommendation-tools {
@@ -221,17 +250,26 @@
     padding: 8px 12px 10px;
   }
 
+  .hero-lead {
+    margin-top: 16px;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
   .hero-bottom {
     gap: 12px;
     margin-top: 20px;
   }
 
   .hero-visual {
-    min-height: 310px;
+    display: grid;
+    gap: 12px;
+    min-height: 0;
   }
 
   .hero-student-card {
-    width: min(238px, 76%);
+    position: relative;
+    width: 100%;
   }
 
   .hero-student-card img {
@@ -257,15 +295,18 @@
   }
 
   .hero-student-card-1 {
-    right: 0;
+    top: auto;
+    right: auto;
   }
 
   .hero-student-card-2 {
-    top: 76px;
+    top: auto;
+    left: auto;
   }
 
   .hero-student-card-3 {
-    right: 18px;
+    top: auto;
+    right: auto;
   }
 
   .hero-actions,
@@ -288,6 +329,9 @@
   .section:nth-of-type(3n) .section-heading,
   .today-card,
   .hero-subcopy,
+  .hero-student-card-1,
+  .hero-student-card-2,
+  .hero-student-card-3,
   .people-grid .person-card:nth-child(4n + 2),
   .people-grid .person-card:nth-child(4n + 3),
   .person-card-featured:nth-child(2),
@@ -392,6 +436,16 @@
     flex-basis: 235px;
   }
 
+  .people-grid.is-marquee {
+    margin-inline: -14px;
+    padding-inline: 34px;
+  }
+
+  .people-grid.is-marquee::before,
+  .people-grid.is-marquee::after {
+    width: 42px;
+  }
+
   .people-grid.is-marquee .card-image img {
     height: 118px;
   }
@@ -407,5 +461,17 @@
   .card-avatar {
     width: 44px;
     height: 44px;
+  }
+
+  .coiu-intro-inner h2 {
+    font-size: 1.35rem;
+  }
+
+  .detail-final-cta {
+    padding: 20px;
+  }
+
+  .detail-final-cta h2 {
+    font-size: 1.55rem;
   }
 }

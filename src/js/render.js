@@ -10,6 +10,22 @@ let pickupIndex = 0;
 let pickupTimerId;
 let pickupResumeTimerId;
 
+const tagThemeByName = {
+  教育: "tag-theme-human",
+  問い: "tag-theme-human",
+  N高: "tag-theme-human",
+  AI: "tag-theme-tech",
+  プログラミング: "tag-theme-tech",
+  Web制作: "tag-theme-tech",
+  地域: "tag-theme-local",
+  交流歓迎: "tag-theme-local",
+  デザイン: "tag-theme-design",
+  Podcast: "tag-theme-design",
+  起業: "tag-theme-business",
+};
+
+const linkOrder = ["x", "instagram", "note", "youtube", "podcast", "contact"];
+
 export const escapeHtml = (value) =>
   String(value)
     .replaceAll("&", "&amp;")
@@ -19,7 +35,10 @@ export const escapeHtml = (value) =>
     .replaceAll("'", "&#039;");
 
 const getContactLink = (student) =>
-  student.links.contact || student.links.x || student.links.instagram || "#";
+  student.links?.contact || student.links?.x || student.links?.instagram || "#";
+
+const getExternalAttributes = (url) =>
+  url && url !== "#" ? ' target="_blank" rel="noreferrer"' : "";
 
 const getExternalLabel = (key) => {
   const labels = {
@@ -28,14 +47,28 @@ const getExternalLabel = (key) => {
     podcast: "Podcast",
     x: "X",
     instagram: "Instagram",
-    contact: "Contact",
+    contact: "連絡フォーム",
   };
   return labels[key] || key;
 };
 
+const getExternalIcon = (key) => {
+  const icons = {
+    note: "n",
+    youtube: "▶",
+    podcast: "P",
+    x: "X",
+    instagram: "◎",
+    contact: "↗",
+  };
+  return icons[key] || "↗";
+};
+
+const getTagThemeClass = (tag) => tagThemeByName[tag] || "tag-theme-general";
+
 const topicButton = (topic, isActive = false, className = "topic-chip") => `
   <button
-    class="${className} ${isActive ? "is-active" : ""}"
+    class="${className} ${getTagThemeClass(topic)} ${isActive ? "is-active" : ""}"
     type="button"
     data-topic="${escapeHtml(topic)}"
     aria-pressed="${isActive ? "true" : "false"}"
@@ -44,9 +77,45 @@ const topicButton = (topic, isActive = false, className = "topic-chip") => `
   </button>
 `;
 
-const tagPill = (tag) => `<span class="tag-pill">#${escapeHtml(tag)}</span>`;
+const tagPill = (tag) => `<span class="tag-pill ${getTagThemeClass(tag)}">#${escapeHtml(tag)}</span>`;
 
 const talkPill = (topic) => `<span class="talk-pill">${escapeHtml(topic)}</span>`;
+
+const getProfileLead = (student) => {
+  if (student.profileLead) return student.profileLead;
+
+  const firstSentence = String(student.story || "").split("。").find(Boolean);
+  return firstSentence ? `${firstSentence}。` : student.catch;
+};
+
+const getInterestDetails = (student) =>
+  Array.isArray(student.interests)
+    ? student.interests.filter((interest) => interest?.theme && interest?.reason)
+    : [];
+
+const interestReasonCards = (student) => {
+  const interests = getInterestDetails(student);
+  if (!interests.length) return "";
+
+  return `
+    <article class="detail-card detail-interests">
+      <p class="eyebrow">INTERESTS</p>
+      <h2>関心テーマ</h2>
+      <div class="interest-reason-grid">
+        ${interests
+          .map(
+            (interest) => `
+              <div class="interest-reason">
+                ${tagPill(interest.theme)}
+                <p>${escapeHtml(interest.reason)}</p>
+              </div>
+            `,
+          )
+          .join("")}
+      </div>
+    </article>
+  `;
+};
 
 const normalizeText = (value) => String(value || "").trim().toLowerCase();
 
@@ -119,7 +188,7 @@ const heroStudentCard = (student, index) => `
       <strong>${escapeHtml(student.name)}</strong>
       <span class="hero-student-catch">${escapeHtml(student.catch)}</span>
       <span class="hero-student-tags">
-        ${student.tags.slice(0, 2).map((tag) => `<span>#${escapeHtml(tag)}</span>`).join("")}
+        ${student.tags.slice(0, 2).map((tag) => `<span class="${getTagThemeClass(tag)}">#${escapeHtml(tag)}</span>`).join("")}
       </span>
     </span>
   </a>
@@ -135,7 +204,7 @@ const personCard = (student, variant = "grid") => {
   const isPickup = variant === "pickup";
 
   return `
-    <article class="person-card person-card-${variant}">
+    <article class="person-card person-card-${variant}" data-student-slug="${escapeHtml(student.slug)}">
       ${cardImage(student)}
       <div class="person-card-body">
         <h3>${escapeHtml(student.name)}</h3>
@@ -245,18 +314,24 @@ const getFilteredStudents = () => (hasActiveDiscoveryFilters() ? getRankedStuden
 const detailList = (items) => items.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
 
 const detailLinks = (student) =>
-  Object.entries(student.links)
+  linkOrder
+    .map((key) => [key, student.links?.[key]])
     .filter(([, url]) => Boolean(url))
     .map(
       ([key, url]) => `
-        <a href="${escapeHtml(url)}" target="_blank" rel="noreferrer">
-          ${escapeHtml(getExternalLabel(key))}
+        <a class="external-link external-link-${escapeHtml(key)} ${key === "contact" ? "is-contact-link" : ""}" href="${escapeHtml(url)}"${getExternalAttributes(url)}>
+          <span class="external-link-icon" aria-hidden="true">${escapeHtml(getExternalIcon(key))}</span>
+          <span>${escapeHtml(getExternalLabel(key))}</span>
         </a>
       `,
     )
     .join("");
 
 export const renderStudentDetail = (student) => {
+  const contactLink = getContactLink(student);
+  const projectLead = student.projectDetail || student.currentProject;
+  const topTalkTopics = student.talkTopics.slice(0, 2);
+
   selectors.studentView.innerHTML = `
     <div class="detail-shell">
       <a class="back-link" href="#students">← 学生一覧へ戻る</a>
@@ -271,13 +346,22 @@ export const renderStudentDetail = (student) => {
           <div class="tag-row">
             ${student.tags.map(tagPill).join("")}
           </div>
+          <p class="detail-lead">${escapeHtml(getProfileLead(student))}</p>
+          <div class="detail-actions">
+            <a class="button button-cta detail-primary-cta" href="${escapeHtml(contactLink)}"${getExternalAttributes(contactLink)}>
+              話してみる
+            </a>
+          </div>
           <div class="card-hint-box detail-hint">
             <span class="card-hint-label">今持っている問い</span>
             <p>${escapeHtml(student.currentQuestion)}</p>
           </div>
-          <a class="button button-dark" href="${escapeHtml(getContactLink(student))}" target="_blank" rel="noreferrer">
-            話してみる
-          </a>
+          <div class="detail-quick-box">
+            <span class="card-hint-label">話し始めやすいテーマ</span>
+            <div class="talk-row">
+              ${topTalkTopics.map(talkPill).join("")}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -288,13 +372,7 @@ export const renderStudentDetail = (student) => {
           <p>${escapeHtml(student.story)}</p>
         </article>
 
-        <article class="detail-card">
-          <p class="eyebrow">INTERESTS</p>
-          <h2>関心テーマ</h2>
-          <div class="tag-row">
-            ${student.tags.map(tagPill).join("")}
-          </div>
-        </article>
+        ${interestReasonCards(student)}
 
         <article class="detail-card">
           <p class="eyebrow">TALK THEME</p>
@@ -307,7 +385,7 @@ export const renderStudentDetail = (student) => {
         <article class="detail-card">
           <p class="eyebrow">RECENT PROJECT</p>
           <h2>最近取り組んでいること</h2>
-          <p>${escapeHtml(student.currentProject)}</p>
+          <p>${escapeHtml(projectLead)}</p>
           <ul>${detailList(student.recentActivities)}</ul>
         </article>
 
@@ -325,12 +403,22 @@ export const renderStudentDetail = (student) => {
 
         <article class="detail-card">
           <p class="eyebrow">LINKS</p>
-          <h2>SNS / note / YouTube / Podcast</h2>
+          <h2>SNS・各種リンク</h2>
           <div class="link-list">
-            ${detailLinks(student)}
+            ${detailLinks(student) || '<p class="link-empty">公開リンクは準備中です。</p>'}
           </div>
         </article>
       </div>
+      <section class="detail-final-cta" aria-label="話してみる">
+        <div>
+          <p class="eyebrow">CONTACT</p>
+          <h2>読んで気になったら、話してみる</h2>
+          <p>${escapeHtml(student.oneOnOneMessage)}</p>
+        </div>
+        <a class="button button-cta" href="${escapeHtml(contactLink)}"${getExternalAttributes(contactLink)}>
+          話してみる
+        </a>
+      </section>
     </div>
   `;
 };

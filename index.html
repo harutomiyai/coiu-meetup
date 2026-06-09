@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CoIU Students | CoIUには、こんな学生がいます。</title>
+    <title>CoIU Students | CoIUには、外とつながりたい学生がいます。</title>
     <meta
       name="description"
-      content="CoIUで学ぶ学生たちの関心、活動、話してみたいことを紹介するサイトです。"
+      content="CoIU生をひとりずつ取材し、関心、活動、話してみたいことを紹介するサイトです。"
     />
     <script type="module" src="/src/main.js"></script>
   </head>
@@ -24,7 +24,7 @@
       </nav>
       <form class="site-search" role="search" aria-label="学生検索">
         <label class="sr-only" for="site-search">学生名・テーマで検索</label>
-        <input id="site-search" type="search" placeholder="学生名・テーマで検索" autocomplete="off" />
+        <input id="site-search" type="search" placeholder="名前・テーマで探す" autocomplete="off" />
       </form>
     </header>
 
@@ -35,17 +35,34 @@
             <div class="hero-copy-column">
               <div class="hero-logo-block">
                 <h1 id="hero-title">CoIU<br>Students</h1>
-                <p class="hero-subcopy">CoIUには、<br>こんな学生がいます。</p>
+                <p class="hero-subcopy">CoIUには、<br>外とつながりたい学生がいます。</p>
+                <p class="hero-lead">
+                  会って話したくなるCoIU生を、ひとりずつ取材して紹介しています。
+                  マルシェやイベントで出会った学生を、あとからもう一度見つけられる入口です。
+                </p>
               </div>
 
               <div class="hero-bottom" aria-label="主要アクション">
                 <div class="hero-actions" aria-label="主要アクション">
                   <a class="button button-dark" href="#students">学生を見る</a>
+                  <button class="text-button hero-theme-link" type="button" data-theme-modal-open>テーマから探す</button>
                 </div>
               </div>
             </div>
 
             <div class="hero-visual" id="hero-visual" aria-label="CoIU生の紹介カード"></div>
+          </div>
+        </section>
+
+        <section class="section section-coiu-intro" aria-labelledby="coiu-intro-title">
+          <div class="coiu-intro-inner">
+            <p class="eyebrow">ABOUT CoIU</p>
+            <h2 id="coiu-intro-title">CoIUは、地域や社会と関わりながら学ぶ大学です。</h2>
+            <p>
+              このサイトでは、CoIUで学ぶ学生の問い、活動、話してみたいことを一人ずつまとめています。
+              学生本人を知る入口として、気になるテーマや名前から探してみてください。
+            </p>
+            <a class="text-arrow" href="/about.html">Aboutを見る</a>
           </div>
         </section>
 

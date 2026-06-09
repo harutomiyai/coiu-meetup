@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   border: 3px solid var(--ink);
-  border-radius: 8px;
+  border-radius: var(--radius-card);
   font-weight: 950;
   line-height: 1.15;
   padding: 12px 18px;
@@ -29,6 +29,22 @@
 .button-light {
   background: var(--white);
   color: var(--ink);
+}
+
+.button-cta {
+  min-height: 58px;
+  border-width: 4px;
+  background: var(--key);
+  box-shadow: 6px 6px 0 var(--ink);
+  color: var(--ink);
+  font-size: 1.08rem;
+  padding: 15px 22px;
+}
+
+.button-cta:hover,
+.button-cta:focus-visible {
+  background: var(--white);
+  box-shadow: 9px 9px 0 var(--ink);
 }
 
 .button-small {

@@ -2,8 +2,8 @@
 .topic-chip,
 .cloud-tag {
   border: 3px solid var(--ink);
-  border-radius: 999px;
-  background: var(--white);
+  border-radius: var(--radius-pill);
+  background: var(--tag-bg, var(--white));
   color: var(--ink);
   font-weight: 950;
   line-height: 1.1;
@@ -30,7 +30,7 @@
 .hero-tag.is-active,
 .topic-chip.is-active,
 .cloud-tag.is-active {
-  background: var(--mint);
+  background: var(--tag-bg, var(--mint));
   box-shadow: 4px 4px 0 var(--ink);
   outline: none;
   transform: translate(-2px, -2px);
@@ -41,7 +41,7 @@
   display: inline-flex;
   align-items: center;
   border: 2px solid var(--ink);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   font-size: 0.75rem;
   font-weight: 950;
   line-height: 1.15;
@@ -55,7 +55,7 @@
 }
 
 .tag-pill {
-  background: var(--pink);
+  background: var(--tag-bg, var(--tag-general));
 }
 
 .talk-pill {
@@ -71,17 +71,14 @@
 }
 
 .cloud-tag:nth-child(3n + 1) {
-  background: var(--mint);
   transform: rotate(-3deg);
 }
 
 .cloud-tag:nth-child(3n + 2) {
-  background: var(--white);
   transform: rotate(2deg);
 }
 
 .cloud-tag:nth-child(3n) {
-  background: var(--coral);
   transform: rotate(-1deg);
 }
 
@@ -101,4 +98,32 @@
 
 .tag-small {
   font-size: 0.95rem;
+}
+
+.tag-theme-human {
+  --tag-bg: var(--tag-human);
+}
+
+.tag-theme-tech {
+  --tag-bg: var(--tag-tech);
+}
+
+.tag-theme-local {
+  --tag-bg: var(--tag-local);
+}
+
+.tag-theme-design {
+  --tag-bg: var(--tag-design);
+}
+
+.tag-theme-business {
+  --tag-bg: var(--tag-business);
+}
+
+.tag-theme-general {
+  --tag-bg: var(--tag-general);
+}
+
+.hero-student-tags span {
+  background: var(--tag-bg, var(--soft-yellow));
 }
