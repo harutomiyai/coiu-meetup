@@ -1,0 +1,249 @@
+@media (max-width: 1080px) {
+  .hero::after {
+    opacity: 0.24;
+    width: 52%;
+  }
+
+  .hero h1 {
+    font-size: 6rem;
+  }
+
+  .featured-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .people-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .section-heading.split {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .topic-filter {
+    justify-items: start;
+    max-width: none;
+  }
+
+  .topic-list {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 820px) {
+  .site-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 16px;
+  }
+
+  .site-nav {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .hero {
+    min-height: 0;
+    padding: 24px 18px 32px;
+  }
+
+  .hero::after {
+    display: none;
+  }
+
+  .hero-topline {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .hero-logo-block {
+    padding-top: 44px;
+  }
+
+  .hero h1 {
+    font-size: 4.55rem;
+  }
+
+  .hero-subcopy {
+    font-size: 1.45rem;
+  }
+
+  .hero-bottom {
+    grid-template-columns: 1fr;
+    margin-top: 34px;
+  }
+
+  .hero-topic-rail {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    margin-top: 28px;
+  }
+
+  .section,
+  .student-detail {
+    width: min(100% - 28px, 1240px);
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+
+  .section-heading h2 {
+    font-size: 2.6rem;
+  }
+
+  .featured-grid,
+  .people-grid,
+  .start-flow,
+  .today-card,
+  .detail-hero,
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .today-image,
+  .detail-image {
+    border-right: 0;
+    border-bottom: 4px solid var(--ink);
+  }
+
+  .today-image img,
+  .detail-image img {
+    min-height: 360px;
+  }
+
+  .today-card h3 {
+    font-size: 3rem;
+  }
+
+  .detail-main h1 {
+    font-size: 2.8rem;
+  }
+
+  .detail-profile {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .brand-text {
+    font-size: 0.95rem;
+  }
+
+  .site-nav a {
+    font-size: 0.78rem;
+    padding: 8px 9px;
+  }
+
+  .site-nav {
+    flex-wrap: wrap;
+    overflow: visible;
+    white-space: normal;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero {
+    padding: 18px 18px 20px;
+  }
+
+  .hero-logo-block {
+    padding-top: 22px;
+  }
+
+  .hero-subcopy {
+    font-size: 1.08rem;
+    padding: 7px 10px 9px;
+  }
+
+  .hero-bottom {
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .hero-copy {
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+
+  .hero-topic-rail {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+
+  .hero-tag {
+    flex: 0 0 auto;
+    padding: 9px 12px;
+  }
+
+  .hero-actions,
+  .card-actions,
+  .site-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .section-heading h2 {
+    font-size: 2.25rem;
+  }
+
+  .section-num {
+    min-width: 66px;
+    min-height: 52px;
+    font-size: 1.55rem;
+  }
+
+  .person-card-body,
+  .story-body,
+  .today-body,
+  .detail-main,
+  .detail-card {
+    padding: 18px;
+  }
+
+  .person-card h3 {
+    font-size: 1.55rem;
+  }
+
+  .today-card h3 {
+    font-size: 2.45rem;
+  }
+
+  .question-feature strong {
+    font-size: 1.2rem;
+  }
+
+  .question-rail {
+    grid-auto-columns: minmax(270px, 86vw);
+  }
+
+  .tag-large {
+    font-size: 1.22rem;
+  }
+
+  .tag-medium,
+  .tag-small {
+    font-size: 0.96rem;
+  }
+
+  .detail-main h1 {
+    font-size: 2.15rem;
+  }
+}

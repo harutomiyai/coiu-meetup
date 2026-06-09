@@ -1,0 +1,98 @@
+.hero-tag,
+.topic-chip,
+.cloud-tag {
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--ink);
+  font-weight: 950;
+  line-height: 1.1;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.hero-tag {
+  padding: 11px 15px;
+}
+
+.topic-chip {
+  padding: 9px 12px;
+}
+
+.hero-tag:hover,
+.hero-tag:focus-visible,
+.topic-chip:hover,
+.topic-chip:focus-visible,
+.cloud-tag:hover,
+.cloud-tag:focus-visible,
+.hero-tag.is-active,
+.topic-chip.is-active,
+.cloud-tag.is-active {
+  background: var(--mint);
+  box-shadow: 4px 4px 0 var(--ink);
+  outline: none;
+  transform: translate(-2px, -2px);
+}
+
+.tag-pill,
+.talk-pill {
+  display: inline-flex;
+  align-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 950;
+  line-height: 1.15;
+  padding: 6px 8px;
+}
+
+.tag-pill {
+  background: var(--pink);
+}
+
+.talk-pill {
+  background: var(--paper);
+}
+
+.cloud-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 16px;
+}
+
+.cloud-tag:nth-child(3n + 1) {
+  background: var(--mint);
+  transform: rotate(-3deg);
+}
+
+.cloud-tag:nth-child(3n + 2) {
+  background: var(--white);
+  transform: rotate(2deg);
+}
+
+.cloud-tag:nth-child(3n) {
+  background: var(--coral);
+  transform: rotate(-1deg);
+}
+
+.cloud-tag:hover,
+.cloud-tag:focus-visible,
+.cloud-tag.is-active {
+  transform: translate(-3px, -3px) rotate(0deg);
+}
+
+.tag-large {
+  font-size: 1.55rem;
+}
+
+.tag-medium {
+  font-size: 1.18rem;
+}
+
+.tag-small {
+  font-size: 0.95rem;
+}

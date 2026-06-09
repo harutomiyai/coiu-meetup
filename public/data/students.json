@@ -1,0 +1,382 @@
+[
+  {
+    "name": "宮井陽音",
+    "slug": "haruto-miyai",
+    "generation": "1期生",
+    "catch": "問いを立て、実装で学びを形にする",
+    "image": "/images/students/haruto.jpg",
+    "tags": [
+      "教育",
+      "AI",
+      "デザイン",
+      "プログラミング",
+      "問い",
+      "1on1歓迎"
+    ],
+    "talkTopics": [
+      "教育について",
+      "AI活用",
+      "Web制作",
+      "N高での活動",
+      "CoIU生活"
+    ],
+    "currentQuestion": "どうすれば、学びの面白さが人から人へ伝わるのか",
+    "currentProject": "CoIU生の問いや活動を可視化するメディアづくり",
+    "oneOnOneMessage": "教育、AI、Web制作、CoIU生活について話せます。気軽に話しましょう。",
+    "featured": true,
+    "today": true,
+    "story": "教育、AI、デザイン、プログラミングを横断しながら、問いを立てて実装し、学びを形にすることに取り組んでいます。CoIUでの生活やN高での活動から得た視点をもとに、人と人の関心がつながる場づくりを探っています。",
+    "questions": [
+      "どうすれば、学びの面白さが人から人へ伝わるのか",
+      "学生の問いや活動を、偶然の出会いで終わらせずに可視化するには何が必要か",
+      "AIは学びの速度だけでなく、学び方そのものをどう変えられるのか"
+    ],
+    "canConsult": [
+      "Webサイトの立ち上げ方",
+      "AIを学びや制作に使う方法",
+      "CoIU生活の始め方",
+      "教育テーマのプロジェクト設計"
+    ],
+    "recentActivities": [
+      "CoIU生の問いや活動を可視化するメディアの企画",
+      "学生プロフィールの情報設計",
+      "1on1につながる導線づくり"
+    ],
+    "links": {
+      "note": "https://note.com/xxxx",
+      "youtube": "https://youtube.com/xxxx",
+      "podcast": "",
+      "x": "",
+      "instagram": "",
+      "contact": "https://forms.gle/xxxx"
+    }
+  },
+  {
+    "name": "小林紬",
+    "slug": "tsumugi-kobayashi",
+    "generation": "1期生",
+    "catch": "地域の声から、動き出す企画をつくる",
+    "image": "/images/students/tsumugi.jpg",
+    "tags": [
+      "地域",
+      "起業",
+      "問い",
+      "1on1歓迎"
+    ],
+    "talkTopics": [
+      "地域プロジェクト",
+      "フィールドワーク",
+      "企画づくり",
+      "まちの人との関係づくり"
+    ],
+    "currentQuestion": "地域の小さな違和感は、どうすれば学生の実験に変わるのか",
+    "currentProject": "まちの人への聞き書きから、新しい学びの場をつくる実験",
+    "oneOnOneMessage": "地域で何か始めたい人、企画の種を一緒に言葉にしましょう。",
+    "featured": true,
+    "story": "まちを歩き、人に話を聞きながら、地域にある小さな困りごとや面白さを企画に変えることに関心があります。最初から大きな事業を目指すより、会話から生まれる実験を大切にしています。",
+    "questions": [
+      "地域の小さな違和感は、どうすれば学生の実験に変わるのか",
+      "外から来た学生が、地域と対等に関わるには何が必要か"
+    ],
+    "canConsult": [
+      "地域での企画づくり",
+      "ヒアリングの始め方",
+      "プロジェクトの小さな検証"
+    ],
+    "recentActivities": [
+      "地域の聞き書き",
+      "空きスペース活用の調査",
+      "学生向けまち歩き企画"
+    ],
+    "links": {
+      "note": "",
+      "youtube": "",
+      "podcast": "",
+      "x": "",
+      "instagram": "",
+      "contact": "https://forms.gle/xxxx"
+    }
+  },
+  {
+    "name": "佐藤凪",
+    "slug": "nagi-sato",
+    "generation": "1期生",
+    "catch": "AIで、思いつきを動くものにする",
+    "image": "/images/students/nagi.jpg",
+    "tags": [
+      "AI",
+      "プログラミング",
+      "起業",
+      "1on1歓迎"
+    ],
+    "talkTopics": [
+      "AIアプリ制作",
+      "プロトタイピング",
+      "ノーコード",
+      "生成AIの使い方"
+    ],
+    "currentQuestion": "AIと一緒に作るとき、人間にしかできない設計は何か",
+    "currentProject": "学生の予定と関心から、話す相手を提案する小さなAIツール",
+    "oneOnOneMessage": "AIで何か作りたい人、最初のプロトタイプまで一緒に考えられます。",
+    "featured": true,
+    "story": "アイデアを話して終わらせず、すぐ試せる形にすることが好きです。AIやノーコードを使いながら、学生同士の関心がつながる小さなプロダクトを作っています。",
+    "questions": [
+      "AIと一緒に作るとき、人間にしかできない設計は何か",
+      "作ったものを、友だちが自然に使いたくなる状態にするにはどうすればいいか"
+    ],
+    "canConsult": [
+      "生成AIの使い方",
+      "プロトタイプ制作",
+      "アイデアの壁打ち",
+      "簡単なWebアプリ"
+    ],
+    "recentActivities": [
+      "AIツールの試作",
+      "学生向けワークショップの設計",
+      "プロンプト集づくり"
+    ],
+    "links": {
+      "note": "",
+      "youtube": "",
+      "podcast": "",
+      "x": "",
+      "instagram": "",
+      "contact": "https://forms.gle/xxxx"
+    }
+  },
+  {
+    "name": "森田葵",
+    "slug": "aoi-morita",
+    "generation": "1期生",
+    "catch": "言葉にならない感覚を、デザインで見える形に",
+    "image": "/images/students/aoi.jpg",
+    "tags": [
+      "デザイン",
+      "教育",
+      "問い",
+      "1on1歓迎"
+    ],
+    "talkTopics": [
+      "グラフィック",
+      "UIデザイン",
+      "展示づくり",
+      "学びの可視化"
+    ],
+    "currentQuestion": "人が立ち止まって考えたくなるデザインには、どんな余白があるのか",
+    "currentProject": "学生の問いをポスターやZINEにする小さな編集プロジェクト",
+    "oneOnOneMessage": "デザインの相談、見せ方の壁打ち、ポートフォリオづくりを話せます。",
+    "featured": false,
+    "story": "人の言葉になりきらない感覚や問いを、紙、画面、展示の形にしてみることに関心があります。きれいに整えるだけでなく、思わず読みたくなる引っかかりを探しています。",
+    "questions": [
+      "人が立ち止まって考えたくなるデザインには、どんな余白があるのか",
+      "問いをポスターにすると、会話はどう変わるのか"
+    ],
+    "canConsult": [
+      "UIの見せ方",
+      "ポスター制作",
+      "ZINEづくり",
+      "発表資料のデザイン"
+    ],
+    "recentActivities": [
+      "学生の問いを集めたZINE制作",
+      "イベントビジュアル制作",
+      "展示レイアウトの実験"
+    ],
+    "links": {
+      "note": "",
+      "youtube": "",
+      "podcast": "",
+      "x": "",
+      "instagram": "",
+      "contact": "https://forms.gle/xxxx"
+    }
+  },
+  {
+    "name": "中村灯",
+    "slug": "akari-nakamura",
+    "generation": "1期生",
+    "catch": "声を聞き、物語として届ける",
+    "image": "/images/students/akari.jpg",
+    "tags": [
+      "地域",
+      "Podcast",
+      "教育",
+      "問い"
+    ],
+    "talkTopics": [
+      "インタビュー",
+      "Podcast制作",
+      "地域の人の話",
+      "文章編集"
+    ],
+    "currentQuestion": "人の活動は、どんな語り方をすると次の人に届くのか",
+    "currentProject": "CoIU生と地域の人の会話を残す音声メディア",
+    "oneOnOneMessage": "インタビュー、音声配信、文章化について話せます。",
+    "featured": false,
+    "story": "人の話を聞き、そこにある背景や選択を物語として届けることに関心があります。学生と地域の人のあいだにある会話を、音声や文章として残す活動をしています。",
+    "questions": [
+      "人の活動は、どんな語り方をすると次の人に届くのか",
+      "聞くことは、学びの場をどう変えるのか"
+    ],
+    "canConsult": [
+      "インタビュー設計",
+      "Podcastの始め方",
+      "文章編集",
+      "活動紹介文の作成"
+    ],
+    "recentActivities": [
+      "音声メディアの企画",
+      "地域の人へのインタビュー",
+      "活動記事の編集"
+    ],
+    "links": {
+      "note": "",
+      "youtube": "",
+      "podcast": "https://example.com/podcast",
+      "x": "",
+      "instagram": "",
+      "contact": "https://forms.gle/xxxx"
+    }
+  },
+  {
+    "name": "高橋悠",
+    "slug": "yu-takahashi",
+    "generation": "1期生",
+    "catch": "小さく試して、事業の芽を育てる",
+    "image": "/images/students/yu.jpg",
+    "tags": [
+      "起業",
+      "AI",
+      "地域",
+      "1on1歓迎"
+    ],
+    "talkTopics": [
+      "事業アイデア",
+      "ユーザーヒアリング",
+      "AI活用",
+      "地域ビジネス"
+    ],
+    "currentQuestion": "学生の小さな実験は、どうすれば続く事業になるのか",
+    "currentProject": "地域の困りごとを学生のサービス案に変える検証",
+    "oneOnOneMessage": "事業アイデアの壁打ちや、最初の検証設計を一緒に考えられます。",
+    "featured": false,
+    "story": "思いついたアイデアを大きく語るだけでなく、誰に聞けばよいか、何を試せばよいかまで落とし込むことに関心があります。地域の中で成立する事業の形を探っています。",
+    "questions": [
+      "学生の小さな実験は、どうすれば続く事業になるのか",
+      "誰かの困りごとを、押しつけではないサービスにするには何が必要か"
+    ],
+    "canConsult": [
+      "事業アイデアの整理",
+      "ユーザーヒアリング",
+      "検証計画",
+      "ピッチの組み立て"
+    ],
+    "recentActivities": [
+      "地域サービス案の検証",
+      "ヒアリングシート作成",
+      "学生起業の事例調査"
+    ],
+    "links": {
+      "note": "",
+      "youtube": "",
+      "podcast": "",
+      "x": "",
+      "instagram": "",
+      "contact": "https://forms.gle/xxxx"
+    }
+  },
+  {
+    "name": "山口真央",
+    "slug": "mao-yamaguchi",
+    "generation": "1期生",
+    "catch": "問いを集めて、学びの場を編集する",
+    "image": "/images/students/mao.jpg",
+    "tags": [
+      "問い",
+      "教育",
+      "デザイン",
+      "1on1歓迎"
+    ],
+    "talkTopics": [
+      "問いづくり",
+      "ワークショップ",
+      "学びの場づくり",
+      "ファシリテーション"
+    ],
+    "currentQuestion": "よい問いは、どうすれば人の行動を少し変えるのか",
+    "currentProject": "学生が持つ問いを集める対話型ワークショップ",
+    "oneOnOneMessage": "問いづくり、場づくり、ワークショップ設計について話せます。",
+    "featured": false,
+    "story": "人が自分の関心に気づき、次の行動に移る場をつくることに関心があります。問いを集め、並べ、話し合うことで、学びの入口を増やそうとしています。",
+    "questions": [
+      "よい問いは、どうすれば人の行動を少し変えるのか",
+      "初対面でも深く話せる場には、どんな仕掛けがあるのか"
+    ],
+    "canConsult": [
+      "問いづくり",
+      "ワークショップ設計",
+      "場の進行",
+      "ふりかえりの設計"
+    ],
+    "recentActivities": [
+      "問いを集めるワークショップ",
+      "対話カードの試作",
+      "学びの場の記録"
+    ],
+    "links": {
+      "note": "",
+      "youtube": "",
+      "podcast": "",
+      "x": "",
+      "instagram": "",
+      "contact": "https://forms.gle/xxxx"
+    }
+  },
+  {
+    "name": "岡田律",
+    "slug": "ritsu-okada",
+    "generation": "1期生",
+    "catch": "コードで、地域と学びの接点を増やす",
+    "image": "/images/students/ritsu.jpg",
+    "tags": [
+      "プログラミング",
+      "地域",
+      "AI",
+      "デザイン"
+    ],
+    "talkTopics": [
+      "Web制作",
+      "地図アプリ",
+      "データ可視化",
+      "学生開発"
+    ],
+    "currentQuestion": "地域の情報は、どうすれば学生が使いやすい形になるのか",
+    "currentProject": "地域の場所と人をつなぐ小さなマップアプリ",
+    "oneOnOneMessage": "Web制作、データ可視化、地域アプリについて話せます。",
+    "featured": false,
+    "story": "地域にある情報や人のつながりを、学生が使いやすい形にすることに関心があります。コードを書くことを、見えない関係性を見えるようにする手段として捉えています。",
+    "questions": [
+      "地域の情報は、どうすれば学生が使いやすい形になるのか",
+      "地図やデータは、人の行動をどう後押しできるのか"
+    ],
+    "canConsult": [
+      "Web制作",
+      "マップUI",
+      "データ可視化",
+      "学生開発の進め方"
+    ],
+    "recentActivities": [
+      "地域マップアプリの試作",
+      "データ入力の仕組みづくり",
+      "学内プロジェクトサイト制作"
+    ],
+    "links": {
+      "note": "",
+      "youtube": "",
+      "podcast": "",
+      "x": "",
+      "instagram": "",
+      "contact": "https://forms.gle/xxxx"
+    }
+  }
+]

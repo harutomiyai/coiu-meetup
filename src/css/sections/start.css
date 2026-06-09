@@ -1,0 +1,39 @@
+.start-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.start-flow article {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  border: 4px solid var(--ink);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.start-flow span {
+  justify-self: start;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  background: var(--key);
+  font-size: 0.82rem;
+  font-weight: 950;
+  line-height: 1;
+  padding: 8px 10px;
+}
+
+.start-flow h3 {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 950;
+  letter-spacing: 0;
+  line-height: 1.1;
+}
+
+.start-flow p {
+  margin: 0;
+  font-weight: 850;
+}

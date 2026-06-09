@@ -1,0 +1,41 @@
+.topic-filter {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+  max-width: 700px;
+}
+
+.topic-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.result-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 18px;
+  border-top: 4px solid var(--ink);
+  border-bottom: 4px solid var(--ink);
+  font-weight: 950;
+  padding: 12px 0;
+}
+
+.result-head p,
+.result-head span {
+  margin: 0;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  min-height: 260px;
+  border-top: 4px solid var(--ink);
+  border-bottom: 4px solid var(--ink);
+  padding: 28px 0;
+}
