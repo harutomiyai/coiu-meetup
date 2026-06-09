@@ -1,11 +1,19 @@
 @media (max-width: 1080px) {
-  .hero::after {
-    opacity: 0.18;
-    width: 52%;
+  .hero-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.78fr);
+    gap: 36px;
   }
 
   .hero h1 {
     font-size: 4.8rem;
+  }
+
+  .hero-visual {
+    min-height: 430px;
+  }
+
+  .hero-student-card {
+    width: 258px;
   }
 
   .featured-grid,
@@ -50,18 +58,9 @@
     padding: 24px 18px 32px;
   }
 
-  .hero::after {
-    display: none;
-  }
-
-  .hero-topline {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .hero-logo-block {
-    padding-top: 34px;
+  .hero-inner {
+    grid-template-columns: 1fr;
+    gap: 30px;
   }
 
   .hero h1 {
@@ -73,16 +72,28 @@
   }
 
   .hero-bottom {
-    grid-template-columns: 1fr;
     margin-top: 28px;
   }
 
-  .hero-topic-rail {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    left: auto;
-    margin-top: 24px;
+  .hero-visual {
+    width: min(100%, 520px);
+    min-height: 390px;
+    margin: 0 auto;
+  }
+
+  .hero-student-card-1 {
+    top: 0;
+    right: 16px;
+  }
+
+  .hero-student-card-2 {
+    top: 86px;
+    left: 0;
+  }
+
+  .hero-student-card-3 {
+    right: 0;
+    bottom: 0;
   }
 
   .section,
@@ -165,11 +176,7 @@
   }
 
   .hero {
-    padding: 18px 18px 20px;
-  }
-
-  .hero-logo-block {
-    padding-top: 18px;
+    padding: 26px 18px 30px;
   }
 
   .hero-subcopy {
@@ -184,19 +191,48 @@
 
   .hero-copy {
     font-size: 0.9rem;
+  }
+
+  .hero-visual {
+    min-height: 340px;
+  }
+
+  .hero-student-card {
+    width: min(238px, 76%);
+  }
+
+  .hero-student-card img {
+    height: 112px;
+  }
+
+  .hero-student-body {
+    gap: 7px;
     padding: 12px;
   }
 
-  .hero-topic-rail {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    max-width: 100%;
-    padding-bottom: 6px;
+  .hero-student-body strong {
+    font-size: 1.08rem;
   }
 
-  .hero-tag {
-    flex: 0 0 auto;
-    padding: 9px 12px;
+  .hero-student-catch {
+    font-size: 0.78rem;
+  }
+
+  .hero-student-tags span {
+    font-size: 0.66rem;
+    padding: 5px 7px;
+  }
+
+  .hero-student-card-1 {
+    right: 0;
+  }
+
+  .hero-student-card-2 {
+    top: 76px;
+  }
+
+  .hero-student-card-3 {
+    right: 18px;
   }
 
   .hero-actions,
@@ -219,7 +255,6 @@
   .section:nth-of-type(3n) .section-heading,
   .today-card,
   .hero-subcopy,
-  .hero-copy,
   .people-grid .person-card:nth-child(4n + 2),
   .people-grid .person-card:nth-child(4n + 3),
   .person-card-featured:nth-child(2),

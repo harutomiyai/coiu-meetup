@@ -1,7 +1,7 @@
 export const selectors = {
   homeView: document.querySelector("#home-view"),
   studentView: document.querySelector("#student-view"),
-  heroTopics: document.querySelector("#hero-topics"),
+  heroVisual: document.querySelector("#hero-visual"),
   featuredGrid: document.querySelector("#featured-grid"),
   todayQuestionCard: document.querySelector("#today-question-card"),
   topicList: document.querySelector("#topic-list"),

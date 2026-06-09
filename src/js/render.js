@@ -1,6 +1,7 @@
-import { students, state, fixedTopics, getAllTopics } from "./state.js";
+import { students, state, getAllTopics } from "./state.js";
 import { selectors } from "./selectors.js";
 
+const HERO_PREVIEW_LIMIT = 3;
 const FEATURED_PREVIEW_LIMIT = 3;
 const PICKUP_AUTOPLAY_DELAY = 7000;
 const PICKUP_RESUME_DELAY = 12000;
@@ -46,6 +47,23 @@ const topicButton = (topic, isActive = false, className = "topic-chip") => `
 const tagPill = (tag) => `<span class="tag-pill">#${escapeHtml(tag)}</span>`;
 
 const talkPill = (topic) => `<span class="talk-pill">${escapeHtml(topic)}</span>`;
+
+const heroStudentCard = (student, index) => `
+  <a
+    class="hero-student-card hero-student-card-${index + 1}"
+    href="#student/${escapeHtml(student.slug)}"
+    aria-label="${escapeHtml(student.name)}さんの詳細を見る"
+  >
+    <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
+    <span class="hero-student-body">
+      <strong>${escapeHtml(student.name)}</strong>
+      <span class="hero-student-catch">${escapeHtml(student.catch)}</span>
+      <span class="hero-student-tags">
+        ${student.tags.slice(0, 2).map((tag) => `<span>#${escapeHtml(tag)}</span>`).join("")}
+      </span>
+    </span>
+  </a>
+`;
 
 const cardImage = (student) => `
   <a class="card-image" href="#student/${escapeHtml(student.slug)}" aria-label="${escapeHtml(student.name)}さんの詳細を見る" tabindex="-1">
@@ -263,13 +281,6 @@ export const renderStudentDetail = (student) => {
 export const renderTopicControls = () => {
   const topics = getAllTopics();
 
-  if (selectors.heroTopics) {
-    selectors.heroTopics.innerHTML = fixedTopics
-    .slice(0, 8)
-    .map((topic) => topicButton(topic, topic === state.selectedTopic, "hero-tag"))
-    .join("");
-  }
-
   selectors.topicList.innerHTML = topics
     .slice(1)
     .map((topic) => topicButton(topic, topic === state.selectedTopic, "topic-chip"))
@@ -284,6 +295,13 @@ export const renderTopicControls = () => {
       })
       .join("");
   }
+};
+
+export const renderHeroVisual = () => {
+  const heroStudents = students.filter((student) => student.featured).slice(0, HERO_PREVIEW_LIMIT);
+  const fallbackStudents = heroStudents.length ? heroStudents : students.slice(0, HERO_PREVIEW_LIMIT);
+
+  selectors.heroVisual.innerHTML = fallbackStudents.map(heroStudentCard).join("");
 };
 
 export const renderFeatured = () => {
@@ -358,6 +376,7 @@ export const renderRecentQuestions = () => {
 };
 
 export const renderHome = () => {
+  renderHeroVisual();
   renderTopicControls();
   renderTodayQuestion();
   renderFeatured();

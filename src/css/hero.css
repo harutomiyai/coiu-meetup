@@ -2,56 +2,35 @@
   position: relative;
   overflow: hidden;
   min-height: 0;
-  padding: 26px 24px 42px;
+  padding: 50px max(24px, calc((100% - 1240px) / 2)) 58px;
   background: var(--key);
   border-bottom: 4px solid var(--ink);
 }
 
-.hero::after {
-  position: absolute;
-  right: -42px;
-  bottom: 56px;
-  width: min(510px, 37%);
-  height: 250px;
-  border: 4px solid var(--ink);
-  border-radius: 8px;
-  background:
-    linear-gradient(rgba(17, 17, 17, 0.12), rgba(17, 17, 17, 0.12)),
-    url("/images/hero/coiu-students.jpg") center / cover;
-  box-shadow: var(--shadow);
-  content: "";
-  transform: rotate(2.5deg);
-  opacity: 0.7;
-}
-
-.hero-topline {
+.hero-inner {
   position: relative;
-  z-index: 2;
-  border-top: 3px solid var(--ink);
-  border-bottom: 3px solid var(--ink);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  padding: 8px 0;
-  text-transform: lowercase;
-  opacity: 0.6;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.78fr);
+  gap: 64px;
+  align-items: center;
+  max-width: 1240px;
+  margin: 0 auto;
 }
 
-.hero-topline p {
-  margin: 0;
+.hero-copy-column {
+  min-width: 0;
 }
 
 .hero-logo-block {
   position: relative;
-  z-index: 2;
   max-width: 1040px;
-  padding: 36px 0 0;
 }
 
 .hero h1 {
   max-width: 980px;
   margin: 0;
-  font-size: 5rem;
+  font-size: 5.7rem;
   font-weight: 950;
   letter-spacing: 0;
   line-height: 0.88;
@@ -73,24 +52,19 @@
 
 .hero-bottom {
   position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: minmax(280px, 500px) auto;
-  gap: 22px;
-  align-items: end;
-  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  max-width: 520px;
   margin-top: 24px;
 }
 
 .hero-copy {
   margin: 0;
-  border: 3px solid var(--ink);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.72);
-  font-size: 0.98rem;
+  max-width: 460px;
+  font-size: 1.05rem;
   font-weight: 800;
-  padding: 14px 18px;
-  transform: rotate(0.7deg);
   line-height: 1.65;
 }
 
@@ -105,12 +79,112 @@
   align-items: stretch;
 }
 
-.hero-topic-rail {
+.hero-visual {
   position: relative;
-  z-index: 2;
+  min-height: 460px;
+}
+
+.hero-student-card {
+  position: absolute;
+  display: flex;
+  overflow: hidden;
+  width: 260px;
+  flex-direction: column;
+  border: 4px solid var(--ink);
+  border-radius: 8px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+  color: var(--ink);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.hero-student-card:hover,
+.hero-student-card:focus-visible {
+  box-shadow: 12px 12px 0 var(--ink);
+  outline: none;
+}
+
+.hero-student-card img {
+  width: 100%;
+  height: 120px;
+  border-bottom: 4px solid var(--ink);
+  background: var(--key);
+  object-fit: cover;
+}
+
+.hero-student-body {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.hero-student-body strong {
+  font-size: 1.22rem;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.hero-student-catch {
+  display: -webkit-box;
+  overflow: hidden;
+  min-height: 2.8em;
+  font-size: 0.84rem;
+  font-weight: 850;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.hero-student-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  max-width: 980px;
-  margin-top: 20px;
+  gap: 6px;
+}
+
+.hero-student-tags span {
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--soft-yellow);
+  font-size: 0.72rem;
+  font-weight: 950;
+  line-height: 1;
+  padding: 6px 8px;
+}
+
+.hero-student-card-1 {
+  top: 0;
+  right: 24px;
+  z-index: 3;
+  transform: rotate(2.2deg);
+}
+
+.hero-student-card-1:hover,
+.hero-student-card-1:focus-visible {
+  transform: translate(-4px, -4px) rotate(2.2deg);
+}
+
+.hero-student-card-2 {
+  top: 118px;
+  left: 0;
+  z-index: 1;
+  transform: rotate(-4deg);
+}
+
+.hero-student-card-2:hover,
+.hero-student-card-2:focus-visible {
+  transform: translate(-4px, -4px) rotate(-4deg);
+}
+
+.hero-student-card-3 {
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  transform: rotate(4deg);
+}
+
+.hero-student-card-3:hover,
+.hero-student-card-3:focus-visible {
+  transform: translate(-4px, -4px) rotate(4deg);
 }
