@@ -49,6 +49,16 @@ const getUsernameFromNoteUrl = (url) => {
   }
 };
 
+const getNoteProxyPath = (url) => {
+  try {
+    const parsedUrl = new URL(url);
+    if (parsedUrl.hostname !== "note.com") return "";
+    return parsedUrl.pathname.endsWith("/rss") ? parsedUrl.pathname : "";
+  } catch {
+    return "";
+  }
+};
+
 export const getNoteUsername = (student) =>
   toText(student.noteUsername) ||
   getUsernameFromNoteUrl(student.noteRssUrl) ||
@@ -74,18 +84,31 @@ export const hasNoteFeedSource = (student) => Boolean(getNoteRssUrl(student));
 
 const buildRequest = (student) => {
   const rssUrl = getNoteRssUrl(student);
+  const explicitUrl = toText(student.noteRssUrl);
   const username = getNoteUsername(student);
 
   if (!rssUrl) return null;
 
   if (NOTE_RSS_PROXY_BASE) {
     const proxyUrl = new URL(NOTE_RSS_PROXY_BASE, window.location.origin);
-    if (username) {
+    if (explicitUrl) {
+      proxyUrl.searchParams.set("url", rssUrl);
+    } else if (username) {
       proxyUrl.searchParams.set("username", username);
     } else {
       proxyUrl.searchParams.set("url", rssUrl);
     }
     return { url: proxyUrl.toString(), expectsJson: true };
+  }
+
+  if (import.meta.env.DEV) {
+    const noteProxyPath = getNoteProxyPath(rssUrl);
+    if (noteProxyPath) {
+      return {
+        url: `${NOTE_RSS_DEV_PROXY_PREFIX}${noteProxyPath}`,
+        expectsJson: false,
+      };
+    }
   }
 
   if (import.meta.env.DEV && username) {

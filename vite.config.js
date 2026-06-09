@@ -7,7 +7,7 @@ export default defineConfig({
       "/note-rss": {
         target: "https://note.com",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/note-rss\/([^/]+)\/rss$/, "/$1/rss"),
+        rewrite: (path) => path.replace(/^\/note-rss/, ""),
       },
     },
   },

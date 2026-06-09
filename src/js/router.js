@@ -77,11 +77,6 @@ export const closeThemeModal = ({ remember = true } = {}) => {
   }
 };
 
-const maybeShowInitialThemeModal = () => {
-  if (hasSeenThemeModal() || window.location.hash.startsWith("#student/")) return;
-  openThemeModal();
-};
-
 export const clearDiscovery = (targetHash = "#students") => {
   state.selectedTopics = [];
   state.searchQuery = "";
@@ -189,5 +184,4 @@ export const bindEvents = () => {
   });
 
   window.addEventListener("hashchange", handleRoute);
-  window.requestAnimationFrame(maybeShowInitialThemeModal);
 };

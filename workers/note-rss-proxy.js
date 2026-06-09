@@ -6,7 +6,7 @@
  *
  * Request examples:
  *   /?username=haruto_miyai
- *   /?url=https://note.com/haruto_miyai/rss
+ *   /?url=https://note.com/haruto_miyai/m/ma9c2b38ca7c1/rss
  *
  * Deploy:
  *   1. Install Wrangler:  npm i -g wrangler

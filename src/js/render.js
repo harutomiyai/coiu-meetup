@@ -202,6 +202,7 @@ const heroStudentCard = (student, index) => `
     <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
     <span class="hero-student-body">
       <strong>${escapeHtml(student.name)}</strong>
+      <span class="hero-student-meta">${escapeHtml(student.generation)} / ${escapeHtml(student.currentQuestion)}</span>
       <span class="hero-student-catch">${escapeHtml(student.catch)}</span>
       <span class="hero-student-tags">
         ${student.tags.slice(0, 2).map((tag) => `<span class="${getTagThemeClass(tag)}">#${escapeHtml(tag)}</span>`).join("")}
@@ -224,10 +225,12 @@ const personCard = (student, variant = "grid") => {
       ${cardImage(student)}
       <div class="person-card-body">
         <h3>${escapeHtml(student.name)}</h3>
+        <p class="person-meta">${escapeHtml(student.generation)}</p>
         <p class="person-catch">${escapeHtml(student.catch)}</p>
         <div class="tag-row">
           ${student.tags.slice(0, 3).map(tagPill).join("")}
         </div>
+        <p class="card-question"><span>QUESTION</span><strong>${escapeHtml(student.currentQuestion)}</strong></p>
         <p class="activity-line">${escapeHtml(student.currentProject)}</p>
         ${isPickup ? `
           <div class="card-hint-box">
