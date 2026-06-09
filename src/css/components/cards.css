@@ -50,13 +50,17 @@
 }
 
 .pickup-slide .person-card-pickup .card-image {
+  overflow: hidden;
   border-right: 4px solid var(--ink);
   border-bottom: 0;
 }
 
 .pickup-slide .person-card-pickup .card-image img {
+  width: 100%;
   height: 100%;
   min-height: 430px;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .pickup-slide .person-card-pickup .person-card-body {
@@ -284,14 +288,6 @@
   box-shadow: 9px 9px 0 var(--ink);
 }
 
-.people-grid .person-card:nth-child(4n + 2) {
-  transform: translateY(10px) rotate(0.3deg);
-}
-
-.people-grid .person-card:nth-child(4n + 3) {
-  transform: translateY(-4px) rotate(-0.3deg);
-}
-
 .people-grid .person-card:nth-child(4n + 2):hover,
 .people-grid .person-card:nth-child(4n + 2):focus-within,
 .people-grid .person-card:nth-child(4n + 3):hover,
@@ -322,6 +318,7 @@
   width: 100%;
   height: 220px;
   object-fit: cover;
+  object-position: top center;
   transition: transform 300ms ease;
 }
 
@@ -530,6 +527,7 @@
   height: 100%;
   min-height: 430px;
   object-fit: cover;
+  object-position: top center;
   transition: transform 300ms ease;
 }
 

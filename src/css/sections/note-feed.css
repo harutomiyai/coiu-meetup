@@ -1,0 +1,111 @@
+.section-note-feed {
+  background: var(--cream);
+}
+
+.note-feed-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.note-article-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 4px solid var(--ink);
+  border-radius: var(--radius-card);
+  background: var(--white);
+  box-shadow: var(--shadow);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.note-article-card:hover,
+.note-article-card:focus-visible {
+  box-shadow: 12px 12px 0 var(--ink);
+  outline: none;
+  transform: translate(-4px, -4px);
+}
+
+.note-card-image {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 4px solid var(--ink);
+  background: var(--key);
+  flex-shrink: 0;
+}
+
+.note-card-image img {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 300ms ease;
+}
+
+.note-article-card:hover .note-card-image img {
+  transform: scale(1.06);
+}
+
+.note-card-image-fallback {
+  width: 100%;
+  height: 190px;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--key) 0px,
+    var(--key) 8px,
+    var(--paper) 8px,
+    var(--paper) 16px
+  );
+}
+
+.note-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 950;
+  line-height: 1;
+  padding: 5px 10px;
+}
+
+.note-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+}
+
+.note-card-date {
+  margin: 0;
+  font-size: 0.76rem;
+  font-weight: 950;
+  color: var(--blue);
+}
+
+.note-card-body h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 950;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+.note-card-excerpt {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 850;
+  line-height: 1.6;
+  color: rgba(17, 17, 17, 0.72);
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}

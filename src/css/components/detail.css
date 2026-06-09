@@ -33,6 +33,7 @@
   height: 100%;
   min-height: 620px;
   object-fit: cover;
+  object-position: top center;
 }
 
 .detail-main {

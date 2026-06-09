@@ -110,6 +110,7 @@
   border-bottom: 4px solid var(--ink);
   background: var(--key);
   object-fit: cover;
+  object-position: top center;
 }
 
 .hero-student-body {

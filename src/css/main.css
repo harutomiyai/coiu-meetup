@@ -5,6 +5,8 @@
 @import "./components/chips.css";
 @import "./components/cards.css";
 @import "./components/detail.css";
+@import "./components/article.css";
 @import "./sections/topics.css";
 @import "./sections/start.css";
+@import "./sections/note-feed.css";
 @import "./responsive.css";

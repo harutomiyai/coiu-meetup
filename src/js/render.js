@@ -1,6 +1,8 @@
 import { students, state, getAllTopics, interestTopics } from "./state.js";
 import { selectors } from "./selectors.js";
 
+const NOTE_WORKER_ENDPOINT = ""; // TODO: Replace with your deployed Cloudflare Worker URL
+
 const HERO_PREVIEW_LIMIT = 3;
 const RECOMMENDATION_LIMIT = 3;
 const PICKUP_AUTOPLAY_DELAY = 7000;
@@ -327,6 +329,70 @@ const detailLinks = (student) =>
     )
     .join("");
 
+const renderArticleBlock = (block) => {
+  switch (block.type) {
+    case "lead":
+      return `<p class="article-lead">${escapeHtml(block.text)}</p>`;
+    case "heading":
+      return `<h3 class="article-heading">${escapeHtml(block.text)}</h3>`;
+    case "paragraph":
+      return `<p class="article-paragraph">${escapeHtml(block.text)}</p>`;
+    case "quote":
+      return `<blockquote class="article-quote">${escapeHtml(block.text)}</blockquote>`;
+    case "qa":
+      return `
+        <div class="article-qa">
+          <p class="article-qa-question">Q. ${escapeHtml(block.question)}</p>
+          <p class="article-qa-answer">${escapeHtml(block.answer)}</p>
+        </div>
+      `;
+    case "image":
+      return `
+        <figure class="article-figure">
+          <img src="${escapeHtml(block.src)}" alt="${escapeHtml(block.caption || "")}" loading="lazy" />
+          ${block.caption ? `<figcaption class="article-caption">${escapeHtml(block.caption)}</figcaption>` : ""}
+        </figure>
+      `;
+    default:
+      return "";
+  }
+};
+
+const renderArticleSection = (student) => {
+  const article = student.article;
+  if (!Array.isArray(article) || !article.length) return "";
+
+  return `
+    <section class="article-section" aria-label="インタビュー記事">
+      <header class="article-header">
+        <p class="eyebrow">INTERVIEW</p>
+        <h2>インタビュー記事</h2>
+      </header>
+      <div class="article-body">
+        ${article.map(renderArticleBlock).join("")}
+      </div>
+    </section>
+  `;
+};
+
+const noteArticleCard = (article) => `
+  <a class="note-article-card" href="${escapeHtml(article.link)}" target="_blank" rel="noreferrer">
+    <div class="note-card-image">
+      ${
+        article.thumbnail
+          ? `<img src="${escapeHtml(article.thumbnail)}" alt="${escapeHtml(article.title)}" loading="lazy" />`
+          : `<div class="note-card-image-fallback" aria-hidden="true"></div>`
+      }
+      <span class="note-badge">note</span>
+    </div>
+    <div class="note-card-body">
+      <p class="note-card-date">${escapeHtml(article.pubDate)}</p>
+      <h3>${escapeHtml(article.title)}</h3>
+      ${article.excerpt ? `<p class="note-card-excerpt">${escapeHtml(article.excerpt)}…</p>` : ""}
+    </div>
+  </a>
+`;
+
 export const renderStudentDetail = (student) => {
   const contactLink = getContactLink(student);
   const projectLead = student.projectDetail || student.currentProject;
@@ -364,6 +430,8 @@ export const renderStudentDetail = (student) => {
           </div>
         </div>
       </div>
+
+      ${renderArticleSection(student)}
 
       <div class="detail-grid">
         <article class="detail-card detail-profile">
@@ -563,10 +631,28 @@ export const renderDiscoveryResults = () => {
   renderPeopleGrid();
 };
 
+export const renderNoteArticles = async () => {
+  if (!selectors.noteFeedSection || !selectors.noteFeedGrid) return;
+  if (!NOTE_WORKER_ENDPOINT) return;
+
+  try {
+    const res = await fetch(NOTE_WORKER_ENDPOINT);
+    if (!res.ok) throw new Error("fetch failed");
+    const articles = await res.json();
+    if (!Array.isArray(articles) || !articles.length) throw new Error("empty");
+
+    selectors.noteFeedGrid.innerHTML = articles.map(noteArticleCard).join("");
+    selectors.noteFeedSection.removeAttribute("hidden");
+  } catch {
+    // leave section hidden on any failure
+  }
+};
+
 export const renderHome = () => {
   renderHeroVisual();
   renderTodayQuestion();
   renderDiscoveryResults();
+  renderNoteArticles();
 };
 
 export const renderLoadError = (error) => {

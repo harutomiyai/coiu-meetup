@@ -15,4 +15,6 @@ export const selectors = {
   siteSearch: document.querySelector("#site-search"),
   recentQuestions: document.querySelector("#recent-questions"),
   tagCloud: document.querySelector("#tag-cloud"),
+  noteFeedSection: document.querySelector("#note-feed"),
+  noteFeedGrid: document.querySelector("#note-feed-grid"),
 };
