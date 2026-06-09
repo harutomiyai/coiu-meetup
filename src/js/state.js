@@ -5,7 +5,8 @@ export const setStudents = (data) => {
 };
 
 export const state = {
-  selectedTopic: "すべて",
+  selectedTopics: [],
+  searchQuery: "",
 };
 
 export const fixedTopics = [
@@ -20,6 +21,17 @@ export const fixedTopics = [
   "Podcast",
   "Web制作",
   "N高",
+];
+
+export const interestTopics = [
+  "教育",
+  "AI",
+  "地域",
+  "デザイン",
+  "起業",
+  "プログラミング",
+  "交流歓迎",
+  "Web制作",
 ];
 
 export const featureCards = [

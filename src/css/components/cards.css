@@ -126,9 +126,71 @@
 }
 
 .people-grid {
+  min-width: 0;
+}
+
+.people-grid.is-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 22px;
+}
+
+.people-grid.is-marquee {
+  overflow: hidden;
+  width: 100%;
+  padding: 8px 0 16px;
+}
+
+.people-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 18px;
+  animation: people-marquee 42s linear infinite;
+  will-change: transform;
+}
+
+.people-grid.is-marquee:hover .people-marquee-track,
+.people-grid.is-marquee:focus-within .people-marquee-track {
+  animation-play-state: paused;
+}
+
+.people-marquee-set {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 18px;
+}
+
+.people-grid.is-marquee .person-card {
+  width: 260px;
+  flex: 0 0 260px;
+}
+
+.people-grid.is-marquee .card-image img {
+  height: 135px;
+}
+
+.people-grid.is-marquee .person-card-body {
+  gap: 8px;
+  padding: 14px;
+}
+
+.people-grid.is-marquee .person-card h3 {
+  font-size: 1.22rem;
+}
+
+.people-grid.is-marquee .person-catch,
+.people-grid.is-marquee .activity-line {
+  font-size: 0.8rem;
+}
+
+@keyframes people-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 9px));
+  }
 }
 
 .person-card,
@@ -580,4 +642,24 @@
 .empty-state p {
   margin: 0;
   font-weight: 850;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .people-grid.is-marquee {
+    overflow: visible;
+  }
+
+  .people-marquee-track {
+    width: auto;
+    flex-wrap: wrap;
+    animation: none;
+  }
+
+  .people-marquee-set {
+    flex-wrap: wrap;
+  }
+
+  .people-marquee-set[aria-hidden="true"] {
+    display: none;
+  }
 }

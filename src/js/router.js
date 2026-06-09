@@ -1,6 +1,6 @@
 import { students, state } from "./state.js";
 import { selectors } from "./selectors.js";
-import { renderStudentDetail, renderTopicControls, renderPeopleGrid } from "./render.js";
+import { renderDiscoveryResults, renderStudentDetail } from "./render.js";
 
 export const showHome = () => {
   selectors.homeView.hidden = false;
@@ -32,13 +32,46 @@ export const handleRoute = () => {
   showHome();
 };
 
-export const selectTopic = (topic) => {
-  state.selectedTopic = topic || "すべて";
-  renderTopicControls();
-  renderPeopleGrid();
+const syncSearchInput = () => {
+  if (selectors.siteSearch && selectors.siteSearch.value !== state.searchQuery) {
+    selectors.siteSearch.value = state.searchQuery;
+  }
+};
 
-  if (window.location.hash !== "#topics") {
-    window.location.hash = "#topics";
+export const clearDiscovery = (targetHash = "#students") => {
+  state.selectedTopics = [];
+  state.searchQuery = "";
+  syncSearchInput();
+  renderDiscoveryResults();
+
+  if (window.location.hash !== targetHash) {
+    window.location.hash = targetHash;
+  }
+};
+
+export const toggleTopic = (topic, targetHash = "#students") => {
+  if (!topic || topic === "すべて") {
+    clearDiscovery(targetHash);
+    return;
+  }
+
+  state.selectedTopics = state.selectedTopics.includes(topic)
+    ? state.selectedTopics.filter((selectedTopic) => selectedTopic !== topic)
+    : [...state.selectedTopics, topic];
+
+  renderDiscoveryResults();
+
+  if (window.location.hash !== targetHash) {
+    window.location.hash = targetHash;
+  }
+};
+
+export const updateSearchQuery = (query) => {
+  state.searchQuery = query;
+  renderDiscoveryResults();
+
+  if (window.location.hash.startsWith("#student/")) {
+    showHome();
   }
 };
 
@@ -46,16 +79,28 @@ export const bindEvents = () => {
   document.addEventListener("click", (event) => {
     const topicTarget = event.target.closest("[data-topic]");
     if (!topicTarget) return;
-    selectTopic(topicTarget.dataset.topic);
+    const targetHash = topicTarget.closest("#topic-list") ? "#topics" : "#students";
+    toggleTopic(topicTarget.dataset.topic, targetHash);
   });
 
   document.addEventListener("keydown", (event) => {
     const topicTarget = event.target.closest(".story-card[data-topic]");
     if (!topicTarget || !["Enter", " "].includes(event.key)) return;
     event.preventDefault();
-    selectTopic(topicTarget.dataset.topic);
+    toggleTopic(topicTarget.dataset.topic);
   });
 
-  selectors.clearTopic?.addEventListener("click", () => selectTopic("すべて"));
+  selectors.siteSearch?.addEventListener("input", (event) => {
+    updateSearchQuery(event.currentTarget.value);
+  });
+
+  selectors.siteSearch?.form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (window.location.hash !== "#students") {
+      window.location.hash = "#students";
+    }
+  });
+
+  selectors.clearTopic?.addEventListener("click", () => clearDiscovery("#topics"));
   window.addEventListener("hashchange", handleRoute);
 };

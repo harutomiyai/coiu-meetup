@@ -17,11 +17,15 @@
         <span class="brand-text">CoIU Students</span>
       </a>
       <nav class="site-nav" aria-label="メインナビゲーション">
-        <a href="#students">学生を見る</a>
-        <a href="#topics">テーマで探す</a>
-        <a href="#about">このサイトについて</a>
         <a class="nav-clip" href="#students">学生を探す</a>
+        <a href="#topics">テーマから探す</a>
+        <a href="#pickup">ピックアップ</a>
+        <a href="/about.html">About</a>
       </nav>
+      <form class="site-search" role="search" aria-label="学生検索">
+        <label class="sr-only" for="site-search">学生名・テーマで検索</label>
+        <input id="site-search" type="search" placeholder="学生名・テーマで検索" autocomplete="off" />
+      </form>
     </header>
 
     <main>
@@ -43,10 +47,29 @@
                   <a class="button button-light" href="#topics">テーマで探す</a>
                 </div>
               </div>
+
+              <div class="hero-interest-panel" aria-labelledby="hero-interest-title">
+                <div>
+                  <h2 id="hero-interest-title">まずは、気になるテーマを選んでください</h2>
+                  <p>興味に近いCoIU生を表示します</p>
+                </div>
+                <div class="hero-interest-tags" id="hero-interest-tags" aria-label="興味テーマ"></div>
+              </div>
             </div>
 
             <div class="hero-visual" id="hero-visual" aria-label="CoIU生の紹介カード"></div>
           </div>
+        </section>
+
+        <section class="section section-featured" id="students" aria-labelledby="recommendation-title">
+          <div class="section-heading split">
+            <div>
+              <p class="eyebrow">RECOMMENDED</p>
+              <h2 id="recommendation-title">おすすめ学生</h2>
+            </div>
+            <p class="section-note" id="recommendation-note">気になるテーマを選ぶと、近い学生を上から表示します。</p>
+          </div>
+          <div class="featured-grid recommendation-grid" id="recommendation-grid"></div>
         </section>
 
         <section class="section section-pickup" id="pickup" aria-labelledby="pickup-title">
@@ -58,17 +81,6 @@
             </div>
           </div>
           <div id="today-question-card"></div>
-        </section>
-
-        <section class="section section-featured" id="students" aria-labelledby="featured-title">
-          <div class="section-heading split">
-            <div>
-              <p class="eyebrow">FEATURED PEOPLE</p>
-              <h2 id="featured-title">気になる学生</h2>
-            </div>
-            <a class="text-arrow" href="#topics">テーマで探す</a>
-          </div>
-          <div class="featured-grid" id="featured-grid"></div>
         </section>
 
         <section class="section section-topics" id="topics" aria-labelledby="topics-title">
@@ -85,38 +97,6 @@
           <p class="section-note wide">写真、名前、関心テーマ、最近の活動から、CoIU生を気軽に見てみてください。</p>
           <div class="result-head" id="topic-result-head"></div>
           <div class="people-grid" id="people-grid"></div>
-        </section>
-
-        <section class="section section-about" id="about" aria-labelledby="about-title">
-          <div class="section-heading split">
-            <div>
-              <p class="eyebrow">ABOUT</p>
-              <h2 id="about-title">このサイトについて</h2>
-            </div>
-            <p class="section-note">イベントで出会った学生をあとから探したり、CoIUにどんな学生がいるのかを知るための紹介サイトです。</p>
-          </div>
-          <div class="start-flow about-flow" aria-label="このサイトで見られること">
-            <article>
-              <span>01</span>
-              <h3>学生を知る</h3>
-              <p>写真、名前、キャッチコピーから、その人の雰囲気をつかめます。</p>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>活動を見る</h3>
-              <p>最近取り組んでいることや関心テーマを見られます。</p>
-            </article>
-            <article>
-              <span>03</span>
-              <h3>テーマで探す</h3>
-              <p>教育、AI、地域、デザインなど、気になる入口から探せます。</p>
-            </article>
-            <article>
-              <span>04</span>
-              <h3>もっと知る</h3>
-              <p>詳細ページで、その人の問いや話せることを読めます。</p>
-            </article>
-          </div>
         </section>
       </section>
 

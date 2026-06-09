@@ -1,8 +1,8 @@
-import { students, state, getAllTopics } from "./state.js";
+import { students, state, getAllTopics, interestTopics } from "./state.js";
 import { selectors } from "./selectors.js";
 
 const HERO_PREVIEW_LIMIT = 3;
-const FEATURED_PREVIEW_LIMIT = 3;
+const RECOMMENDATION_LIMIT = 3;
 const PICKUP_AUTOPLAY_DELAY = 7000;
 const PICKUP_RESUME_DELAY = 12000;
 
@@ -47,6 +47,66 @@ const topicButton = (topic, isActive = false, className = "topic-chip") => `
 const tagPill = (tag) => `<span class="tag-pill">#${escapeHtml(tag)}</span>`;
 
 const talkPill = (topic) => `<span class="talk-pill">${escapeHtml(topic)}</span>`;
+
+const normalizeText = (value) => String(value || "").trim().toLowerCase();
+
+const getSearchText = (student) =>
+  [
+    student.name,
+    student.catch,
+    student.currentProject,
+    student.oneOnOneMessage,
+    student.currentQuestion,
+    ...(student.tags || []),
+  ]
+    .map(normalizeText)
+    .join(" ");
+
+export const hasActiveDiscoveryFilters = () =>
+  state.selectedTopics.length > 0 || normalizeText(state.searchQuery).length > 0;
+
+const getStudentTopicScore = (student) =>
+  state.selectedTopics.filter((topic) => student.tags.includes(topic)).length;
+
+const getRankedStudents = () => {
+  const query = normalizeText(state.searchQuery);
+
+  return students
+    .map((student, index) => {
+      const topicScore = getStudentTopicScore(student);
+      const searchMatch = !query || getSearchText(student).includes(query);
+      return { student, index, topicScore, searchMatch };
+    })
+    .filter(({ topicScore, searchMatch }) => {
+      const matchesTopics = state.selectedTopics.length === 0 || topicScore > 0;
+      return matchesTopics && searchMatch;
+    })
+    .sort((a, b) => b.topicScore - a.topicScore || Number(b.student.featured) - Number(a.student.featured) || a.index - b.index)
+    .map(({ student }) => student);
+};
+
+const getDiscoveryLabel = () => {
+  const topicLabel = state.selectedTopics.map((topic) => `#${topic}`).join(" ");
+  const query = state.searchQuery.trim();
+
+  if (topicLabel && query) return `${topicLabel} / 「${query}」に近い学生`;
+  if (topicLabel) return `${topicLabel} に近い学生`;
+  if (query) return `「${query}」で検索`;
+  return "すべての学生";
+};
+
+const getRecommendationNote = () => {
+  const topicLabel = state.selectedTopics.map((topic) => `#${topic}`).join(" ");
+  const query = state.searchQuery.trim();
+
+  if (topicLabel && query) return `${topicLabel} と「${query}」に近い学生を上から表示しています。`;
+  if (topicLabel) return `${topicLabel} に近い学生を上から表示しています。`;
+  if (query) return `「${query}」に合う学生を上から表示しています。`;
+  return "気になるテーマを選ぶと、近い学生を上から表示します。";
+};
+
+const getEmptyTitle = () =>
+  state.selectedTopics.length ? "このテーマの学生は準備中です" : "条件に合う学生は準備中です";
 
 const heroStudentCard = (student, index) => `
   <a
@@ -180,10 +240,7 @@ const initPickupSlider = () => {
   startPickupAutoplay(root);
 };
 
-const getFilteredStudents = () => {
-  if (state.selectedTopic === "すべて") return students;
-  return students.filter((student) => student.tags.includes(state.selectedTopic));
-};
+const getFilteredStudents = () => (hasActiveDiscoveryFilters() ? getRankedStudents() : students);
 
 const detailList = (items) => items.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
 
@@ -280,18 +337,27 @@ export const renderStudentDetail = (student) => {
 
 export const renderTopicControls = () => {
   const topics = getAllTopics();
+  const isSelected = (topic) => state.selectedTopics.includes(topic);
+
+  selectors.heroInterestTags.innerHTML = interestTopics
+    .map((topic) => topicButton(topic, isSelected(topic), "hero-tag interest-tag"))
+    .join("");
 
   selectors.topicList.innerHTML = topics
     .slice(1)
-    .map((topic) => topicButton(topic, topic === state.selectedTopic, "topic-chip"))
+    .map((topic) => topicButton(topic, isSelected(topic), "topic-chip"))
     .join("");
+
+  if (selectors.clearTopic) {
+    selectors.clearTopic.hidden = !hasActiveDiscoveryFilters();
+  }
 
   if (selectors.tagCloud) {
     selectors.tagCloud.innerHTML = topics
       .slice(1)
       .map((topic, index) => {
         const sizes = ["tag-large", "tag-medium", "tag-small"];
-        return topicButton(topic, topic === state.selectedTopic, `cloud-tag ${sizes[index % sizes.length]}`);
+        return topicButton(topic, isSelected(topic), `cloud-tag ${sizes[index % sizes.length]}`);
       })
       .join("");
   }
@@ -304,13 +370,23 @@ export const renderHeroVisual = () => {
   selectors.heroVisual.innerHTML = fallbackStudents.map(heroStudentCard).join("");
 };
 
-export const renderFeatured = () => {
-  const previewStudents = students.filter((student) => !student.featured).slice(0, FEATURED_PREVIEW_LIMIT);
-  const fallbackStudents = previewStudents.length ? previewStudents : students.slice(0, FEATURED_PREVIEW_LIMIT);
+export const renderRecommendations = () => {
+  const activeFilters = hasActiveDiscoveryFilters();
+  const filteredStudents = getFilteredStudents();
+  const defaultStudents = students.filter((student) => !student.featured).slice(0, RECOMMENDATION_LIMIT);
+  const fallbackStudents = defaultStudents.length ? defaultStudents : students.slice(0, RECOMMENDATION_LIMIT);
+  const recommendedStudents = activeFilters ? filteredStudents.slice(0, RECOMMENDATION_LIMIT) : fallbackStudents;
 
-  selectors.featuredGrid.innerHTML = fallbackStudents
-    .map((student) => personCard(student, "featured"))
-    .join("");
+  selectors.recommendationNote.textContent = getRecommendationNote();
+
+  selectors.recommendationGrid.innerHTML = recommendedStudents.length
+    ? recommendedStudents.map((student) => personCard(student, "featured")).join("")
+    : `
+      <div class="empty-state recommendation-empty">
+        <h3>${escapeHtml(getEmptyTitle())}</h3>
+        <p>別のテーマやキーワードでも探してみてください。</p>
+      </div>
+    `;
 };
 
 export const renderTodayQuestion = () => {
@@ -349,22 +425,38 @@ export const renderTodayQuestion = () => {
 
 export const renderPeopleGrid = () => {
   const filtered = getFilteredStudents();
-  const label =
-    state.selectedTopic === "すべて"
-      ? "すべての学生"
-      : `#${state.selectedTopic} に関心のある学生`;
+  const activeFilters = hasActiveDiscoveryFilters();
+  const label = getDiscoveryLabel();
 
   selectors.topicResultHead.innerHTML = `
     <p>${escapeHtml(label)}</p>
     <span>${filtered.length} people</span>
   `;
 
-  selectors.peopleGrid.innerHTML = filtered.length
-    ? filtered.map((student) => personCard(student)).join("")
-    : `
+  selectors.peopleGrid.className = activeFilters ? "people-grid is-grid" : "people-grid is-marquee";
+
+  if (!filtered.length) {
+    selectors.peopleGrid.innerHTML = `
       <div class="empty-state">
-        <h3>このタグの学生は準備中です</h3>
-        <p>掲載したい学生データを追加すると、ここに自動で表示されます。</p>
+        <h3>${escapeHtml(getEmptyTitle())}</h3>
+        <p>別のテーマやキーワードでも探してみてください。</p>
+      </div>
+    `;
+    return;
+  }
+
+  const cards = filtered.map((student) => personCard(student)).join("");
+
+  selectors.peopleGrid.innerHTML = activeFilters
+    ? cards
+    : `
+      <div class="people-marquee-track">
+        <div class="people-marquee-set">
+          ${cards}
+        </div>
+        <div class="people-marquee-set" aria-hidden="true" inert>
+          ${cards}
+        </div>
       </div>
     `;
 };
@@ -375,12 +467,16 @@ export const renderRecentQuestions = () => {
   }
 };
 
+export const renderDiscoveryResults = () => {
+  renderTopicControls();
+  renderRecommendations();
+  renderPeopleGrid();
+};
+
 export const renderHome = () => {
   renderHeroVisual();
-  renderTopicControls();
   renderTodayQuestion();
-  renderFeatured();
-  renderPeopleGrid();
+  renderDiscoveryResults();
 };
 
 export const renderLoadError = (error) => {
