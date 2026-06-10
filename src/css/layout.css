@@ -211,13 +211,18 @@
 }
 
 .keyword-runner {
-  display: flex;
-  gap: 28px;
   overflow: hidden;
   border-block: 1px solid var(--line);
   background: #fff;
   color: var(--ink);
   white-space: nowrap;
+}
+
+.keyword-runner-track {
+  display: flex;
+  width: max-content;
+  gap: 28px;
+  animation: keyword-scroll 34s linear infinite;
 }
 
 .keyword-runner span {
@@ -226,6 +231,16 @@
   align-items: center;
   font-size: 0.72rem;
   font-weight: 900;
+}
+
+@keyframes keyword-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .base-banner {
@@ -276,6 +291,16 @@
   scroll-margin-top: 88px;
 }
 
+.all-students-section {
+  padding-top: 42px;
+}
+
+.all-students-section h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1;
+}
+
 .archive-toolbar {
   align-items: center;
   margin: 28px 0 22px;
@@ -302,6 +327,28 @@
 .result-head strong {
   font-size: 1rem;
   line-height: 1.2;
+}
+
+.archive-more {
+  display: flex;
+  width: fit-content;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  margin: 24px auto 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--yellow);
+  font-size: 0.78rem;
+  font-weight: 900;
+  line-height: 1;
+  padding: 8px 16px;
+}
+
+.archive-more:hover,
+.archive-more:focus-visible {
+  background: var(--ink);
+  color: #fff;
 }
 
 .collage-board {

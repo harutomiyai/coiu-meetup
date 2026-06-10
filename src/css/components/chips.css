@@ -1,6 +1,7 @@
 .tag-row,
 .topic-list,
-.theme-modal-tags {
+.search-modal-tags,
+.search-modal-questions {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
@@ -8,7 +9,8 @@
 
 .tag-pill,
 .topic-chip,
-.theme-modal-tag {
+.search-modal-tag,
+.question-chip {
   display: inline-flex;
   align-items: center;
   width: fit-content;
@@ -24,7 +26,8 @@
 }
 
 .topic-chip,
-.theme-modal-tag {
+.search-modal-tag,
+.question-chip {
   background: #fff;
   color: var(--ink);
 }
@@ -32,11 +35,21 @@
 .topic-chip:hover,
 .topic-chip:focus-visible,
 .topic-chip.is-active,
-.theme-modal-tag:hover,
-.theme-modal-tag:focus-visible,
-.theme-modal-tag.is-active {
+.search-modal-tag:hover,
+.search-modal-tag:focus-visible,
+.search-modal-tag.is-active,
+.question-chip:hover,
+.question-chip:focus-visible {
   background: var(--ink);
   color: #fff;
+}
+
+.question-chip {
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  line-height: 1.5;
+  text-align: left;
+  white-space: normal;
 }
 
 .topic-filter {
@@ -53,7 +66,7 @@
   line-height: 1.2;
 }
 
-.theme-modal {
+.search-modal {
   position: fixed;
   inset: 0;
   z-index: 80;
@@ -62,19 +75,21 @@
   padding: 22px;
 }
 
-.theme-modal-backdrop {
+.search-modal-backdrop {
   position: absolute;
   inset: 0;
   background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(8px);
 }
 
-.theme-modal-panel {
+.search-modal-panel {
   position: relative;
   z-index: 1;
   display: grid;
   gap: 16px;
-  width: min(520px, 100%);
+  width: min(720px, 100%);
+  max-height: min(760px, calc(100vh - 44px));
+  overflow: auto;
   border: 2px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--yellow);
@@ -82,12 +97,18 @@
   box-shadow: 0 18px 0 rgba(0, 0, 0, 0.08);
 }
 
-.theme-modal-panel h2,
-.theme-modal-panel p {
+.search-modal-panel h2,
+.search-modal-panel h3,
+.search-modal-panel p {
   margin: 0;
 }
 
-.theme-modal-close {
+.search-modal-panel h2 {
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  line-height: 1.05;
+}
+
+.search-modal-close {
   position: absolute;
   top: 12px;
   right: 12px;
@@ -101,4 +122,28 @@
   color: var(--ink);
   font-size: 1.1rem;
   line-height: 1;
+}
+
+.modal-search-input {
+  width: 100%;
+  min-height: 54px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 900;
+  padding: 12px 18px;
+}
+
+.search-modal-group {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.search-modal-group h3 {
+  font-size: 0.9rem;
+  line-height: 1.2;
 }

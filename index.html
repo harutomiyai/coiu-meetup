@@ -27,12 +27,13 @@
       <nav class="site-nav" aria-label="メインナビゲーション">
         <a href="#feature">FEATURE</a>
         <a href="#contents">CONTENTS</a>
-        <button type="button" data-theme-modal-open>THEMES</button>
+        <button type="button" data-search-modal-open>SEARCH</button>
+        <a href="/coiu.html">CoIUとは</a>
         <a href="/about.html">ABOUT</a>
       </nav>
       <form class="site-search" role="search" aria-label="学生検索">
         <label class="sr-only" for="site-search">学生名・問い・テーマで検索</label>
-        <input id="site-search" type="search" placeholder="SEARCH" autocomplete="off" />
+        <input id="site-search" type="search" placeholder="SEARCH" autocomplete="off" readonly data-search-modal-open />
       </form>
     </header>
 
@@ -50,47 +51,31 @@
             </p>
           </div>
 
-          <aside class="top-side" aria-label="最新情報">
-            <a class="poster-card" href="#feature">
+          <aside class="top-side top-side-photo" aria-label="メインビジュアル">
+            <figure class="top-side-figure">
               <img src="/images/students/haruto.jpg" alt="宮井陽音さんの写真" />
-              <span>QUESTION<br />ARCHIVE</span>
-            </a>
-            <div class="information-panel">
-              <div class="panel-head">
-                <h2>INFORMATION</h2>
-                <a href="#feature">ALL VIEW +</a>
-              </div>
-              <div id="hero-visual" class="information-list"></div>
-            </div>
+            </figure>
           </aside>
         </section>
 
         <div class="keyword-runner" aria-hidden="true">
           <div class="keyword-runner-track">
-            <span>#教育</span>
             <span>#AI</span>
             <span>#地域</span>
             <span>#デザイン</span>
             <span>#起業</span>
-            <span>#プログラミング</span>
-            <span>#問い</span>
-            <span>#活動公開</span>
-            <span>#CoIU</span>
-            <span>#Podcast</span>
-            <span>#YouTube</span>
-            <span>#note</span>
-            <span>#教育</span>
             <span>#AI</span>
             <span>#地域</span>
             <span>#デザイン</span>
             <span>#起業</span>
-            <span>#プログラミング</span>
-            <span>#問い</span>
-            <span>#活動公開</span>
-            <span>#CoIU</span>
-            <span>#Podcast</span>
-            <span>#YouTube</span>
-            <span>#note</span>
+            <span>#AI</span>
+            <span>#地域</span>
+            <span>#デザイン</span>
+            <span>#起業</span>
+            <span>#AI</span>
+            <span>#地域</span>
+            <span>#デザイン</span>
+            <span>#起業</span>
           </div>
         </div>
 
@@ -101,6 +86,28 @@
             <h2 id="base-title">coiu and ... BASE</h2>
             <span>学生の関心が集まり、次の会話が生まれる場所。</span>
           </div>
+        </section>
+
+        <section class="section feature-section" id="feature" aria-labelledby="students-title">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">FEATURE / STUDENTS</p>
+              <h2 id="students-title">CoIU生を読む</h2>
+            </div>
+            <button class="small-outline" type="button" data-search-modal-open>検索する +</button>
+          </div>
+
+          <div class="archive-toolbar">
+            <div class="topic-filter" aria-label="テーマで探す">
+              <p class="topic-filter-label">KEY WORD</p>
+              <div class="topic-list" id="topic-list"></div>
+              <button class="text-button" id="clear-topic" type="button">CLEAR</button>
+            </div>
+            <div class="result-head" id="topic-result-head"></div>
+          </div>
+
+          <div class="people-grid" id="people-grid"></div>
+          <a class="archive-more" id="people-more" href="/students.html" hidden>すべてのCoIU生を検索する +</a>
         </section>
 
         <section class="content-section" id="contents" aria-labelledby="contents-title">
@@ -128,50 +135,37 @@
             </div>
           </div>
         </section>
-
-        <section class="section feature-section" id="feature" aria-labelledby="students-title">
-          <div class="section-head">
-            <div>
-              <p class="section-kicker">FEATURE / STUDENTS</p>
-              <h2 id="students-title">CoIU生を読む</h2>
-            </div>
-            <button class="small-outline" type="button" data-theme-modal-open>テーマから探す +</button>
-          </div>
-
-          <div class="archive-toolbar">
-            <div class="topic-filter" aria-label="テーマで探す">
-              <p class="topic-filter-label">KEY WORD</p>
-              <div class="topic-list" id="topic-list"></div>
-              <button class="text-button" id="clear-topic" type="button">CLEAR</button>
-            </div>
-            <div class="result-head" id="topic-result-head"></div>
-          </div>
-
-          <div class="people-grid" id="people-grid"></div>
-          <a class="archive-more" id="people-more" href="/students.html" hidden>すべてのCoIU生を検索する +</a>
-        </section>
       </section>
 
       <section class="student-detail" id="student-view" hidden aria-live="polite"></section>
     </main>
 
     <div
-      class="theme-modal"
-      id="theme-modal"
+      class="search-modal"
+      id="search-modal"
       hidden
       role="dialog"
       aria-modal="true"
-      aria-labelledby="theme-modal-title"
-      aria-describedby="theme-modal-copy"
+      aria-labelledby="search-modal-title"
+      aria-describedby="search-modal-copy"
     >
-      <div class="theme-modal-backdrop" data-theme-modal-close></div>
-      <div class="theme-modal-panel">
-        <button class="theme-modal-close" type="button" data-theme-modal-close aria-label="テーマ選択を閉じる">×</button>
-        <p class="section-kicker">KEY WORD</p>
-        <h2 id="theme-modal-title">気になるテーマを選ぶ</h2>
-        <p id="theme-modal-copy">興味に近いCoIU生だけを表示します。</p>
-        <div class="theme-modal-tags" id="theme-modal-tags" aria-label="興味テーマ"></div>
-        <button class="text-button" type="button" id="theme-modal-skip">CLOSE</button>
+      <div class="search-modal-backdrop" data-search-modal-close></div>
+      <div class="search-modal-panel">
+        <button class="search-modal-close" type="button" data-search-modal-close aria-label="検索を閉じる">×</button>
+        <p class="section-kicker">SEARCH</p>
+        <h2 id="search-modal-title">CoIU生を探す</h2>
+        <p id="search-modal-copy">名前、テーマ、問いの言葉から学生を検索できます。</p>
+        <label class="sr-only" for="modal-search-input">キーワードで検索</label>
+        <input id="modal-search-input" class="modal-search-input" type="search" placeholder="名前・問い・テーマで検索" autocomplete="off" />
+        <div class="search-modal-group">
+          <h3>テーマ検索</h3>
+          <div class="search-modal-tags" id="search-modal-tags" aria-label="テーマ検索"></div>
+        </div>
+        <div class="search-modal-group">
+          <h3>問い検索</h3>
+          <div class="search-modal-questions" id="search-modal-questions" aria-label="問い検索"></div>
+        </div>
+        <button class="text-button" type="button" data-search-modal-close>CLOSE</button>
       </div>
     </div>
 
@@ -184,6 +178,7 @@
         <a href="#top">TOP</a>
         <a href="#contents">CONTENTS</a>
         <a href="#feature">FEATURE</a>
+        <a href="/coiu.html">CoIUとは</a>
         <a href="/about.html">ABOUT</a>
       </nav>
       <a class="page-top" href="#top">Page Top +</a>

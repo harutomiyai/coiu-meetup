@@ -2,8 +2,6 @@ import { students, state } from "./state.js";
 import { selectors } from "./selectors.js";
 import { renderDiscoveryResults, renderStudentDetail } from "./render.js";
 
-const THEME_MODAL_STORAGE_KEY = "coiuStudentsThemeModalSeen";
-
 export const showHome = () => {
   selectors.homeView.hidden = false;
   selectors.studentView.hidden = true;
@@ -13,7 +11,7 @@ export const showStudent = (slug) => {
   const student = students.find((item) => item.slug === slug);
 
   if (!student) {
-    window.location.hash = "#students";
+    window.location.hash = "#feature";
     return;
   }
 
@@ -38,46 +36,33 @@ const syncSearchInput = () => {
   if (selectors.siteSearch && selectors.siteSearch.value !== state.searchQuery) {
     selectors.siteSearch.value = state.searchQuery;
   }
-};
 
-const rememberThemeModalSeen = () => {
-  try {
-    window.localStorage.setItem(THEME_MODAL_STORAGE_KEY, "true");
-  } catch {
-    // Browsers can block localStorage; the modal still works for this session.
+  if (selectors.modalSearchInput && selectors.modalSearchInput.value !== state.searchQuery) {
+    selectors.modalSearchInput.value = state.searchQuery;
   }
 };
 
-const hasSeenThemeModal = () => {
-  try {
-    return window.localStorage.getItem(THEME_MODAL_STORAGE_KEY) === "true";
-  } catch {
-    return false;
-  }
-};
+const getDiscoveryTargetHash = () => "#feature";
 
-export const openThemeModal = () => {
-  if (!selectors.themeModal) return;
+export const openSearchModal = () => {
+  if (!selectors.searchModal) return;
 
-  selectors.themeModal.hidden = false;
-  document.body.classList.add("is-theme-modal-open");
+  selectors.searchModal.hidden = false;
+  document.body.classList.add("is-search-modal-open");
+  syncSearchInput();
   window.setTimeout(() => {
-    selectors.themeModal.querySelector("[data-topic], #theme-modal-skip")?.focus();
+    selectors.modalSearchInput?.focus();
   }, 0);
 };
 
-export const closeThemeModal = ({ remember = true } = {}) => {
-  if (!selectors.themeModal) return;
+export const closeSearchModal = () => {
+  if (!selectors.searchModal) return;
 
-  selectors.themeModal.hidden = true;
-  document.body.classList.remove("is-theme-modal-open");
-
-  if (remember) {
-    rememberThemeModalSeen();
-  }
+  selectors.searchModal.hidden = true;
+  document.body.classList.remove("is-search-modal-open");
 };
 
-export const clearDiscovery = (targetHash = "#students") => {
+export const clearDiscovery = (targetHash = getDiscoveryTargetHash()) => {
   state.selectedTopics = [];
   state.searchQuery = "";
   syncSearchInput();
@@ -88,7 +73,7 @@ export const clearDiscovery = (targetHash = "#students") => {
   }
 };
 
-export const toggleTopic = (topic, targetHash = "#students") => {
+export const toggleTopic = (topic, targetHash = getDiscoveryTargetHash()) => {
   if (!topic || topic === "すべて") {
     clearDiscovery(targetHash);
     return;
@@ -105,23 +90,9 @@ export const toggleTopic = (topic, targetHash = "#students") => {
   }
 };
 
-export const chooseModalTopic = (topic) => {
-  if (!topic || topic === "すべて") {
-    closeThemeModal();
-    return;
-  }
-
-  state.selectedTopics = [topic];
-  renderDiscoveryResults();
-  closeThemeModal();
-
-  if (window.location.hash !== "#students") {
-    window.location.hash = "#students";
-  }
-};
-
 export const updateSearchQuery = (query) => {
   state.searchQuery = query;
+  syncSearchInput();
   renderDiscoveryResults();
 
   if (window.location.hash.startsWith("#student/")) {
@@ -129,29 +100,50 @@ export const updateSearchQuery = (query) => {
   }
 };
 
+export const searchQuestion = (query) => {
+  updateSearchQuery(query);
+  if (window.location.hash !== getDiscoveryTargetHash()) {
+    window.location.hash = getDiscoveryTargetHash();
+  }
+};
+
 export const bindEvents = () => {
   document.addEventListener("click", (event) => {
-    const openTarget = event.target.closest("[data-theme-modal-open]");
+    const openTarget = event.target.closest("[data-search-modal-open]");
     if (openTarget) {
-      openThemeModal();
+      openSearchModal();
       return;
     }
 
-    const closeTarget = event.target.closest("[data-theme-modal-close]");
+    const closeTarget = event.target.closest("[data-search-modal-close]");
     if (closeTarget) {
-      closeThemeModal();
+      closeSearchModal();
+      return;
+    }
+
+    const questionTarget = event.target.closest("[data-question-search]");
+    if (questionTarget) {
+      searchQuestion(questionTarget.dataset.questionSearch);
       return;
     }
 
     const topicTarget = event.target.closest("[data-topic]");
     if (!topicTarget) return;
 
-    if (topicTarget.closest("#theme-modal")) {
-      chooseModalTopic(topicTarget.dataset.topic);
+    if (topicTarget.closest("#search-modal")) {
+      toggleTopic(topicTarget.dataset.topic, getDiscoveryTargetHash());
       return;
     }
 
-    toggleTopic(topicTarget.dataset.topic, "#students");
+    toggleTopic(topicTarget.dataset.topic, getDiscoveryTargetHash());
+  });
+
+  selectors.siteSearch?.addEventListener("focus", () => {
+    openSearchModal();
+  });
+
+  selectors.siteSearch?.addEventListener("click", () => {
+    openSearchModal();
   });
 
   selectors.siteSearch?.addEventListener("input", (event) => {
@@ -160,18 +152,24 @@ export const bindEvents = () => {
 
   selectors.siteSearch?.form?.addEventListener("submit", (event) => {
     event.preventDefault();
-    if (window.location.hash !== "#students") {
-      window.location.hash = "#students";
+    openSearchModal();
+    if (window.location.hash !== getDiscoveryTargetHash()) {
+      window.location.hash = getDiscoveryTargetHash();
     }
   });
 
-  selectors.clearTopic?.addEventListener("click", () => clearDiscovery("#students"));
+  selectors.modalSearchInput?.addEventListener("input", (event) => {
+    updateSearchQuery(event.currentTarget.value);
+    if (window.location.hash !== getDiscoveryTargetHash()) {
+      window.location.hash = getDiscoveryTargetHash();
+    }
+  });
 
-  selectors.themeModalSkip?.addEventListener("click", () => closeThemeModal());
+  selectors.clearTopic?.addEventListener("click", () => clearDiscovery(getDiscoveryTargetHash()));
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && selectors.themeModal && !selectors.themeModal.hidden) {
-      closeThemeModal();
+    if (event.key === "Escape" && selectors.searchModal && !selectors.searchModal.hidden) {
+      closeSearchModal();
     }
   });
 

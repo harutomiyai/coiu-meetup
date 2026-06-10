@@ -16,6 +16,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         about: resolve(__dirname, "about.html"),
+        coiu: resolve(__dirname, "coiu.html"),
         students: resolve(__dirname, "students.html"),
       },
     },

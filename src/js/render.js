@@ -1,7 +1,18 @@
 import { students, state, getAllTopics, interestTopics } from "./state.js";
 import { selectors } from "./selectors.js";
+import { fetchNoteArticles } from "../lib/noteRss.js";
 
 const linkOrder = ["note", "youtube", "podcast", "instagram", "x", "contact"];
+const HOME_STUDENT_LIMIT = 8;
+const CONTENT_FEED_SOURCE = {
+  name: "宮井陽音",
+  image: "/images/students/haruto.jpg",
+  noteUsername: "haruto_miyai",
+  noteRssUrl: "https://note.com/haruto_miyai/m/ma9c2b38ca7c1/rss",
+  links: {
+    note: "https://note.com/haruto_miyai",
+  },
+};
 
 export const escapeHtml = (value) =>
   String(value ?? "")
@@ -130,6 +141,8 @@ const renderTags = (tags = [], limit = tags.length) =>
     .map((tag) => `<span class="tag-pill">${escapeHtml(tag)}</span>`)
     .join("");
 
+const isStudentsPage = () => document.body.dataset.page === "students";
+
 const detailList = (items) => asArray(items).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
 
 const personCard = (student) => {
@@ -242,6 +255,61 @@ const renderPostList = (currentStudent, { className, title, note, sourceStudents
   `;
 };
 
+const questionSearchButton = (question) => `
+  <button class="question-chip" type="button" data-question-search="${escapeHtml(question)}">
+    ${escapeHtml(question)}
+  </button>
+`;
+
+const contentCard = (article) => {
+  const authorName = article.creatorName || CONTENT_FEED_SOURCE.name;
+  const authorImage = article.creatorImage || CONTENT_FEED_SOURCE.image;
+
+  return `
+    <a class="content-card" href="${escapeHtml(article.link)}" target="_blank" rel="noreferrer">
+      <span class="content-thumb">
+        ${
+          article.thumbnail
+            ? `<img src="${escapeHtml(article.thumbnail)}" alt="${escapeHtml(article.title)}" loading="lazy" />`
+            : `<span class="content-thumb-fallback">note</span>`
+        }
+      </span>
+      <span class="content-card-body">
+        <small>note / ${escapeHtml(article.pubDate || "投稿日未取得")}</small>
+        <strong>${escapeHtml(article.title)}</strong>
+        <em>
+          <img src="${escapeHtml(authorImage)}" alt="" loading="lazy" />
+          ${escapeHtml(authorName)}
+        </em>
+      </span>
+    </a>
+  `;
+};
+
+const renderNoteFeed = async () => {
+  if (!selectors.noteFeedGrid) return;
+
+  try {
+    const articles = await fetchNoteArticles(CONTENT_FEED_SOURCE, { limit: 8 });
+    if (!articles.length) throw new Error("No note articles found.");
+
+    const cards = articles.map(contentCard).join("");
+    selectors.noteFeedGrid.innerHTML = `${cards}${cards}`;
+  } catch (error) {
+    console.info("content feed could not be loaded.", error);
+    selectors.noteFeedGrid.innerHTML = `
+      <article class="content-card content-card-loading">
+        <span class="content-thumb"></span>
+        <span class="content-card-body">
+          <small>note</small>
+          <strong>記事を取得できませんでした</strong>
+          <em>${escapeHtml(CONTENT_FEED_SOURCE.name)}</em>
+        </span>
+      </article>
+    `;
+  }
+};
+
 const renderProfileSidebar = (currentStudent) => {
   const featured = students.filter((student) => student.featured);
   const related = [...featured, ...students.filter((student) => !featured.includes(student))];
@@ -278,9 +346,18 @@ export const renderTopicControls = () => {
   const topics = getAllTopics();
   const isSelected = (topic) => state.selectedTopics.includes(topic);
 
-  if (selectors.themeModalTags) {
-    selectors.themeModalTags.innerHTML = interestTopics
-      .map((topic) => topicButton(topic, isSelected(topic), "theme-modal-tag"))
+  if (selectors.searchModalTags) {
+    selectors.searchModalTags.innerHTML = interestTopics
+      .map((topic) => topicButton(topic, isSelected(topic), "search-modal-tag"))
+      .join("");
+  }
+
+  if (selectors.searchModalQuestions) {
+    selectors.searchModalQuestions.innerHTML = students
+      .map((student) => student.currentQuestion)
+      .filter(Boolean)
+      .slice(0, 6)
+      .map(questionSearchButton)
       .join("");
   }
 
@@ -300,12 +377,17 @@ export const renderPeopleGrid = () => {
   if (!selectors.peopleGrid) return;
 
   const filtered = getFilteredStudents();
+  const visibleStudents = isStudentsPage() ? filtered : filtered.slice(0, HOME_STUDENT_LIMIT);
 
   if (selectors.topicResultHead) {
     selectors.topicResultHead.innerHTML = `
       <p>${escapeHtml(getDiscoveryLabel())}</p>
-      <strong>${filtered.length} posts</strong>
+      <strong>${isStudentsPage() ? filtered.length : visibleStudents.length} / ${filtered.length} posts</strong>
     `;
+  }
+
+  if (selectors.peopleMore) {
+    selectors.peopleMore.hidden = isStudentsPage() || filtered.length <= HOME_STUDENT_LIMIT;
   }
 
   if (!filtered.length) {
@@ -318,7 +400,7 @@ export const renderPeopleGrid = () => {
     return;
   }
 
-  selectors.peopleGrid.innerHTML = filtered.map(personCard).join("");
+  selectors.peopleGrid.innerHTML = visibleStudents.map(personCard).join("");
 };
 
 export const renderDiscoveryResults = () => {
@@ -424,6 +506,7 @@ export const renderStudentDetail = (student) => {
 export const renderHome = () => {
   renderHeroVisual();
   renderDiscoveryResults();
+  renderNoteFeed();
 };
 
 export const renderLoadError = (error) => {

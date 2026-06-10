@@ -21,12 +21,13 @@
       </a>
       <nav class="site-nav" aria-label="メインナビゲーション">
         <a href="/index.html#contents">CONTENTS</a>
-        <button type="button" data-theme-modal-open>THEMES</button>
+        <button type="button" data-search-modal-open>SEARCH</button>
+        <a href="/coiu.html">CoIUとは</a>
         <a href="/about.html">ABOUT</a>
       </nav>
       <form class="site-search" role="search" aria-label="学生検索">
         <label class="sr-only" for="site-search">学生名・問い・テーマで検索</label>
-        <input id="site-search" type="search" placeholder="SEARCH" autocomplete="off" />
+        <input id="site-search" type="search" placeholder="SEARCH" autocomplete="off" readonly data-search-modal-open />
       </form>
     </header>
 
@@ -58,22 +59,31 @@
     </main>
 
     <div
-      class="theme-modal"
-      id="theme-modal"
+      class="search-modal"
+      id="search-modal"
       hidden
       role="dialog"
       aria-modal="true"
-      aria-labelledby="theme-modal-title"
-      aria-describedby="theme-modal-copy"
+      aria-labelledby="search-modal-title"
+      aria-describedby="search-modal-copy"
     >
-      <div class="theme-modal-backdrop" data-theme-modal-close></div>
-      <div class="theme-modal-panel">
-        <button class="theme-modal-close" type="button" data-theme-modal-close aria-label="テーマ選択を閉じる">×</button>
-        <p class="section-kicker">KEY WORD</p>
-        <h2 id="theme-modal-title">気になるテーマを選ぶ</h2>
-        <p id="theme-modal-copy">興味に近いCoIU生だけを表示します。</p>
-        <div class="theme-modal-tags" id="theme-modal-tags" aria-label="興味テーマ"></div>
-        <button class="text-button" type="button" id="theme-modal-skip">CLOSE</button>
+      <div class="search-modal-backdrop" data-search-modal-close></div>
+      <div class="search-modal-panel">
+        <button class="search-modal-close" type="button" data-search-modal-close aria-label="検索を閉じる">×</button>
+        <p class="section-kicker">SEARCH</p>
+        <h2 id="search-modal-title">CoIU生を探す</h2>
+        <p id="search-modal-copy">名前、テーマ、問いの言葉から学生を検索できます。</p>
+        <label class="sr-only" for="modal-search-input">キーワードで検索</label>
+        <input id="modal-search-input" class="modal-search-input" type="search" placeholder="名前・問い・テーマで検索" autocomplete="off" />
+        <div class="search-modal-group">
+          <h3>テーマ検索</h3>
+          <div class="search-modal-tags" id="search-modal-tags" aria-label="テーマ検索"></div>
+        </div>
+        <div class="search-modal-group">
+          <h3>問い検索</h3>
+          <div class="search-modal-questions" id="search-modal-questions" aria-label="問い検索"></div>
+        </div>
+        <button class="text-button" type="button" data-search-modal-close>CLOSE</button>
       </div>
     </div>
 
@@ -85,6 +95,7 @@
       <nav aria-label="フッターナビゲーション">
         <a href="/index.html#top">TOP</a>
         <a href="/index.html#contents">CONTENTS</a>
+        <a href="/coiu.html">CoIUとは</a>
         <a href="/about.html">ABOUT</a>
       </nav>
       <a class="page-top" href="#feature">Page Top +</a>

@@ -5,7 +5,6 @@ export const selectors = {
   searchModal: document.querySelector("#search-modal"),
   searchModalTags: document.querySelector("#search-modal-tags"),
   searchModalQuestions: document.querySelector("#search-modal-questions"),
-  searchModalClose: document.querySelector("#search-modal-close"),
   modalSearchInput: document.querySelector("#modal-search-input"),
   todayQuestionCard: document.querySelector("#today-question-card"),
   topicList: document.querySelector("#topic-list"),

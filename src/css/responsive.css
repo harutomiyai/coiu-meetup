@@ -73,7 +73,8 @@
   .top-side,
   .archive-toolbar,
   .section-head,
-  .panel-head {
+  .panel-head,
+  .content-section-head {
     display: grid;
     grid-template-columns: 1fr;
   }
@@ -168,6 +169,31 @@
     gap: 18px;
   }
 
+  .keyword-runner-track {
+    gap: 18px;
+    animation-duration: 26s;
+  }
+
+  .content-section {
+    padding-block: 38px;
+  }
+
+  .content-section-head {
+    width: min(100% - 28px, var(--max));
+  }
+
+  .content-track {
+    gap: 10px;
+    padding-inline: 14px;
+    animation-duration: 38s;
+  }
+
+  .content-card {
+    grid-template-columns: 112px 210px;
+    width: 350px;
+    min-height: 144px;
+  }
+
   .section {
     padding: 52px 0;
   }
@@ -239,7 +265,7 @@
 
   .profile-summary-box,
   .profile-split-block > div,
-  .theme-modal-panel {
+  .search-modal-panel {
     padding: 20px;
   }
 
