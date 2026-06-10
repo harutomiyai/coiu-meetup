@@ -1,8 +1,13 @@
 export let students = [];
+export let projects = [];
 
-export const setStudents = (data) => {
-  students = data;
-};
+export const setStudents = (data) => { students = data; };
+export const setProjects = (data) => { projects = data; };
+
+export const getProjectBySlug = (slug) => projects.find((p) => p.slug === slug);
+export const getStudentBySlug = (slug) => students.find((s) => s.slug === slug);
+export const getMemberStudents = (project) =>
+  (project.members || []).map(getStudentBySlug).filter(Boolean);
 
 export const state = {
   selectedTopics: [],

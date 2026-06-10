@@ -1,0 +1,10 @@
+[
+  { "slug": "coiu-media", "title": "CoIU生の問いや活動を可視化するメディアづくり", "path": "/data/projects/coiu-media.json" },
+  { "slug": "machi-listening", "title": "まちの人への聞き書きから、新しい学びの場をつくる実験", "path": "/data/projects/machi-listening.json" },
+  { "slug": "question-ai-tool", "title": "学生の関心と活動を整理して探しやすくする小さなAIツール", "path": "/data/projects/question-ai-tool.json" },
+  { "slug": "dialogue-workshop", "title": "学生が持つ問いを集める対話型ワークショップ", "path": "/data/projects/dialogue-workshop.json" },
+  { "slug": "zine-poster", "title": "学生の問いをポスターやZINEにする小さな編集プロジェクト", "path": "/data/projects/zine-poster.json" },
+  { "slug": "voice-media", "title": "CoIU生と地域の人の会話を残す音声メディア", "path": "/data/projects/voice-media.json" },
+  { "slug": "map-app", "title": "地域の場所と人をつなぐ小さなマップアプリ", "path": "/data/projects/map-app.json" },
+  { "slug": "local-service", "title": "地域の困りごとを学生のサービス案に変える検証", "path": "/data/projects/local-service.json" }
+]

@@ -1,4 +1,4 @@
-import { students, state, getAllTopics, interestTopics } from "./state.js";
+import { students, state, getAllTopics, interestTopics, getProjectBySlug, getMemberStudents } from "./state.js";
 import { selectors } from "./selectors.js";
 import { fetchNoteArticles } from "../lib/noteRss.js";
 
@@ -409,6 +409,40 @@ export const renderDiscoveryResults = () => {
   renderPeopleGrid();
 };
 
+const renderProjectSection = (student) => {
+  const project = student.projectSlug ? getProjectBySlug(student.projectSlug) : null;
+  if (!project) return "";
+  const members = getMemberStudents(project)
+    .filter((m) => m.slug !== student.slug);
+  return `
+    <section class="profile-article-block profile-project-block">
+      <div class="profile-block-head">
+        <p class="section-kicker">PROJECT</p>
+        <h2>取り組んでいるプロジェクト</h2>
+      </div>
+      <a class="profile-project-card" href="/students.html#project/${escapeHtml(project.slug)}">
+        <div class="profile-project-card-tags">${(project.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>
+        <strong class="profile-project-card-title">${escapeHtml(project.title)}</strong>
+        <p class="profile-project-card-summary">${escapeHtml(project.summary)}</p>
+        <span class="profile-project-card-link">プロジェクト詳細 →</span>
+      </a>
+      ${members.length ? `
+        <div class="profile-project-members">
+          <p class="section-kicker" style="margin-top:20px">MEMBER</p>
+          <div class="profile-project-member-list">
+            ${members.map((m) => `
+              <a class="profile-project-member" href="/students.html#student/${escapeHtml(m.slug)}">
+                ${m.image ? `<img src="${escapeHtml(m.image)}" alt="${escapeHtml(m.name)}" />` : ""}
+                <span>${escapeHtml(m.name)}</span>
+              </a>
+            `).join("")}
+          </div>
+        </div>
+      ` : ""}
+    </section>
+  `;
+};
+
 export const renderStudentDetail = (student) => {
   const archiveNumber = getArchiveNumber(student);
   const aboutParagraphs = asArray(student.about).length ? asArray(student.about) : [student.story].filter(Boolean);
@@ -462,6 +496,8 @@ export const renderStudentDetail = (student) => {
             ${aboutParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
           </section>
 
+          ${renderProjectSection(student)}
+
           ${
             links
               ? `
@@ -477,6 +513,56 @@ export const renderStudentDetail = (student) => {
           }
         </article>
 
+      </div>
+    </div>
+  `;
+};
+
+export const renderProjectDetail = (project) => {
+  const members = getMemberStudents(project);
+
+  selectors.studentView.innerHTML = `
+    <div class="profile-news-shell">
+      <a class="back-link" href="#feature">Back to students +</a>
+      <div class="profile-news-layout">
+        <article class="profile-article-main" aria-labelledby="project-detail-title">
+          <header class="profile-article-header">
+            <p class="profile-press-label">PROJECT <span>DETAIL</span></p>
+            <div class="profile-article-meta">
+              <span>${(project.tags || []).join(" / ")}</span>
+              <span class="profile-project-status">${escapeHtml(project.status === "active" ? "進行中" : project.status || "")}</span>
+            </div>
+            <h1 id="project-detail-title">${escapeHtml(project.title)}</h1>
+          </header>
+
+          <section class="profile-article-block">
+            <div class="profile-block-head">
+              <p class="section-kicker">OVERVIEW</p>
+              <h2>プロジェクト概要</h2>
+            </div>
+            <p>${escapeHtml(project.detail || project.summary)}</p>
+          </section>
+
+          ${members.length ? `
+            <section class="profile-article-block">
+              <div class="profile-block-head">
+                <p class="section-kicker">MEMBERS</p>
+                <h2>メンバー</h2>
+              </div>
+              <div class="profile-project-member-list">
+                ${members.map((m) => `
+                  <a class="profile-project-member" href="/students.html#student/${escapeHtml(m.slug)}">
+                    ${m.image ? `<img src="${escapeHtml(m.image)}" alt="${escapeHtml(m.name)}" />` : ""}
+                    <div>
+                      <strong>${escapeHtml(m.name)}</strong>
+                      <p>${escapeHtml(m.catch || m.currentQuestion || "")}</p>
+                    </div>
+                  </a>
+                `).join("")}
+              </div>
+            </section>
+          ` : ""}
+        </article>
       </div>
     </div>
   `;

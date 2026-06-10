@@ -1,6 +1,6 @@
-import { students, state } from "./state.js";
+import { students, state, getProjectBySlug } from "./state.js";
 import { selectors } from "./selectors.js";
-import { renderDiscoveryResults, renderStudentDetail } from "./render.js";
+import { renderDiscoveryResults, renderStudentDetail, renderProjectDetail } from "./render.js";
 
 export const showHome = () => {
   selectors.homeView.hidden = false;
@@ -21,11 +21,28 @@ export const showStudent = (slug) => {
   window.scrollTo({ top: 0, behavior: "auto" });
 };
 
+export const showProject = (slug) => {
+  const project = getProjectBySlug(slug);
+  if (!project) {
+    window.location.hash = "#feature";
+    return;
+  }
+  renderProjectDetail(project);
+  selectors.homeView.hidden = true;
+  selectors.studentView.hidden = false;
+  window.scrollTo({ top: 0, behavior: "auto" });
+};
+
 export const handleRoute = () => {
   const hash = window.location.hash.replace(/^#/, "");
 
   if (hash.startsWith("student/")) {
     showStudent(hash.replace("student/", ""));
+    return;
+  }
+
+  if (hash.startsWith("project/")) {
+    showProject(hash.replace("project/", ""));
     return;
   }
 
