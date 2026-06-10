@@ -277,6 +277,7 @@ const contentCard = (article) => {
       <span class="content-card-body">
         <small>note / ${escapeHtml(article.pubDate || "投稿日未取得")}</small>
         <strong>${escapeHtml(article.title)}</strong>
+        <span class="content-card-excerpt">${article.excerpt ? escapeHtml(article.excerpt.length > 60 ? article.excerpt.slice(0, 60) + "…" : article.excerpt) : ""}</span>
         <em>
           <img src="${escapeHtml(authorImage)}" alt="" loading="lazy" />
           ${escapeHtml(authorName)}
@@ -411,9 +412,7 @@ export const renderDiscoveryResults = () => {
 export const renderStudentDetail = (student) => {
   const archiveNumber = getArchiveNumber(student);
   const aboutParagraphs = asArray(student.about).length ? asArray(student.about) : [student.story].filter(Boolean);
-  const recentActivities = asArray(student.recentActivities);
   const links = renderDetailLinks(student);
-  const talkThemes = getStudentTalkThemes(student);
 
   selectors.studentView.innerHTML = `
     <div class="profile-news-shell">
@@ -463,25 +462,6 @@ export const renderStudentDetail = (student) => {
             ${aboutParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
           </section>
 
-          <section class="profile-article-block profile-split-block">
-            <div>
-              <div class="profile-block-head">
-                <p class="section-kicker">TALK THEME</p>
-                <h2>話せるテーマ</h2>
-              </div>
-              <ul class="plain-list">${detailList(talkThemes)}</ul>
-            </div>
-            <div>
-              <div class="profile-block-head">
-                <p class="section-kicker">RECENT</p>
-                <h2>最近の取り組み</h2>
-              </div>
-              <ul class="plain-list">${detailList(recentActivities.length ? recentActivities : [student.projectDetail || student.currentProject || "準備中"])}</ul>
-            </div>
-          </section>
-
-          ${renderInterestList(student)}
-
           ${
             links
               ? `
@@ -497,7 +477,6 @@ export const renderStudentDetail = (student) => {
           }
         </article>
 
-        ${renderProfileSidebar(student)}
       </div>
     </div>
   `;

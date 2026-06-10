@@ -15,69 +15,200 @@
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/index.html#top" aria-label="CoIU Meetup トップへ">
+      <a class="brand" href="/index.html" aria-label="CoIU Meetup トップへ">
         <span class="brand-kana">こういう学生に会える場所</span>
-        <span class="brand-logo">coiu meetup ...</span>
+        <span class="brand-logo">CoIU meetup ...</span>
       </a>
-      <nav class="site-nav" aria-label="メインナビゲーション">
-        <a href="/index.html#contents">CONTENTS</a>
-        <a href="/index.html#feature">FEATURE</a>
-        <a href="/coiu.html" aria-current="page">CoIUとは</a>
-        <a href="/about.html">ABOUT</a>
-      </nav>
-      <a class="small-outline" href="/students.html">STUDENTS +</a>
+      <button class="hamburger" type="button" id="hamburger-btn" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-drawer">
+        <span></span><span></span><span></span>
+      </button>
     </header>
 
-    <main>
-      <section class="about-page coiu-page">
-        <div class="about-main-visual">
-          <div>
-            <p class="section-kicker">ABOUT / CoIU</p>
-            <h1>CoIUとは</h1>
-            <p>
-              CoIUは、学生が自分の問いを持ち、地域や社会の現場に出ながら学びを形にしていく大学です。CoIU Meetupでは、その場で動いている学生の問いや活動を、あとから読めるアーカイブとして紹介しています。
-            </p>
-          </div>
-          <img src="/images/hero/coiu-window.jpg" alt="CoIUの窓辺の写真" />
-        </div>
+    <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+      <div class="nav-drawer-backdrop" id="nav-drawer-backdrop"></div>
+      <div class="nav-drawer-panel">
+        <button class="nav-drawer-close" type="button" id="nav-drawer-close" aria-label="メニューを閉じる">×</button>
+        <nav class="nav-drawer-nav" aria-label="メインナビゲーション">
+          <a href="/students.html">STUDENTS</a>
+          <a href="/coiu.html">CoIUとは</a>
+          <a href="/about.html">ABOUT</a>
+        </nav>
+      </div>
+    </div>
 
-        <section class="column-section about-column" aria-labelledby="coiu-concept-title">
-          <div class="section-head">
-            <div>
-              <p class="section-kicker">CONCEPT</p>
-              <h2 id="coiu-concept-title">問いを起点に学ぶ場所</h2>
+    <main class="coiu-main">
+
+      <!-- ── HERO ── -->
+      <section class="coiu-hero">
+        <div class="coiu-hero-inner">
+          <p class="section-kicker">ABOUT / CoIU</p>
+          <h1 class="coiu-hero-title">問いを持って、<br>社会に出る。</h1>
+          <p class="coiu-hero-lead">CoIU（Co-Innovation University）は、学生が自分の「問い」を起点に、地域や社会の現場で学び続ける大学です。教室の外に飛び出し、人と関わりながら、自分だけの学びをつくっていく。</p>
+        </div>
+        <figure class="coiu-hero-figure">
+          <img src="/images/hero/coiu-students.jpg" alt="CoIU生たちの活動写真" />
+        </figure>
+      </section>
+
+      <!-- ── CONCEPT ── -->
+      <section class="coiu-concept" aria-labelledby="coiu-concept-title">
+        <div class="coiu-section-head">
+          <p class="section-kicker">CONCEPT</p>
+          <h2 id="coiu-concept-title">CoIUの学びの核心</h2>
+        </div>
+        <div class="coiu-concept-split">
+          <div class="coiu-concept-item">
+            <figure class="coiu-concept-img">
+              <img src="/images/hero/coiu-window.jpg" alt="問いを立てる" />
+            </figure>
+            <div class="coiu-concept-text">
+              <span class="coiu-concept-num">01</span>
+              <h3>問いを立てる力</h3>
+              <p>ただ答えを探すのではなく、自分の視点から問いを生み出す力。「なぜ？」「どうすれば？」という問いを言葉にする練習を重ねます。</p>
             </div>
           </div>
-          <div class="column-grid">
-            <article>
-              <span>01</span>
-              <h3>問いを持つ</h3>
-              <p>正解を受け取るだけでなく、自分が向き合いたいテーマを言葉にします。</p>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>現場で学ぶ</h3>
-              <p>地域、企業、学校、制作の現場に入り、実際の関係の中で考えます。</p>
-            </article>
-            <article>
-              <span>03</span>
-              <h3>形にする</h3>
-              <p>プロジェクト、記事、Web、イベントなど、学びを誰かに届く形へ変えます。</p>
-            </article>
-            <article>
-              <span>04</span>
-              <h3>共有する</h3>
-              <p>活動の途中経過も公開し、次の出会いや会話につなげます。</p>
-            </article>
+          <div class="coiu-concept-item coiu-concept-item--rev">
+            <figure class="coiu-concept-img">
+              <img src="/images/hero/coiu-students.jpg" alt="共創する" />
+            </figure>
+            <div class="coiu-concept-text">
+              <span class="coiu-concept-num">02</span>
+              <h3>共創する力</h3>
+              <p>一人で考えるだけでなく、仲間や地域の人、企業と一緒にアイデアを形にする力。異なる視点を持つ人との対話が学びを深めます。</p>
+            </div>
           </div>
-        </section>
+        </div>
       </section>
+
+      <!-- ── LEARNING FLOW ── -->
+      <section class="coiu-flow" aria-labelledby="coiu-flow-title">
+        <div class="coiu-section-head coiu-section-head--center">
+          <p class="section-kicker">HOW WE LEARN</p>
+          <h2 id="coiu-flow-title">4つのステップで学ぶ</h2>
+        </div>
+        <ol class="coiu-flow-list">
+          <li class="coiu-flow-item">
+            <span class="coiu-flow-num">01</span>
+            <div>
+              <h3>問いを持つ</h3>
+              <p>正解を受け取るだけでなく、自分が向き合いたいテーマを言葉にします。問いが学びのエンジンになります。</p>
+            </div>
+          </li>
+          <li class="coiu-flow-item">
+            <span class="coiu-flow-num">02</span>
+            <div>
+              <h3>現場で学ぶ</h3>
+              <p>地域、企業、学校、制作の現場に入り、実際の関係の中で考えます。教室の外が最大の学び場です。</p>
+            </div>
+          </li>
+          <li class="coiu-flow-item">
+            <span class="coiu-flow-num">03</span>
+            <div>
+              <h3>形にする</h3>
+              <p>プロジェクト、記事、Web、イベントなど、学びを誰かに届く形へ変えます。アウトプットが思考を鍛えます。</p>
+            </div>
+          </li>
+          <li class="coiu-flow-item">
+            <span class="coiu-flow-num">04</span>
+            <div>
+              <h3>共有する</h3>
+              <p>活動の途中経過も公開し、次の出会いや会話につなげます。発信することで、仲間が集まってきます。</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ── CURRICULUM ── -->
+      <section class="coiu-curriculum" aria-labelledby="coiu-curriculum-title">
+        <div class="coiu-curriculum-inner">
+          <div class="coiu-section-head">
+            <p class="section-kicker">CURRICULUM</p>
+            <h2 id="coiu-curriculum-title">4年間の学びの流れ</h2>
+          </div>
+          <div class="coiu-year-list">
+            <div class="coiu-year-item">
+              <div class="coiu-year-label">
+                <span class="coiu-year-num">1年次</span>
+                <span class="coiu-year-place">飛騨</span>
+              </div>
+              <div class="coiu-year-body">
+                <h3>理論と対話</h3>
+                <p>飛騨を拠点に、問いを立てる基礎を学びます。地域の人との対話を通じて、自分の興味を掘り下げます。</p>
+              </div>
+            </div>
+            <div class="coiu-year-item">
+              <div class="coiu-year-label">
+                <span class="coiu-year-num">2年次</span>
+                <span class="coiu-year-place">全国</span>
+              </div>
+              <div class="coiu-year-body">
+                <h3>ボンディングシップ</h3>
+                <p>週3日程度、全国各地のサテライトキャンパスで実践型の活動に挑戦。地域企業や自治体と協働します。</p>
+              </div>
+            </div>
+            <div class="coiu-year-item">
+              <div class="coiu-year-label">
+                <span class="coiu-year-num">3・4年次</span>
+                <span class="coiu-year-place">全国</span>
+              </div>
+              <div class="coiu-year-body">
+                <h3>共創プロジェクト</h3>
+                <p>地域共創演習・先端共創演習として、より深く社会と関わるプロジェクトを設計・実行します。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── PROJECT THEMES ── -->
+      <section class="coiu-themes" aria-labelledby="coiu-themes-title">
+        <div class="coiu-section-head coiu-section-head--center">
+          <p class="section-kicker">PROJECT THEMES</p>
+          <h2 id="coiu-themes-title">活動テーマの例</h2>
+        </div>
+        <div class="coiu-theme-grid">
+          <div class="coiu-theme-card">
+            <span class="coiu-theme-icon">🏺</span>
+            <h3>伝統産業の<br>リブランディング</h3>
+            <p>地場産業の魅力を現代に届け直すデザイン・広報プロジェクト。</p>
+          </div>
+          <div class="coiu-theme-card">
+            <span class="coiu-theme-icon">🌾</span>
+            <h3>一次産業の<br>イノベーション</h3>
+            <p>農業・漁業・林業の現場に入り、新しい仕組みや価値を一緒に生み出す。</p>
+          </div>
+          <div class="coiu-theme-card">
+            <span class="coiu-theme-icon">🏙️</span>
+            <h3>地域課題への<br>アプローチ</h3>
+            <p>人口減少・空き家・観光など、各地の現場で当事者と共に考える。</p>
+          </div>
+          <div class="coiu-theme-card">
+            <span class="coiu-theme-icon">💻</span>
+            <h3>テクノロジーと<br>社会実装</h3>
+            <p>AIやWebなどの技術を使って、地域や個人の課題を解決するプロトタイプを作る。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CTA ── -->
+      <section class="coiu-cta">
+        <div class="coiu-cta-inner">
+          <p class="section-kicker">MORE INFO</p>
+          <h2>CoIU生に会いに行く</h2>
+          <p>このアーカイブでは、実際にCoIUで学んでいる学生の問いや活動を読むことができます。気になる人を見つけたら、話しかけてみてください。</p>
+          <div class="coiu-cta-actions">
+            <a class="coiu-cta-btn coiu-cta-btn--primary" href="/students.html">CoIU生を探す →</a>
+            <a class="coiu-cta-btn coiu-cta-btn--outline" href="https://coiu.ac.jp" target="_blank" rel="noreferrer">CoIU公式サイト →</a>
+          </div>
+        </div>
+      </section>
+
     </main>
 
     <footer class="site-footer">
       <div class="footer-brand">
         <span class="brand-kana">こういう学生に会える場所</span>
-        <strong>coiu meetup ...</strong>
+        <strong>CoIU meetup ...</strong>
       </div>
       <nav aria-label="フッターナビゲーション">
         <a href="/index.html#top">TOP</a>
@@ -85,7 +216,7 @@
         <a href="/students.html">STUDENTS</a>
         <a href="/about.html">ABOUT</a>
       </nav>
-      <a class="page-top" href="/index.html#top">TOP +</a>
+      <a class="page-top" href="#">Page Top +</a>
     </footer>
   </body>
 </html>

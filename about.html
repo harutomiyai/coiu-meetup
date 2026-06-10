@@ -15,18 +15,26 @@
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/index.html#top" aria-label="CoIU Meetup トップへ">
+      <a class="brand" href="/index.html" aria-label="CoIU Meetup トップへ">
         <span class="brand-kana">こういう学生に会える場所</span>
-        <span class="brand-logo">coiu meetup ...</span>
+        <span class="brand-logo">CoIU meetup ...</span>
       </a>
-      <nav class="site-nav" aria-label="メインナビゲーション">
-        <a href="/index.html#feature">FEATURE</a>
-        <a href="/index.html#contents">CONTENTS</a>
-        <a href="/coiu.html">CoIUとは</a>
-        <a href="/about.html" aria-current="page">ABOUT</a>
-      </nav>
-      <a class="small-outline" href="/index.html#feature">STUDENTS +</a>
+      <button class="hamburger" type="button" id="hamburger-btn" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-drawer">
+        <span></span><span></span><span></span>
+      </button>
     </header>
+
+    <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+      <div class="nav-drawer-backdrop" id="nav-drawer-backdrop"></div>
+      <div class="nav-drawer-panel">
+        <button class="nav-drawer-close" type="button" id="nav-drawer-close" aria-label="メニューを閉じる">×</button>
+        <nav class="nav-drawer-nav" aria-label="メインナビゲーション">
+          <a href="/students.html">STUDENTS</a>
+          <a href="/coiu.html">CoIUとは</a>
+          <a href="/about.html">ABOUT</a>
+        </nav>
+      </div>
+    </div>
 
     <main>
       <section class="about-page">
@@ -108,7 +116,7 @@
     <footer class="site-footer">
       <div class="footer-brand">
         <span class="brand-kana">こういう学生に会える場所</span>
-        <strong>coiu meetup ...</strong>
+        <strong>CoIU meetup ...</strong>
       </div>
       <nav aria-label="フッターナビゲーション">
         <a href="/index.html#top">TOP</a>

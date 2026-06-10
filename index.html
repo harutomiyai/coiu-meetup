@@ -22,56 +22,56 @@
     <header class="site-header">
       <a class="brand" href="#top" aria-label="CoIU Meetup トップへ">
         <span class="brand-kana">こういう学生に会える場所</span>
-        <span class="brand-logo">coiu meetup ...</span>
+        <span class="brand-logo">CoIU meetup ...</span>
       </a>
-      <nav class="site-nav" aria-label="メインナビゲーション">
-        <a href="#feature">FEATURE</a>
-        <a href="#contents">CONTENTS</a>
-        <button type="button" data-search-modal-open>SEARCH</button>
-        <a href="/coiu.html">CoIUとは</a>
-        <a href="/about.html">ABOUT</a>
-      </nav>
-      <form class="site-search" role="search" aria-label="学生検索">
-        <label class="sr-only" for="site-search">学生名・問い・テーマで検索</label>
-        <input id="site-search" type="search" placeholder="SEARCH" autocomplete="off" readonly data-search-modal-open />
-      </form>
+      <button class="hamburger" type="button" id="hamburger-btn" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-drawer">
+        <span></span><span></span><span></span>
+      </button>
     </header>
+
+    <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+      <div class="nav-drawer-backdrop" id="nav-drawer-backdrop"></div>
+      <div class="nav-drawer-panel">
+        <button class="nav-drawer-close" type="button" id="nav-drawer-close" aria-label="メニューを閉じる">×</button>
+        <div class="nav-drawer-search">
+          <p class="nav-drawer-search-label">検索ワード</p>
+          <form class="nav-drawer-search-form" id="drawer-search-form">
+            <label class="sr-only" for="drawer-search-input">キーワードで検索</label>
+            <div class="nav-drawer-search-row">
+              <input id="drawer-search-input" class="nav-drawer-search-input" type="search" placeholder="名前・問い・テーマで検索" autocomplete="off" />
+              <button class="nav-drawer-search-btn" type="submit" aria-label="検索する">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="2"/><path d="M13 13L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </form>
+          <p class="nav-drawer-search-label" style="margin-top:28px">話題のキーワード</p>
+          <div class="nav-drawer-tag-list" id="drawer-tag-list"></div>
+        </div>
+        <nav class="nav-drawer-nav" aria-label="メインナビゲーション">
+          <a href="/students.html">STUDENTS</a>
+          <a href="/coiu.html">CoIUとは</a>
+          <a href="/about.html">ABOUT</a>
+        </nav>
+      </div>
+    </div>
 
     <main>
       <section id="home-view">
         <section class="top-grid" id="top" aria-labelledby="top-title">
           <div class="top-feature">
-            <h1 id="top-title">coiu meetup ...</h1>
             <figure class="top-photo">
               <img src="/images/hero/coiu-students.jpg" alt="CoIU生の集合写真" />
-              <figcaption>問いを持つ人に、会いにいく。</figcaption>
+              <div class="top-photo-text">
+                <h1 id="top-title">CoIU meetup ...</h1>
+                <p class="top-copy">CoIU生の問い、活動、話せるテーマを集めた学生アーカイブ。<br>問いを持つ人に、会いにいく。</p>
+              </div>
             </figure>
-            <p class="top-copy">
-              CoIU生の問い、活動、話せるテーマを集めた学生アーカイブ。イベントで出会った人も、これから話したい人も、関心から見つけられます。
-            </p>
           </div>
 
-          <aside class="top-side top-side-photo" aria-label="メインビジュアル">
-            <figure class="top-side-figure">
-              <img src="/images/students/haruto.jpg" alt="宮井陽音さんの写真" />
-            </figure>
-          </aside>
         </section>
 
         <div class="keyword-runner" aria-hidden="true">
-          <div class="keyword-runner-track">
-            <span>#AI</span>
-            <span>#地域</span>
-            <span>#デザイン</span>
-            <span>#起業</span>
-            <span>#AI</span>
-            <span>#地域</span>
-            <span>#デザイン</span>
-            <span>#起業</span>
-            <span>#AI</span>
-            <span>#地域</span>
-            <span>#デザイン</span>
-            <span>#起業</span>
+          <div class="keyword-runner-track" id="keyword-runner-track">
             <span>#AI</span>
             <span>#地域</span>
             <span>#デザイン</span>
@@ -116,25 +116,54 @@
               <p class="section-kicker">Podcast / YouTube / note</p>
               <h2 id="contents-title">コンテンツ</h2>
             </div>
-            <div class="content-type-row" aria-label="コンテンツ種別">
-              <span>Podcast</span>
-              <span>YouTube</span>
-              <span>note</span>
-            </div>
           </div>
           <div class="content-marquee" id="note-feed" aria-live="polite">
             <div class="content-track" id="note-feed-grid">
-              <article class="content-card content-card-loading">
-                <span class="content-thumb"></span>
-                <span class="content-card-body">
-                  <small>note</small>
-                  <strong>記事を読み込んでいます</strong>
-                  <em>RSSから最新記事を取得中</em>
-                </span>
-              </article>
+              <article class="content-card content-card-loading"><span class="content-thumb"></span><span class="content-card-body"><small>note</small><strong>　</strong><span class="content-card-excerpt"></span><em>　</em></span></article>
+              <article class="content-card content-card-loading"><span class="content-thumb"></span><span class="content-card-body"><small>note</small><strong>　</strong><span class="content-card-excerpt"></span><em>　</em></span></article>
+              <article class="content-card content-card-loading"><span class="content-thumb"></span><span class="content-card-body"><small>note</small><strong>　</strong><span class="content-card-excerpt"></span><em>　</em></span></article>
+              <article class="content-card content-card-loading"><span class="content-thumb"></span><span class="content-card-body"><small>note</small><strong>　</strong><span class="content-card-excerpt"></span><em>　</em></span></article>
+              <article class="content-card content-card-loading"><span class="content-thumb"></span><span class="content-card-body"><small>note</small><strong>　</strong><span class="content-card-excerpt"></span><em>　</em></span></article>
+              <article class="content-card content-card-loading"><span class="content-thumb"></span><span class="content-card-body"><small>note</small><strong>　</strong><span class="content-card-excerpt"></span><em>　</em></span></article>
+              <article class="content-card content-card-loading"><span class="content-thumb"></span><span class="content-card-body"><small>note</small><strong>　</strong><span class="content-card-excerpt"></span><em>　</em></span></article>
+              <article class="content-card content-card-loading"><span class="content-thumb"></span><span class="content-card-body"><small>note</small><strong>　</strong><span class="content-card-excerpt"></span><em>　</em></span></article>
             </div>
           </div>
         </section>
+
+        <section class="activity-section" aria-labelledby="activity-title">
+          <div class="activity-section-head">
+            <h2 id="activity-title">OTHER ACTIVITIES</h2>
+            <p>CoIU生の活動をもっと見る。</p>
+          </div>
+          <div class="activity-grid">
+            <a class="activity-card activity-card--youtube" href="https://youtube.com/xxxx" target="_blank" rel="noreferrer">
+              <span class="activity-card-num">01</span>
+              <div class="activity-card-body">
+                <strong class="activity-card-title">YouTube</strong>
+                <p class="activity-card-desc">インタビューや制作の記録を動画で公開しています。</p>
+              </div>
+              <span class="activity-card-thumb activity-card-thumb--youtube"></span>
+            </a>
+            <a class="activity-card activity-card--note" href="https://note.com/haruto_miyai" target="_blank" rel="noreferrer">
+              <span class="activity-card-num">02</span>
+              <div class="activity-card-body">
+                <strong class="activity-card-title">note</strong>
+                <p class="activity-card-desc">思考の過程や気づきをテキストで綴っています。</p>
+              </div>
+              <span class="activity-card-thumb activity-card-thumb--note"></span>
+            </a>
+            <a class="activity-card activity-card--podcast" href="#" target="_blank" rel="noreferrer">
+              <span class="activity-card-num">03</span>
+              <div class="activity-card-body">
+                <strong class="activity-card-title">Podcast</strong>
+                <p class="activity-card-desc">問いについての対話をポッドキャストで配信予定。</p>
+              </div>
+              <span class="activity-card-thumb activity-card-thumb--podcast"></span>
+            </a>
+          </div>
+        </section>
+
       </section>
 
       <section class="student-detail" id="student-view" hidden aria-live="polite"></section>
@@ -172,7 +201,7 @@
     <footer class="site-footer">
       <div class="footer-brand">
         <span class="brand-kana">こういう学生に会える場所</span>
-        <strong>coiu meetup ...</strong>
+        <strong>CoIU meetup ...</strong>
       </div>
       <nav aria-label="フッターナビゲーション">
         <a href="#top">TOP</a>

@@ -108,6 +108,27 @@ export const searchQuestion = (query) => {
 };
 
 export const bindEvents = () => {
+  import("./drawer.js").then(({ bindDrawerEvents }) => {
+    bindDrawerEvents({
+      onTagClick: (tag) => toggleTopic(tag),
+      onSearchInput: (value) => {
+        updateSearchQuery(value);
+        if (window.location.hash !== getDiscoveryTargetHash()) {
+          window.location.hash = getDiscoveryTargetHash();
+        }
+      },
+      onSearchSubmit: (value) => {
+        updateSearchQuery(value);
+        if (window.location.hash !== getDiscoveryTargetHash()) {
+          window.location.hash = getDiscoveryTargetHash();
+        }
+        window.setTimeout(() => {
+          document.getElementById("feature")?.scrollIntoView({ behavior: "smooth" });
+        }, 320);
+      },
+    });
+  });
+
   document.addEventListener("click", (event) => {
     const openTarget = event.target.closest("[data-search-modal-open]");
     if (openTarget) {
@@ -168,8 +189,8 @@ export const bindEvents = () => {
   selectors.clearTopic?.addEventListener("click", () => clearDiscovery(getDiscoveryTargetHash()));
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && selectors.searchModal && !selectors.searchModal.hidden) {
-      closeSearchModal();
+    if (event.key === "Escape") {
+      if (selectors.searchModal && !selectors.searchModal.hidden) closeSearchModal();
     }
   });
 
