@@ -1,22 +1,20 @@
 :root {
   color-scheme: light;
-  --bg-base: #f6f4ed;
-  --bg-warm: #fbf7ec;
-  --bg-cool: #ece7dc;
-  --paper: #fffdf7;
-  --ink: #42210b;
-  --ink-secondary: #755b41;
-  --accent: #1d2087;
-  --accent-soft: #e7e8ff;
-  --gold: #d8a53a;
-  --link: #1d2087;
-  --footer: #1d2087;
-  --hairline: rgba(66, 33, 11, 0.16);
-  --shadow-soft: 0 16px 40px rgba(66, 33, 11, 0.08);
-  --radius-card: 6px;
-  --radius-tight: 2px;
-  --font-sans: "Noto Sans JP", sans-serif;
-  --font-latin: "Lato", "Noto Sans JP", sans-serif;
+  --bg: #ffffff;
+  --ink: #171717;
+  --muted: #6b6b6b;
+  --line: #1f1f1f;
+  --line-soft: #d9d9d9;
+  --yellow: #fff45f;
+  --yellow-deep: #ffe928;
+  --green: #dfeadd;
+  --blue: #cbe8f8;
+  --pink: #f4d5d8;
+  --paper: #f7f7f2;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --max: 1180px;
+  --font: "Noto Sans JP", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 * {
@@ -25,23 +23,19 @@
 
 html {
   overflow-x: hidden;
-  background: var(--bg-base);
+  background: var(--bg);
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
   overflow-x: hidden;
-  background: var(--bg-base);
+  background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-sans);
-  font-weight: 400;
-  line-height: 1.85;
+  font-family: var(--font);
+  font-weight: 700;
+  line-height: 1.75;
   text-rendering: optimizeLegibility;
-}
-
-body:has(#student-view:not([hidden])) {
-  background: var(--bg-base);
 }
 
 a {
@@ -60,10 +54,6 @@ button {
   cursor: pointer;
 }
 
-button:disabled {
-  cursor: not-allowed;
-}
-
 img {
   display: block;
   max-width: 100%;
@@ -74,12 +64,12 @@ img {
 }
 
 ::selection {
-  background: var(--accent);
-  color: #fff;
+  background: var(--yellow);
+  color: var(--ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 3px solid var(--yellow-deep);
   outline-offset: 3px;
 }
 
@@ -92,13 +82,11 @@ img {
   white-space: nowrap;
 }
 
+.section-kicker,
 .eyebrow {
   margin: 0;
-  color: var(--accent);
-  font-family: var(--font-latin);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0;
+  font-size: 0.73rem;
+  font-weight: 900;
   line-height: 1.2;
   text-transform: uppercase;
 }

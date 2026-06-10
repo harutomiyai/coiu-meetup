@@ -1,85 +1,44 @@
-.button {
+.button,
+.text-arrow,
+.read-more {
   display: inline-flex;
-  min-height: 42px;
+  width: fit-content;
   align-items: center;
-  justify-content: center;
-  border: 1px solid var(--accent);
-  border-radius: var(--radius-tight);
-  background: transparent;
-  color: var(--accent);
-  font-size: 0.86rem;
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1.15;
-  padding: 10px 20px;
-  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 0.76rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.button {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  padding: 8px 14px;
 }
 
 .button:hover,
-.button:focus-visible {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  color: var(--accent);
-}
-
-.button-dark,
-.button-cta {
-  background: var(--accent);
-  color: #fff;
-}
-
-.button-dark:hover,
-.button-dark:focus-visible,
-.button-cta:hover,
-.button-cta:focus-visible {
-  background: #11136e;
-  border-color: #11136e;
-  color: #fff;
-}
-
-.button-light {
-  border-color: var(--hairline);
-  background: #fff;
-  color: var(--ink);
-}
-
-.button-outline {
-  border-color: rgba(255, 255, 255, 0.72);
-  background: transparent;
-  color: #fff;
-}
-
-.button-outline:hover,
-.button-outline:focus-visible {
-  border-color: #fff;
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
-
-.button-small {
-  min-height: 36px;
-  padding: 7px 12px;
-  font-size: 0.82rem;
-}
-
-.text-arrow,
-.text-button {
-  border: 0;
-  border-bottom: 1px solid currentColor;
-  background: transparent;
-  color: var(--accent);
-  font-size: 0.86rem;
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1.25;
-  padding: 3px 0;
-  white-space: nowrap;
-  transition: opacity 160ms ease;
-}
-
+.button:focus-visible,
 .text-arrow:hover,
-.text-arrow:focus-visible,
-.text-button:hover,
-.text-button:focus-visible {
-  opacity: 0.68;
+.text-arrow:focus-visible {
+  background: var(--ink);
+  color: #fff;
+}
+
+.text-arrow::after,
+.read-more::after {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  content: "→";
+  font-size: 0.7rem;
+}
+
+.text-button[hidden] {
+  display: none;
 }

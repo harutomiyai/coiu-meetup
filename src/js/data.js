@@ -1,19 +1,33 @@
 import { setStudents } from "./state.js";
 
-const STUDENTS_DATA_URL = "/data/students.json";
+const STUDENTS_INDEX_URL = "/data/students/index.json";
 
-export const loadStudents = async () => {
-  const response = await fetch(STUDENTS_DATA_URL);
+const fetchJson = async (url) => {
+  const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error(`Failed to load ${STUDENTS_DATA_URL}: ${response.status}`);
+    throw new Error(`Failed to load ${url}: ${response.status}`);
   }
 
-  const data = await response.json();
+  return response.json();
+};
 
-  if (!Array.isArray(data)) {
-    throw new Error(`${STUDENTS_DATA_URL} must contain an array of students.`);
+export const loadStudents = async () => {
+  const index = await fetchJson(STUDENTS_INDEX_URL);
+
+  if (!Array.isArray(index)) {
+    throw new Error(`${STUDENTS_INDEX_URL} must contain an array of student file entries.`);
   }
+
+  const data = await Promise.all(
+    index.map(async (entry) => {
+      if (!entry?.path) {
+        throw new Error(`${STUDENTS_INDEX_URL} entries must include a path.`);
+      }
+
+      return fetchJson(entry.path);
+    }),
+  );
 
   setStudents(data);
 };

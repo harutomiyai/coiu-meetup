@@ -16,60 +16,105 @@
   <body>
     <header class="site-header">
       <a class="brand" href="/index.html#top" aria-label="CoIU Meetup トップへ">
-        <span class="brand-symbol" aria-hidden="true">co</span>
-        <span class="brand-caption">meetup</span>
+        <span class="brand-kana">こういう学生に会える場所</span>
+        <span class="brand-logo">coiu meetup ...</span>
       </a>
-      <p class="site-title">CoIU Meetupについて</p>
-      <a class="menu-dot menu-dot-link" href="/index.html#students" aria-label="CoIU生一覧へ戻る">
-        <span></span>
-        <span></span>
-        <span></span>
-      </a>
+      <nav class="site-nav" aria-label="メインナビゲーション">
+        <a href="/index.html#feature">FEATURE</a>
+        <a href="/index.html#column">COLUMN</a>
+        <a href="/about.html" aria-current="page">ABOUT</a>
+      </nav>
+      <a class="small-outline" href="/index.html#feature">STUDENTS +</a>
     </header>
 
     <main>
       <section class="about-page">
-        <div class="shape-mark about-page-mark-left" aria-hidden="true">Co</div>
-        <div class="shape-mark about-page-mark-right" aria-hidden="true">IU</div>
-        <p class="about-rail">about meetup</p>
-        <div class="about-page-inner">
-          <p class="eyebrow">about</p>
-          <h1>問いを持って動いている人を、ちゃんと見つけられるように。</h1>
-          <p>
-            CoIU Meetupは、CoIU生の問い、活動、話せるテーマを集めた学生アーカイブです。イベントで出会った学生をあとから思い出すためにも、これから話したい人を見つけるためにも使えます。
-          </p>
-          <div class="about-principles" aria-label="このサイトの考え方">
+        <div class="about-main-visual">
+          <div>
+            <p class="section-kicker">ABOUT / CoIU Meetup</p>
+            <h1>問いを持って動いている人を、ちゃんと見つけられるように。</h1>
+            <p>
+              CoIU Meetupは、CoIU生の問い、活動、話せるテーマを集めた学生アーカイブです。イベントで出会った学生をあとから思い出すためにも、これから話したい人を見つけるためにも使えます。
+            </p>
+          </div>
+          <img src="/images/hero/coiu-window.jpg" alt="CoIUの窓辺の写真" />
+        </div>
+
+        <section class="column-section about-column" aria-labelledby="about-column-title">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">CONCEPT</p>
+              <h2 id="about-column-title">このサイトの考え方</h2>
+            </div>
+          </div>
+          <div class="column-grid">
             <article>
               <span>01</span>
-              <h2>問いから入る</h2>
+              <h3>問いから入る</h3>
               <p>名前や肩書きより先に、その人がいま何を考えているのかを置きます。</p>
             </article>
             <article>
               <span>02</span>
-              <h2>活動を残す</h2>
+              <h3>活動を残す</h3>
               <p>最近の取り組みや制作物を、あとから読み返せるかたちにします。</p>
             </article>
             <article>
               <span>03</span>
-              <h2>会話につなげる</h2>
+              <h3>会話につなげる</h3>
               <p>話せるテーマや相談できることを見て、次の一言を作れるようにします。</p>
             </article>
+            <article>
+              <span>04</span>
+              <h3>追加しやすくする</h3>
+              <p>学生データはJSONで管理し、プロフィールを増やしやすくしています。</p>
+            </article>
           </div>
-          <a class="text-arrow" href="/index.html#students">CoIU生一覧を見る</a>
-        </div>
+        </section>
+
+        <section class="section collage-section about-collage" aria-labelledby="about-collage-title">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">ARCHIVE NOTE</p>
+              <h2 id="about-collage-title">写真と文章を主役にする</h2>
+            </div>
+          </div>
+          <div class="collage-board">
+            <figure class="collage-large">
+              <img src="/images/students/haruto.jpg" alt="宮井陽音さんの写真" />
+              <figcaption>Question</figcaption>
+            </figure>
+            <figure class="collage-note note-yellow">
+              <img src="/images/students/aoi.jpg" alt="森田葵さんの写真" />
+              <figcaption>Design</figcaption>
+            </figure>
+            <figure class="collage-note note-round">
+              <img src="/images/students/tsumugi.jpg" alt="小林紬さんの写真" />
+              <figcaption>Local</figcaption>
+            </figure>
+            <div class="collage-words">
+              <strong>すごい人紹介ではなく、問いを持って動いている人の紹介へ。</strong>
+              <p>プロフィールは、肩書きの一覧ではなく、その人の関心がどう活動に変わっているかを読める構成にしています。</p>
+            </div>
+            <figure class="collage-wide">
+              <img src="/images/hero/coiu-students.jpg" alt="CoIU生の集合写真" />
+              <figcaption>CoIU Meetup</figcaption>
+            </figure>
+          </div>
+        </section>
       </section>
     </main>
 
     <footer class="site-footer">
-      <div>
-        <strong>CoIU Meetup</strong>
-        <p>問いと活動から学生に出会うアーカイブ。</p>
+      <div class="footer-brand">
+        <span class="brand-kana">こういう学生に会える場所</span>
+        <strong>coiu meetup ...</strong>
       </div>
       <nav aria-label="フッターナビゲーション">
-        <a href="/index.html#top">トップ</a>
-        <a href="/index.html#students">CoIU生一覧</a>
-        <a href="/about.html" aria-current="page">About</a>
+        <a href="/index.html#top">TOP</a>
+        <a href="/index.html#feature">FEATURE</a>
+        <a href="/about.html" aria-current="page">ABOUT</a>
       </nav>
+      <a class="page-top" href="/index.html#top">TOP +</a>
     </footer>
   </body>
 </html>
