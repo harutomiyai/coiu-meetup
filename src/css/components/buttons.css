@@ -1,13 +1,15 @@
 .button {
   display: inline-flex;
-  min-height: 44px;
+  min-height: 42px;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid var(--ink);
+  border: 1px solid var(--ink);
   border-radius: var(--radius-card);
+  font-size: 0.86rem;
   font-weight: 500;
   line-height: 1.15;
-  padding: 11px 16px;
+  padding: 10px 20px;
+  letter-spacing: 0.03em;
   transition:
     background-color 160ms ease,
     color 160ms ease,
@@ -28,8 +30,8 @@
 
 .button-dark:hover,
 .button-dark:focus-visible {
-  background: #3a3a38;
-  border-color: #3a3a38;
+  background: #333330;
+  border-color: #333330;
   color: #fff;
 }
 
@@ -39,21 +41,22 @@
 }
 
 .button-cta {
-  min-height: 52px;
+  min-height: 48px;
   background: var(--accent);
-  color: var(--ink);
-  padding: 13px 18px;
+  color: #fff;
+  border-color: var(--accent);
+  padding: 12px 22px;
 }
 
 .button-cta:hover,
 .button-cta:focus-visible {
-  background: #e0b43a;
-  border-color: var(--ink);
-  color: var(--ink);
+  background: #b8975a;
+  border-color: #b8975a;
+  color: #fff;
 }
 
 .button-outline {
-  border-color: #fff;
+  border-color: rgba(255,255,255,0.5);
   background: transparent;
   color: #fff;
 }
@@ -61,31 +64,33 @@
 .button-outline:hover,
 .button-outline:focus-visible {
   border-color: #fff;
-  background: #fff;
-  color: var(--footer);
+  background: rgba(255,255,255,0.1);
+  color: #fff;
 }
 
 .button-small {
-  min-height: 38px;
-  padding: 8px 12px;
-  font-size: 0.86rem;
+  min-height: 36px;
+  padding: 7px 12px;
+  font-size: 0.82rem;
 }
 
 .text-arrow,
 .text-button {
   border: 0;
-  border-bottom: 1.5px solid currentColor;
+  border-bottom: 1px solid currentColor;
   background: transparent;
-  color: var(--link);
+  color: var(--ink);
+  font-size: 0.86rem;
   font-weight: 500;
   line-height: 1.25;
-  padding: 4px 0;
+  padding: 3px 0;
   white-space: nowrap;
+  transition: opacity 160ms ease;
 }
 
 .text-arrow:hover,
 .text-arrow:focus-visible,
 .text-button:hover,
 .text-button:focus-visible {
-  color: var(--ink);
+  opacity: 0.65;
 }

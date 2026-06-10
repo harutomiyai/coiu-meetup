@@ -14,8 +14,8 @@
     <meta property="og:image" content="/images/hero/coiu-students.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
     <script type="module" src="/src/main.js"></script>
   </head>
   <body>
@@ -27,8 +27,6 @@
       <nav class="site-nav" aria-label="メインナビゲーション">
         <a class="nav-clip" href="#students">学生を探す</a>
         <button type="button" data-theme-modal-open>テーマから探す</button>
-        <a href="#pickup">ピックアップ</a>
-        <a href="#note-feed">note</a>
         <a href="/about.html">About</a>
       </nav>
       <form class="site-search" role="search" aria-label="学生検索">
@@ -39,8 +37,13 @@
 
     <main>
       <section id="home-view">
+        <!-- Full-width hero slideshow -->
         <section class="hero" id="top" aria-labelledby="hero-title">
-          <div class="hero-inner">
+          <div class="hero-slideshow" id="hero-slideshow" aria-label="注目の学生">
+            <div class="hero-slide-track" id="hero-slide-track"></div>
+            <div class="hero-slideshow-dots" id="hero-dots" aria-label="スライド切り替え"></div>
+          </div>
+          <div class="hero-inner-simple">
             <div class="hero-copy-column">
               <div class="hero-logo-block">
                 <p class="hero-kicker">CoIU Meetup</p>
@@ -54,12 +57,10 @@
                   </span>が<br>
                   います。
                 </h1>
-                <p class="hero-subcopy">問い・活動・記事から、学生を見つける。</p>
                 <p class="hero-lead">
-                  イベントで出会ったCoIU生を、名前やテーマからもう一度見つけられる人物メディアです。
+                  イベントで出会ったCoIU生を、名前やテーマからもう一度見つけられます。
                 </p>
               </div>
-
               <div class="hero-bottom" aria-label="主要アクション">
                 <div class="hero-actions" aria-label="主要アクション">
                   <a class="button button-dark" href="#students">学生を見る</a>
@@ -67,36 +68,22 @@
                 </div>
               </div>
             </div>
-
-            <div class="hero-visual" id="hero-visual" aria-label="CoIU生の紹介カード"></div>
           </div>
         </section>
 
-        <section class="section section-coiu-intro" aria-labelledby="coiu-intro-title">
-          <div class="coiu-intro-inner">
-            <div class="coiu-intro-label">
-              <p class="eyebrow">ABOUT CoIU</p>
-              <span aria-hidden="true"></span>
-            </div>
-            <div class="coiu-intro-main">
-              <h2 id="coiu-intro-title">地域や社会と関わりながら、問いを育てる場所。</h2>
-              <p>このサイトでは、CoIUで学ぶ学生の問いや活動を一人ずつ紹介します。気になる人やテーマから、次に話してみたい学生を見つけてください。</p>
-              <a class="text-arrow" href="/about.html">Aboutを見る →</a>
-            </div>
-          </div>
-        </section>
-
-        <section class="section section-pickup" id="pickup" aria-labelledby="pickup-title">
-          <div class="section-heading loud">
-            <p class="section-num">01</p>
+        <!-- Pickup featured students -->
+        <section class="section section-pickup" aria-labelledby="pickup-title">
+          <div class="section-heading">
             <div>
               <p class="eyebrow">PICK UP</p>
-              <h2 id="pickup-title">ピックアップ学生</h2>
+              <h2 id="pickup-title">注目の学生</h2>
+              <p class="section-note">問いと活動で選んだ、今注目の学生たちです。</p>
             </div>
           </div>
           <div id="today-question-card"></div>
         </section>
 
+        <!-- Student list -->
         <section class="section section-topics" id="students" aria-labelledby="students-title">
           <div class="topics-shell">
             <div class="section-heading topics-heading">
@@ -113,30 +100,6 @@
               <button class="text-button" id="clear-topic" type="button">すべて</button>
             </div>
             <div class="people-grid" id="people-grid"></div>
-          </div>
-        </section>
-
-        <section class="section section-note-feed" id="note-feed" aria-labelledby="note-feed-title" hidden>
-          <div class="section-heading split">
-            <div>
-              <p class="eyebrow">FROM NOTE</p>
-              <h2 id="note-feed-title">最新の記事</h2>
-            </div>
-            <a class="text-arrow" href="https://note.com/haruto_miyai" target="_blank" rel="noreferrer">note を読む →</a>
-          </div>
-          <div class="note-feed-grid" id="note-feed-grid"></div>
-        </section>
-
-        <section class="section section-cta" aria-labelledby="cta-title">
-          <div class="cta-inner">
-            <div>
-              <p class="eyebrow">VISIT / READ</p>
-              <h2 id="cta-title">CoIUに、会いに来ませんか。</h2>
-            </div>
-            <div class="cta-actions">
-              <a class="button button-cta" href="/about.html">Aboutを見る</a>
-              <a class="button button-outline" href="https://note.com/haruto_miyai" target="_blank" rel="noreferrer">noteを読む</a>
-            </div>
           </div>
         </section>
       </section>

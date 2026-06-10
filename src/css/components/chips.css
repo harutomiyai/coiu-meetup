@@ -4,16 +4,19 @@
 .talk-pill {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--ink);
-  border-radius: var(--radius-card);
+  border: 1px solid var(--hairline);
+  border-radius: 1px;
   background: transparent;
-  color: var(--ink);
+  color: var(--ink-secondary);
+  font-size: 0.74rem;
   font-weight: 500;
   line-height: 1.15;
 }
 
 .topic-chip {
-  padding: 9px 12px;
+  padding: 7px 11px;
+  color: var(--ink);
+  border-color: var(--hairline);
   transition:
     background-color 160ms ease,
     border-color 160ms ease;
@@ -38,19 +41,20 @@
 .topic-chip.is-active:focus-visible,
 .theme-modal-tag.is-active:hover,
 .theme-modal-tag.is-active:focus-visible {
-  background: #3a3a38;
-  border-color: #3a3a38;
+  background: #333330;
+  border-color: #333330;
 }
 
 .tag-pill,
 .talk-pill {
-  font-size: 0.75rem;
-  padding: 5px 7px;
+  font-size: 0.7rem;
+  padding: 4px 7px;
+  letter-spacing: 0.02em;
 }
 
 .tag-row,
 .talk-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 5px;
 }

@@ -5,6 +5,9 @@ import { fetchNoteArticles, getNoteHomeUrl, hasNoteFeedSource } from "../lib/not
 let detailNoteRequestId = 0;
 let pickupScrollFrame = 0;
 let pickupAutoplayTimer = null;
+let heroSlideIndex = 0;
+let heroSlideTimer = null;
+let heroSlideStudents = [];
 
 const linkOrder = ["note", "youtube", "podcast", "instagram", "x", "contact"];
 
@@ -208,10 +211,12 @@ const personCard = (student) => {
           <span class="person-name">${escapeHtml(student.name)}</span>
           <span class="generation-badge">${escapeHtml(student.generation)}</span>
         </span>
+        ${student.currentProject ? `<span class="card-project">${escapeHtml(student.currentProject)}</span>` : ""}
         <span class="tag-row">
           ${visibleTags.map(tagPill).join("")}
         </span>
-        <span class="card-hover-link">話を聞きに行く →</span>
+        <span class="card-read-more">詳しく見る →</span>
+        <span class="card-hover-link" aria-hidden="true">話を聞きに行く →</span>
       </span>
     </a>
   `;
@@ -691,11 +696,88 @@ export const renderNoteArticles = async () => {
   }
 };
 
+const heroSlide = (student) => `
+  <div class="hero-slide" role="group" aria-label="${escapeHtml(student.name)}さんのピックアップ">
+    <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
+    <div class="hero-slide-overlay" aria-hidden="true"></div>
+    <a class="hero-slide-caption" href="#student/${escapeHtml(student.slug)}" aria-label="${escapeHtml(student.name)}さんの詳細を見る">
+      <span class="eyebrow">PICK UP STUDENT</span>
+      <h2>${escapeHtml(student.name)}</h2>
+      <p>${escapeHtml(student.currentQuestion)}</p>
+    </a>
+  </div>
+`;
+
+const setHeroSlide = (index) => {
+  const track = selectors.heroSlideTrack;
+  const dots = selectors.heroDots;
+  if (!track) return;
+
+  heroSlideIndex = index;
+  track.style.transform = `translateX(${-index * 100}%)`;
+
+  if (dots) {
+    [...dots.querySelectorAll(".hero-dot")].forEach((dot, i) => {
+      dot.classList.toggle("is-active", i === index);
+    });
+  }
+};
+
+const startHeroAutoplay = () => {
+  if (heroSlideTimer) clearInterval(heroSlideTimer);
+  if (heroSlideStudents.length < 2) return;
+
+  heroSlideTimer = setInterval(() => {
+    const next = (heroSlideIndex + 1) % heroSlideStudents.length;
+    setHeroSlide(next);
+  }, 4500);
+};
+
+export const renderHeroSlideshow = () => {
+  const track = selectors.heroSlideTrack;
+  const dots = selectors.heroDots;
+  const slideshow = selectors.heroSlideshow;
+  if (!track || !slideshow) return;
+
+  heroSlideStudents = students.filter((s) => s.featured);
+  if (!heroSlideStudents.length) heroSlideStudents = students.slice(0, 4);
+  if (!heroSlideStudents.length) {
+    slideshow.hidden = true;
+    return;
+  }
+
+  track.innerHTML = heroSlideStudents.map(heroSlide).join("");
+
+  if (dots) {
+    dots.innerHTML = heroSlideStudents
+      .map(
+        (_, i) =>
+          `<button class="hero-dot ${i === 0 ? "is-active" : ""}" type="button" aria-label="${i + 1}枚目のスライドへ" data-hero-dot="${i}"></button>`,
+      )
+      .join("");
+
+    dots.addEventListener("click", (event) => {
+      const dot = event.target.closest("[data-hero-dot]");
+      if (!dot) return;
+      const idx = Number(dot.dataset.heroDot);
+      setHeroSlide(idx);
+      startHeroAutoplay();
+    });
+  }
+
+  slideshow.addEventListener("pointerenter", () => {
+    if (heroSlideTimer) clearInterval(heroSlideTimer);
+  });
+  slideshow.addEventListener("pointerleave", () => startHeroAutoplay());
+
+  setHeroSlide(0);
+  startHeroAutoplay();
+};
+
 export const renderHome = () => {
-  renderHeroVisual();
+  renderHeroSlideshow();
   renderTodayQuestion();
   renderDiscoveryResults();
-  renderNoteArticles();
 };
 
 export const renderLoadError = (error) => {

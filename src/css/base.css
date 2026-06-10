@@ -1,16 +1,16 @@
 :root {
   color-scheme: light;
-  --bg-base: #FAF7F0;
-  --bg-warm: #FBF1D6;
-  --bg-cool: #ECE8DE;
-  --ink: #1C1C1A;
-  --ink-secondary: #6B6860;   /* メタ・ラベル・日付 — クリック不可の補足テキスト */
-  --accent: #F5C84B;          /* ブランド専用 — ロゴマーク・h1下線・CTAボタンのみ */
-  --link: #2346B0;            /* 操作色 — クリック可能なテキストリンクのみ */
-  --footer: #1B2A6B;
-  --hairline: rgba(28, 28, 26, 0.15);
-  --radius-card: 8px;
-  --radius-tight: 2px;
+  --bg-base: #FAFAF8;
+  --bg-warm: #F5F0E8;
+  --bg-cool: #F0EDE6;
+  --ink: #1A1A18;
+  --ink-secondary: #7A7770;
+  --accent: #C8A96E;
+  --link: #1A1A18;
+  --footer: #1A1A18;
+  --hairline: rgba(26, 26, 24, 0.12);
+  --radius-card: 2px;
+  --radius-tight: 1px;
 }
 
 * {
