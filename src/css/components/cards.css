@@ -1,132 +1,9 @@
-.featured-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-}
-
+.featured-grid,
 .pickup-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-}
-
-.pickup-slider {
-  display: grid;
-  gap: 18px;
-}
-
-.pickup-viewport {
-  overflow: hidden;
-  border: 4px solid var(--ink);
-  border-radius: var(--radius-card);
-  background: var(--white);
-  box-shadow: var(--shadow);
-}
-
-.pickup-track {
-  display: flex;
-  transition: transform 420ms ease;
-  will-change: transform;
-}
-
-.pickup-slide {
-  flex: 0 0 100%;
-  min-width: 0;
-}
-
-.pickup-slide .person-card-pickup {
-  display: grid;
-  grid-template-columns: minmax(280px, 0.85fr) minmax(320px, 1fr);
-  min-height: 430px;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-.pickup-slide .person-card-pickup:hover,
-.pickup-slide .person-card-pickup:focus-within {
-  box-shadow: none;
-  transform: none;
-}
-
-.pickup-slide .person-card-pickup .card-image {
-  overflow: hidden;
-  border-right: 4px solid var(--ink);
-  border-bottom: 0;
-}
-
-.pickup-slide .person-card-pickup .card-image img {
-  width: 100%;
-  height: 100%;
-  min-height: 430px;
-  object-fit: cover;
-  object-position: top center;
-}
-
-.pickup-slide .person-card-pickup .person-card-body {
-  justify-content: center;
-  gap: 14px;
-  padding: 34px;
-}
-
-.pickup-controls {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 14px;
-  align-items: center;
-}
-
-.pickup-arrow {
-  display: grid;
-  width: 48px;
-  height: 48px;
-  place-items: center;
-  border: 3px solid var(--ink);
-  border-radius: 50%;
-  background: var(--white);
-  box-shadow: 5px 5px 0 var(--ink);
-  font-size: 1.35rem;
-  font-weight: 950;
-  line-height: 1;
-  transition:
-    transform 160ms ease,
-    box-shadow 160ms ease,
-    background 160ms ease;
-}
-
-.pickup-arrow:hover,
-.pickup-arrow:focus-visible {
-  background: var(--key);
-  box-shadow: 7px 7px 0 var(--ink);
-  outline: none;
-  transform: translate(-2px, -2px);
-}
-
-.pickup-dots {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 9px;
-}
-
-.pickup-dot {
-  width: 14px;
-  height: 14px;
-  border: 2px solid var(--ink);
-  border-radius: 50%;
-  background: var(--white);
-  padding: 0;
-  transition:
-    transform 160ms ease,
-    background 160ms ease;
-}
-
-.pickup-dot.is-active,
-.pickup-dot:hover,
-.pickup-dot:focus-visible {
-  background: var(--ink);
-  outline: none;
-  transform: scale(1.18);
+  gap: 32px;
+  align-items: start;
 }
 
 .people-grid {
@@ -135,149 +12,67 @@
 
 .people-grid.is-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  align-items: start;
 }
 
 .person-card,
-.today-card,
-.detail-card {
-  border: 4px solid var(--ink);
+.empty-state {
+  border: 1.5px solid var(--hairline);
   border-radius: var(--radius-card);
-  background: var(--white);
-  box-shadow: var(--shadow);
+  background: #fff;
 }
 
 .person-card {
+  position: relative;
   display: flex;
   min-width: 0;
   flex-direction: column;
   overflow: hidden;
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease;
+  color: var(--ink);
+  transition: border-color 160ms ease;
 }
 
 .person-card:hover,
-.person-card:focus-within {
-  box-shadow: 12px 12px 0 var(--ink);
-  transform: translate(-4px, -4px);
+.person-card:focus-within,
+.person-card:focus-visible {
+  border-color: var(--ink);
 }
 
-.person-card-featured:nth-child(2) {
-  transform: translateY(18px) rotate(0.8deg);
-}
-
-.person-card-featured:nth-child(3) {
-  transform: translateY(-8px) rotate(-0.8deg);
-}
-
-.person-card-featured:nth-child(2):hover,
-.person-card-featured:nth-child(2):focus-within,
-.person-card-featured:nth-child(3):hover,
-.person-card-featured:nth-child(3):focus-within {
-  transform: translate(-4px, -4px);
-}
-
-.recommendation-grid .person-card-featured:nth-child(2),
-.recommendation-grid .person-card-featured:nth-child(3) {
-  transform: none;
-}
-
-.recommendation-grid .person-card-featured:nth-child(2):hover,
-.recommendation-grid .person-card-featured:nth-child(2):focus-within,
-.recommendation-grid .person-card-featured:nth-child(3):hover,
-.recommendation-grid .person-card-featured:nth-child(3):focus-within {
-  transform: translate(-4px, -4px);
-}
-
-.people-grid .person-card {
-  border-width: 3px;
-  box-shadow: 6px 6px 0 var(--ink);
-}
-
-.people-grid .person-card:hover,
-.people-grid .person-card:focus-within {
-  box-shadow: 9px 9px 0 var(--ink);
-}
-
-.people-grid .person-card:nth-child(4n + 2):hover,
-.people-grid .person-card:nth-child(4n + 2):focus-within,
-.people-grid .person-card:nth-child(4n + 3):hover,
-.people-grid .person-card:nth-child(4n + 3):focus-within {
-  transform: translate(-4px, -4px);
-}
-
-.people-grid.is-grid .person-card:nth-child(4n + 2),
-.people-grid.is-grid .person-card:nth-child(4n + 3) {
-  transform: none;
-}
-
-.people-grid.is-grid .person-card:nth-child(4n + 2):hover,
-.people-grid.is-grid .person-card:nth-child(4n + 2):focus-within,
-.people-grid.is-grid .person-card:nth-child(4n + 3):hover,
-.people-grid.is-grid .person-card:nth-child(4n + 3):focus-within {
-  transform: translate(-4px, -4px);
+.person-card-link {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  color: inherit;
 }
 
 .card-image {
   display: block;
   overflow: hidden;
-  border-bottom: 4px solid var(--ink);
-  background: var(--key);
+  background: var(--bg-warm);
+}
+
+.person-card-grid .card-image,
+.person-card-link .card-image {
+  aspect-ratio: 4 / 5;
 }
 
 .card-image img {
   width: 100%;
-  height: 220px;
+  height: 100%;
   object-fit: cover;
   object-position: top center;
-  transition: transform 300ms ease;
-}
-
-.person-card-grid .card-image img {
-  height: 155px;
-}
-
-.person-card-pickup .card-image img,
-.person-card-featured .card-image img {
-  height: 220px;
-}
-
-.recommendation-grid .card-image img {
-  filter: brightness(1.03) saturate(0.9) contrast(1.03) sepia(0.03);
-}
-
-.recommendation-grid .person-card[data-student-slug="aoi-morita"] .card-image img {
-  filter: brightness(1.16) saturate(0.88) contrast(1.04) sepia(0.04);
-}
-
-.recommendation-grid .person-card[data-student-slug="akari-nakamura"] .card-image img {
-  filter: brightness(1.05) saturate(0.86) contrast(1.03) sepia(0.05);
-}
-
-.recommendation-grid .person-card[data-student-slug="yu-takahashi"] .card-image img {
-  filter: brightness(0.94) saturate(0.82) contrast(1.04) sepia(0.04);
+  filter: saturate(0.9) sepia(0.06);
+  transition: transform 400ms ease;
 }
 
 .person-card:hover .card-image img,
 .person-card:focus-within .card-image img,
-.today-card:hover .today-image img {
-  transform: scale(1.06);
-}
-
-.card-q-label {
-  display: inline-flex;
-  align-self: flex-start;
-  margin-bottom: 8px;
-  border: 2px solid var(--ink);
-  border-radius: var(--radius-tight);
-  background: var(--key);
-  font-size: 0.68rem;
-  font-weight: 950;
-  letter-spacing: 0.06em;
-  padding: 3px 8px;
-  transform: rotate(-1.5deg);
+.person-card:focus-visible .card-image img,
+.pickup-card:hover .pickup-image img,
+.pickup-card:focus-within .pickup-image img {
+  transform: scale(1.03);
 }
 
 .person-card-body {
@@ -288,199 +83,258 @@
   padding: 18px;
 }
 
-.person-card-grid .person-card-body {
-  gap: 10px;
-  padding: 16px;
-}
-
-.person-card h3 {
-  margin: 0;
-  font-size: 1.6rem;
-  font-weight: 950;
-  letter-spacing: 0;
-  line-height: 1.12;
-}
-
-.person-card-featured h3 {
-  font-size: 1.85rem;
-}
-
-.person-card-pickup h3 {
-  font-size: 2.35rem;
-}
-
-.person-card-grid h3 {
-  font-size: 1.38rem;
-}
-
-/* Small avatar + name row for grid cards */
-.card-person-info {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.card-avatar {
-  display: block;
-  overflow: hidden;
-  flex-shrink: 0;
-  width: 52px;
-  height: 52px;
-  border: 3px solid var(--ink);
-  border-radius: 50%;
-  background: var(--key);
-}
-
-.card-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 300ms ease;
-}
-
-.person-card:hover .card-avatar img,
-.person-card:focus-within .card-avatar img {
-  transform: scale(1.1);
-}
-
+.person-card h3,
 .person-name {
-  display: inline-flex;
-  align-self: flex-start;
   margin: 0;
-  border: 3px solid var(--ink);
-  border-radius: var(--radius-pill);
-  background: var(--mint);
-  font-size: 0.84rem;
-  font-weight: 950;
-  line-height: 1.1;
-  padding: 6px 10px;
+  font-size: 0.94rem;
+  font-weight: 500;
+  line-height: 1.35;
 }
 
-.person-catch,
-.today-catch {
+.person-meta {
   margin: 0;
-  font-weight: 950;
-  font-size: 0.94rem;
-  line-height: 1.5;
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.generation-badge,
+.person-meta-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: var(--radius-tight);
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 0.62rem;
+  font-weight: 500;
+  line-height: 1;
+  padding: 4px 6px;
+}
+
+.person-catch {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.card-question,
+.pickup-question {
+  margin: 0;
+  font-family: "Shippori Mincho", serif;
+  font-weight: 700;
+  line-height: 1.7;
+}
+
+.card-question {
+  display: -webkit-box;
+  overflow: hidden;
+  min-height: 5.1em;
+  font-size: 1.25rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.card-question span,
+.card-question-label {
+  display: none;
+}
+
+.person-card-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
 }
 
 .activity-line {
-  margin: 0;
-  border-top: 2px solid var(--ink);
-  padding-top: 9px;
-  font-size: 0.88rem;
-  font-weight: 850;
-  line-height: 1.55;
-}
-
-.person-card-grid .activity-line {
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-/* Hint box — "話しかける入口" */
-.card-hint-box {
-  border-left: 4px solid var(--mint);
-  border-radius: 0 var(--radius-card) var(--radius-card) 0;
-  background: rgba(84, 211, 155, 0.1);
-  padding: 10px 12px;
-  margin-top: 0;
-}
-
-.card-hint-label {
-  display: block;
-  margin-bottom: 4px;
-  color: var(--blue);
-  font-size: 0.66rem;
-  font-weight: 950;
-  letter-spacing: 0.06em;
-  text-transform: none;
-}
-
-.card-hint-box p {
-  margin: 0;
-  font-size: 0.86rem;
-  font-weight: 800;
-  line-height: 1.5;
-}
-
-.tag-row,
-.talk-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display: none;
 }
 
 .card-actions {
   margin-top: auto;
 }
 
-/* Today card */
-.today-card {
+.card-hover-link {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  color: var(--link);
+  font-size: 0.82rem;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.person-card:hover .card-hover-link,
+.person-card:focus-within .card-hover-link,
+.person-card:focus-visible .card-hover-link {
+  opacity: 1;
+}
+
+.pickup-slider {
   display: grid;
-  grid-template-columns: minmax(320px, 1.1fr) minmax(320px, 0.9fr);
-  overflow: hidden;
-  background: var(--white);
-  transform: rotate(-0.35deg);
+  gap: 18px;
 }
 
-.today-image {
-  display: block;
-  overflow: hidden;
-  border-right: 4px solid var(--ink);
-  background: var(--mint);
-  margin-left: -18px;
+.pickup-viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
 }
 
-.today-image img {
+.pickup-track {
+  display: flex;
+  gap: 24px;
+}
+
+.pickup-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.pickup-slide[aria-hidden="true"] {
+  pointer-events: none;
+}
+
+.pickup-card,
+.pickup-slide .person-card-pickup {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.74fr) minmax(0, 1fr);
+  overflow: hidden;
+  min-height: 520px;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius-card);
+  background: #fff;
+}
+
+.pickup-image,
+.pickup-slide .card-image {
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  min-height: 520px;
+  background: var(--bg-warm);
+}
+
+.pickup-image img,
+.pickup-slide .card-image img {
   width: 100%;
   height: 100%;
-  min-height: 430px;
   object-fit: cover;
   object-position: top center;
-  transition: transform 300ms ease;
+  filter: saturate(0.9) sepia(0.06);
 }
 
-.today-body {
+.pickup-body,
+.pickup-slide .person-card-body {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+  padding: 38px;
+}
+
+.pickup-question {
+  font-size: 1.75rem;
+}
+
+.pickup-person {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 13px;
-  padding: 34px;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
 }
 
-.today-card h3 {
+.pickup-person strong {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.pickup-message,
+.card-hint-box {
   margin: 0;
-  font-size: 2.45rem;
-  font-weight: 950;
-  letter-spacing: 0;
-  line-height: 1.18;
+  border-left: 1.5px solid var(--ink);
+  padding-left: 16px;
+  font-size: 1rem;
+  line-height: 1.9;
 }
 
-.today-body p {
-  margin: 0;
-  font-weight: 850;
+.card-hint-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--link);
+  font-size: 0.72rem;
+  font-weight: 500;
 }
 
-/* Empty state */
+.pickup-note-card {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-card);
+  background: var(--bg-base);
+  padding: 12px;
+}
+
+.pickup-note-card:hover,
+.pickup-note-card:focus-visible {
+  border-color: var(--ink);
+}
+
+.pickup-note-thumb {
+  overflow: hidden;
+  aspect-ratio: 1;
+  border-radius: var(--radius-card);
+  background: var(--bg-warm);
+}
+
+.pickup-note-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pickup-note-copy {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.pickup-note-copy span {
+  color: var(--link);
+  font-size: 0.76rem;
+  font-weight: 500;
+}
+
+.pickup-note-copy strong {
+  overflow: hidden;
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pickup-controls {
+  display: none;
+}
+
 .empty-state {
   grid-column: 1 / -1;
-  border: 4px dashed var(--ink);
-  border-radius: var(--radius-card);
-  background: var(--white);
   padding: 28px;
 }
 
 .empty-state h3 {
   margin: 0 0 6px;
-  font-size: 1.4rem;
-  font-weight: 950;
-  letter-spacing: 0;
+  font-family: "Shippori Mincho", serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .empty-state p {
   margin: 0;
-  font-weight: 850;
 }

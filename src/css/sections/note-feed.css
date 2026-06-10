@@ -1,39 +1,32 @@
-.section-note-feed {
-  background: var(--cream);
-}
-
 .note-feed-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
+  gap: 24px;
+  align-items: start;
 }
 
 .note-article-card {
   display: flex;
+  min-height: 100%;
   flex-direction: column;
   overflow: hidden;
-  border: 4px solid var(--ink);
+  border: 1.5px solid var(--hairline);
   border-radius: var(--radius-card);
-  background: var(--white);
-  box-shadow: var(--shadow);
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease;
+  background: #fff;
+  color: var(--ink);
+  transition: border-color 160ms ease;
 }
 
 .note-article-card:hover,
 .note-article-card:focus-visible {
-  box-shadow: 12px 12px 0 var(--ink);
-  outline: none;
-  transform: translate(-4px, -4px);
+  border-color: var(--ink);
 }
 
 .note-card-image {
   position: relative;
   overflow: hidden;
-  border-bottom: 4px solid var(--ink);
-  background: var(--key);
   flex-shrink: 0;
+  background: var(--bg-warm);
 }
 
 .note-card-image img {
@@ -42,70 +35,108 @@
   height: 190px;
   object-fit: cover;
   object-position: top center;
-  transition: transform 300ms ease;
+  transition: transform 400ms ease;
 }
 
-.note-article-card:hover .note-card-image img {
-  transform: scale(1.06);
+.note-article-card:hover .note-card-image img,
+.note-article-card:focus-visible .note-card-image img {
+  transform: scale(1.03);
 }
 
 .note-card-image-fallback {
-  width: 100%;
-  height: 190px;
-  background: repeating-linear-gradient(
-    45deg,
-    var(--key) 0px,
-    var(--key) 8px,
-    var(--paper) 8px,
-    var(--paper) 16px
-  );
+  display: grid;
+  min-height: 190px;
+  place-items: center;
+  background: var(--bg-warm);
+  padding: 20px;
+}
+
+.note-card-image-fallback strong {
+  display: -webkit-box;
+  overflow: hidden;
+  font-family: "Shippori Mincho", serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.55;
+  text-align: center;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 
 .note-badge {
   position: absolute;
   top: 10px;
   left: 10px;
-  border: 2px solid var(--ink);
-  border-radius: var(--radius-pill);
-  background: var(--white);
-  color: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-card);
+  background: #fff;
+  color: var(--link);
   font-size: 0.72rem;
-  font-weight: 950;
+  font-weight: 500;
   line-height: 1;
-  padding: 5px 10px;
+  padding: 5px 8px;
 }
 
 .note-card-body {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   padding: 18px;
 }
 
 .note-card-date {
   margin: 0;
+  color: var(--link);
   font-size: 0.76rem;
-  font-weight: 950;
-  color: var(--blue);
+  font-weight: 500;
 }
 
 .note-card-body h3 {
   margin: 0;
+  font-family: "Shippori Mincho", serif;
   font-size: 1.05rem;
-  font-weight: 950;
-  line-height: 1.45;
-  letter-spacing: 0;
+  font-weight: 700;
+  line-height: 1.55;
 }
 
 .note-card-excerpt {
-  margin: 0;
-  font-size: 0.84rem;
-  font-weight: 850;
-  line-height: 1.6;
-  color: rgba(17, 17, 17, 0.72);
   display: -webkit-box;
   overflow: hidden;
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.84rem;
+  line-height: 1.7;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+}
+
+.note-card-author {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: auto;
+  border-top: 1px solid var(--hairline);
+  padding-top: 12px;
+}
+
+.note-card-author img {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.note-card-author span {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.note-card-author time {
+  display: block;
+  color: var(--link);
+  font-size: 0.74rem;
 }

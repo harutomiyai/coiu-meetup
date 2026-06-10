@@ -1,8 +1,4 @@
 @media (max-width: 1080px) {
-  .note-feed-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .site-header {
     grid-template-columns: auto 1fr;
   }
@@ -12,47 +8,32 @@
   }
 
   .hero-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.78fr);
-    gap: 36px;
-  }
-
-  .hero h1 {
-    font-size: 4.8rem;
+    grid-template-columns: 1fr;
+    gap: 42px;
   }
 
   .hero-visual {
-    min-height: 540px;
+    width: min(100%, 620px);
   }
 
-  .hero-student-card {
-    width: 248px;
-  }
-
+  .note-feed-grid,
   .featured-grid,
-  .pickup-grid {
+  .pickup-grid,
+  .people-grid.is-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .people-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .start-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .section-heading.split {
-    align-items: flex-start;
-    flex-direction: column;
+  .coiu-intro-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 
-  .topic-filter {
-    justify-items: start;
-    max-width: none;
-  }
-
-  .topic-list {
-    justify-content: flex-start;
-  }
-
-  .coiu-intro-inner h2 {
-    font-size: 2rem;
+  .about-hero {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -74,97 +55,66 @@
   }
 
   .hero {
-    min-height: 0;
-    padding: 24px 18px 32px;
-  }
-
-  .hero-inner {
-    grid-template-columns: 1fr;
-    gap: 30px;
+    padding: 72px 20px 88px;
   }
 
   .hero h1 {
-    font-size: 4.55rem;
+    font-size: 3rem;
   }
 
-  .hero-subcopy {
-    font-size: 1.6rem;
+  .hero-inner {
+    gap: 34px;
   }
 
-  .hero-bottom {
-    margin-top: 28px;
-  }
-
-  .hero-visual {
-    width: min(100%, 520px);
-    min-height: 540px;
-    margin: 0 auto;
-  }
-
-  .hero-student-card-1 {
-    top: 0;
-    right: 12px;
-  }
-
-  .hero-student-card-2 {
-    top: 148px;
-    left: 0;
-  }
-
-  .hero-student-card-3 {
-    top: 294px;
-    right: 36px;
-  }
-
-  .section,
-  .student-detail {
-    width: min(100% - 28px, 1240px);
+  .hero-spotlight-card,
+  .hero-spotlight-image,
+  .hero-spotlight-image img {
+    min-height: 460px;
   }
 
   .section {
-    padding: 56px 0;
+    padding: 88px 20px;
   }
 
-  .coiu-intro-inner {
-    padding: 24px 22px;
-  }
-
-  .coiu-intro-inner h2 {
-    font-size: 1.75rem;
-  }
-
-  .coiu-intro-foot {
-    flex-direction: column;
+  .section-heading,
+  .topics-heading,
+  .cta-inner,
+  .site-footer {
     align-items: flex-start;
-    gap: 16px;
+    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 
-  .coiu-intro-cta {
-    width: 100%;
-    justify-content: center;
+  .section-heading {
+    justify-content: flex-start;
   }
 
-  .section-heading h2 {
-    font-size: 2.6rem;
+  .topics-heading {
+    display: grid;
   }
 
-  .featured-grid,
-  .pickup-grid,
-  .people-grid,
-  .start-flow,
-  .today-card,
+  .result-head {
+    text-align: left;
+  }
+
+  .topic-filter {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .pickup-card,
   .pickup-slide .person-card-pickup,
   .detail-hero,
   .detail-grid {
     grid-template-columns: 1fr;
   }
 
-  .today-image,
-  .pickup-slide .person-card-pickup .card-image,
+  .pickup-image,
+  .pickup-slide .card-image,
   .detail-image {
+    min-height: 360px;
     border-right: 0;
-    border-bottom: 4px solid var(--ink);
-    margin-left: 0;
+    border-bottom: 1.5px solid var(--ink);
   }
 
   .detail-main {
@@ -173,36 +123,15 @@
 
   .detail-image {
     order: 2;
-    border-top: 4px solid var(--ink);
+    border-top: 1.5px solid var(--ink);
     border-bottom: 0;
   }
 
-  .today-image img,
-  .pickup-slide .person-card-pickup .card-image img,
   .detail-image img {
-    min-height: 280px;
+    min-height: 360px;
   }
 
-  .pickup-slide .person-card-pickup {
-    min-height: 0;
-  }
-
-  .pickup-slide .person-card-pickup .person-card-body {
-    padding: 24px;
-  }
-
-  .today-card h3 {
-    font-size: 2rem;
-  }
-
-  .detail-main h1 {
-    font-size: 2.8rem;
-  }
-
-  .detail-profile {
-    grid-column: auto;
-  }
-
+  .detail-profile,
   .detail-interests,
   .detail-works,
   .detail-message {
@@ -210,292 +139,171 @@
   }
 
   .interest-reason-grid,
+  .interest-reason,
   .link-list,
   .student-note-grid,
   .detail-final-cta {
     grid-template-columns: 1fr;
   }
 
-  .interest-reason {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .detail-final-cta .button,
-  .detail-primary-cta,
-  .detail-secondary-cta {
-    width: 100%;
-  }
-
-  .recommendation-tools {
-    justify-items: start;
-  }
-
-  .recommendation-tools .section-note {
-    text-align: left;
-  }
-
-  .about-page {
-    padding: 56px 18px 68px;
-  }
-
-  .about-hero {
-    grid-template-columns: 1fr;
-  }
-
-  .about-hero h1 {
-    font-size: 3rem;
+  .cta-actions {
+    justify-content: flex-start;
   }
 }
 
-@media (max-width: 560px) {
-  .brand-text {
-    font-size: 0.95rem;
-  }
-
-  .site-nav a,
-  .site-nav button {
-    font-size: 0.78rem;
-    padding: 8px 9px;
-  }
-
-  .site-nav {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  .site-search input {
-    font-size: 0.9rem;
+@media (max-width: 640px) {
+  .hero {
+    padding: 56px 18px 72px;
   }
 
   .hero h1 {
-    font-size: 2.6rem;
-  }
-
-  .hero {
-    padding: 26px 18px 30px;
+    font-size: 2.125rem;
+    line-height: 1.32;
   }
 
   .hero-subcopy {
-    font-size: 1.15rem;
-    padding: 8px 12px 10px;
-  }
-
-  .hero-lead {
-    margin-top: 16px;
-    font-size: 0.95rem;
-    line-height: 1.7;
-  }
-
-  .hero-bottom {
-    gap: 12px;
-    margin-top: 20px;
-  }
-
-  .hero-visual {
-    display: grid;
-    gap: 12px;
-    min-height: 0;
-  }
-
-  .hero-student-card {
-    position: relative;
-    width: 100%;
-  }
-
-  .hero-student-card img {
-    height: 112px;
-  }
-
-  .hero-student-body {
-    gap: 7px;
-    padding: 12px;
-  }
-
-  .hero-student-body strong {
     font-size: 1.08rem;
   }
 
-  .hero-student-catch {
+  .hero-spotlight-card,
+  .hero-spotlight-image,
+  .hero-spotlight-image img {
+    min-height: 390px;
+  }
+
+  .hero-queue {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 72px 18px;
+  }
+
+  .section-heading h2,
+  .coiu-intro-main h2,
+  .about-hero h1 {
+    font-size: 1.9rem;
+  }
+
+  .section-heading {
+    margin-bottom: 24px;
+  }
+
+  .topic-filter {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    margin-inline: -18px;
+    margin-bottom: 24px;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    background: var(--bg-cool);
+    padding: 12px 18px;
+  }
+
+  .topic-filter-label {
     font-size: 0.78rem;
   }
 
-  .hero-student-tags span {
-    font-size: 0.66rem;
-    padding: 5px 7px;
+  .topic-list {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    margin-inline: -18px;
+    padding: 0 18px 2px;
+    scrollbar-width: none;
   }
 
-  .hero-student-card-1 {
-    top: auto;
-    right: auto;
+  .topic-list::-webkit-scrollbar {
+    display: none;
   }
 
-  .hero-student-card-2 {
-    top: auto;
-    left: auto;
+  .topic-chip {
+    flex: 0 0 auto;
   }
 
-  .hero-student-card-3 {
-    top: auto;
-    right: auto;
+  .people-grid.is-grid,
+  .note-feed-grid,
+  .featured-grid,
+  .pickup-grid,
+  .start-flow {
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
-  .hero-actions,
-  .card-actions,
-  .site-footer {
-    align-items: stretch;
-    flex-direction: column;
+  .person-card-link,
+  .people-grid .person-card {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    min-height: 112px;
+  }
+
+  .people-grid .card-image {
+    width: 96px;
+    height: 96px;
+    aspect-ratio: 1;
+    align-self: start;
+    margin: 8px 0 8px 8px;
+    border-radius: var(--radius-card);
+  }
+
+  .people-grid .person-card-body {
+    min-width: 0;
+    gap: 8px;
+    padding: 12px 12px 12px 14px;
+  }
+
+  .people-grid .card-question {
+    min-height: 0;
+    font-size: 1.125rem;
+    line-height: 1.55;
+    -webkit-line-clamp: 2;
+  }
+
+  .people-grid .tag-row,
+  .people-grid .person-catch,
+  .people-grid .card-hover-link {
+    display: none;
+  }
+
+  .pickup-body,
+  .pickup-slide .person-card-body,
+  .detail-main,
+  .detail-card,
+  .article-section,
+  .theme-modal-panel {
+    padding: 22px;
+  }
+
+  .pickup-question {
+    font-size: 1.25rem;
+  }
+
+  .detail-main h1 {
+    font-size: 2.05rem;
+  }
+
+  .detail-question-strip p {
+    font-size: 1.2rem;
+  }
+
+  .about-page,
+  .student-detail {
+    width: 100%;
+  }
+
+  .student-detail {
+    padding: 40px 18px 72px;
   }
 
   .button {
     width: 100%;
   }
 
-  .section-heading {
-    align-items: flex-start;
+  .hero-actions,
+  .card-actions,
+  .cta-actions,
+  .site-footer {
+    align-items: stretch;
     flex-direction: column;
-  }
-
-  .section:nth-of-type(2n) .section-heading,
-  .section:nth-of-type(3n) .section-heading,
-  .today-card,
-  .hero-subcopy,
-  .hero-student-card-1,
-  .hero-student-card-2,
-  .hero-student-card-3,
-  .person-card-featured:nth-child(2),
-  .person-card-featured:nth-child(3) {
-    transform: none;
-  }
-
-  .section-heading h2 {
-    font-size: 2.25rem;
-  }
-
-  .section-num {
-    min-width: 66px;
-    min-height: 52px;
-    font-size: 1.55rem;
-  }
-
-  .person-card-body,
-  .story-body,
-  .today-body,
-  .detail-main,
-  .detail-card {
-    padding: 18px;
-  }
-
-  .person-card h3 {
-    font-size: 1.35rem;
-  }
-
-  .person-card-pickup h3 {
-    font-size: 1.75rem;
-  }
-
-  .pickup-controls {
-    grid-template-columns: 44px 1fr 44px;
-    gap: 10px;
-  }
-
-  .pickup-arrow {
-    width: 44px;
-    height: 44px;
-  }
-
-  .today-card h3 {
-    font-size: 1.65rem;
-  }
-
-  .tag-large {
-    font-size: 1.22rem;
-  }
-
-  .tag-medium,
-  .tag-small {
-    font-size: 0.96rem;
-  }
-
-  .detail-main h1 {
-    font-size: 2.15rem;
-  }
-
-  .people-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .theme-modal {
-    align-items: end;
-    padding: 14px;
-  }
-
-  .theme-modal-panel {
-    padding: 22px;
-  }
-
-  .theme-modal-panel h2 {
-    max-width: 280px;
-    font-size: 1.8rem;
-  }
-
-  .theme-modal-tags {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    margin: 18px 0 14px;
-    padding-bottom: 6px;
-  }
-
-  .theme-modal-tag {
-    flex: 0 0 auto;
-    font-size: 0.86rem;
-    padding: 10px 12px;
-  }
-
-  .about-hero h1 {
-    font-size: 2.35rem;
-  }
-
-  .about-lead {
-    font-size: 0.98rem;
-  }
-
-  .card-avatar {
-    width: 44px;
-    height: 44px;
-  }
-
-  .coiu-intro-inner h2 {
-    font-size: 1.45rem;
-  }
-
-  .detail-final-cta {
-    padding: 20px;
-  }
-
-  .detail-final-cta h2 {
-    font-size: 1.55rem;
-  }
-
-  .note-feed-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .article-section {
-    padding: 28px 22px;
-  }
-
-  .article-header h2 {
-    font-size: 1.65rem;
-  }
-
-  .article-heading {
-    font-size: 1.3rem;
-    margin-top: 32px;
-  }
-
-  .article-lead {
-    font-size: 1.06rem;
   }
 }

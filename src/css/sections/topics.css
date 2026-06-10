@@ -1,53 +1,73 @@
-.topic-filter {
+.topics-shell {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.topics-heading {
   display: grid;
-  justify-items: end;
-  gap: 10px;
-  max-width: 700px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: end;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 22px;
+}
+
+.topics-heading .section-note.wide {
+  margin-top: 10px;
+}
+
+.result-head {
+  display: grid;
+  gap: 4px;
+  min-width: 150px;
+  text-align: right;
+}
+
+.result-head p,
+.result-head strong {
+  margin: 0;
+}
+
+.result-head p {
+  color: var(--ink);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.result-head p span {
+  display: block;
+  color: var(--link);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.result-head strong {
+  font-family: "Shippori Mincho", serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.topic-filter {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 34px;
+}
+
+.topic-filter-label {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .topic-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
   gap: 8px;
-}
-
-.result-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 0 0 18px;
-  border-top: 4px solid var(--ink);
-  border-bottom: 4px solid var(--ink);
-  font-weight: 950;
-  padding: 12px 0;
-}
-
-.result-head p,
-.result-head span {
-  margin: 0;
-}
-
-.tag-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  align-items: center;
-  min-height: 260px;
-  border-top: 4px solid var(--white);
-  border-bottom: 4px solid var(--white);
-  padding: 34px 0;
-}
-
-.tag-cloud .cloud-tag:nth-child(4n + 1) {
-  margin-top: 34px;
-}
-
-.tag-cloud .cloud-tag:nth-child(4n + 2) {
-  margin-bottom: 26px;
-}
-
-.tag-cloud .cloud-tag:nth-child(5n) {
-  margin-left: 24px;
 }

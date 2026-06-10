@@ -1,66 +1,71 @@
 .button {
   display: inline-flex;
-  min-height: 46px;
+  min-height: 44px;
   align-items: center;
   justify-content: center;
-  border: 3px solid var(--ink);
+  border: 1.5px solid var(--ink);
   border-radius: var(--radius-card);
-  font-weight: 950;
+  font-weight: 500;
   line-height: 1.15;
-  padding: 12px 18px;
+  padding: 11px 16px;
   transition:
-    transform 160ms ease,
-    box-shadow 160ms ease,
-    background 160ms ease;
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
 }
 
 .button:hover,
 .button:focus-visible {
-  box-shadow: 5px 5px 0 var(--ink);
-  outline: none;
-  transform: translate(-2px, -2px);
+  border-color: var(--ink);
+  background: var(--accent);
+  color: var(--ink);
 }
 
 .button-dark {
   background: var(--ink);
-  color: var(--white);
+  color: #fff;
 }
 
 .button-light {
-  background: var(--white);
+  background: #fff;
   color: var(--ink);
 }
 
 .button-cta {
-  min-height: 58px;
-  border-width: 4px;
-  background: var(--key);
-  box-shadow: 6px 6px 0 var(--ink);
+  min-height: 52px;
+  background: var(--accent);
   color: var(--ink);
-  font-size: 1.08rem;
-  padding: 15px 22px;
+  padding: 13px 18px;
 }
 
-.button-cta:hover,
-.button-cta:focus-visible {
-  background: var(--white);
-  box-shadow: 9px 9px 0 var(--ink);
+.button-outline {
+  border-color: #fff;
+  background: transparent;
+  color: #fff;
+}
+
+.button-outline:hover,
+.button-outline:focus-visible {
+  border-color: #fff;
+  background: #fff;
+  color: var(--footer);
 }
 
 .button-small {
-  min-height: 40px;
-  padding: 9px 12px;
+  min-height: 38px;
+  padding: 8px 12px;
   font-size: 0.86rem;
 }
 
 .text-arrow,
 .text-button {
   border: 0;
-  border-bottom: 3px solid var(--ink);
+  border-bottom: 1.5px solid currentColor;
   background: transparent;
-  color: var(--ink);
-  font-weight: 950;
-  padding: 6px 0;
+  color: var(--link);
+  font-weight: 500;
+  line-height: 1.25;
+  padding: 4px 0;
   white-space: nowrap;
 }
 
@@ -68,6 +73,5 @@
 .text-arrow:focus-visible,
 .text-button:hover,
 .text-button:focus-visible {
-  color: var(--blue);
-  outline: none;
+  color: var(--ink);
 }
