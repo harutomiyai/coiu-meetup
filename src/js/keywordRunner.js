@@ -1,5 +1,5 @@
-export const initKeywordRunner = () => {
-  const track = document.getElementById("keyword-runner-track");
+const initRunner = (trackId) => {
+  const track = document.getElementById(trackId);
   if (!track) return;
 
   const original = Array.from(track.children);
@@ -33,4 +33,8 @@ export const initKeywordRunner = () => {
 
   build();
   window.addEventListener("resize", build, { passive: true });
+};
+
+export const initKeywordRunner = () => {
+  initRunner("keyword-runner-track");
 };

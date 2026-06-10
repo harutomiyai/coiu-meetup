@@ -1,8 +1,6 @@
 import { students } from "./state.js";
-import { escapeHtml } from "../js/render.js";
+import { escapeHtml } from "./render.js";
 
-// スライド配列: [clone_last, 0, 1, ..., total-1, clone_first]
-// virtualIndex = realIndex + 1
 let current = 0;
 let total = 0;
 let timer = null;
@@ -46,38 +44,17 @@ const setPosition = (vIdx, animated) => {
   track.style.transform = `translateX(${getOffset(vIdx)}px)`;
 };
 
-const positionArrows = () => {
-  const wrapper = document.getElementById("hero-slideshow");
-  const track = document.getElementById("hero-slides");
-  if (!wrapper || !track) return;
-  const slideW = track.children[0]?.offsetWidth ?? 0;
-  const containerW = wrapper.offsetWidth;
-  const center = containerW / 2;
-  const margin = 12;
-  const btnW = 44;
-  const prev = document.getElementById("hero-prev");
-  const next = document.getElementById("hero-next");
-  if (prev) prev.style.left = `${center - slideW / 2 - btnW - margin}px`;
-  if (next) next.style.left = `${center + slideW / 2 + margin}px`;
-};
-
 const goNext = () => {
   if (isTransitioning) return;
   isTransitioning = true;
-
   const nextReal = (current + 1) % total;
-  // クローン先頭（仮想 = total+1）へアニメーション、その後 nextReal へジャンプ
   const targetV = current === total - 1 ? total + 1 : nextReal + 1;
-
-  // 先にアクティブ更新 → スケールとトランスレートを同時スタート
   current = nextReal;
   updateActive();
   updateDots();
   setPosition(targetV, true);
-
-  const track = document.getElementById("hero-slides");
-  track?.addEventListener("transitionend", () => {
-    setPosition(current + 1, false); // ジャンプ（クローンから本体へ）
+  document.getElementById("hero-slides")?.addEventListener("transitionend", () => {
+    setPosition(current + 1, false);
     isTransitioning = false;
   }, { once: true });
 };
@@ -85,18 +62,13 @@ const goNext = () => {
 const goPrev = () => {
   if (isTransitioning) return;
   isTransitioning = true;
-
   const prevReal = ((current - 1) + total) % total;
-  // クローン末尾（仮想 = 0）へアニメーション、その後 prevReal へジャンプ
   const targetV = current === 0 ? 0 : prevReal + 1;
-
   current = prevReal;
   updateActive();
   updateDots();
   setPosition(targetV, true);
-
-  const track = document.getElementById("hero-slides");
-  track?.addEventListener("transitionend", () => {
+  document.getElementById("hero-slides")?.addEventListener("transitionend", () => {
     setPosition(current + 1, false);
     isTransitioning = false;
   }, { once: true });
@@ -104,10 +76,10 @@ const goPrev = () => {
 
 const startAuto = () => {
   clearInterval(timer);
-  timer = setInterval(goNext, 4000);
+  timer = setInterval(goNext, 5000);
 };
 
-const buildSlideHTML = (s, originalIndex, realIndex) => `
+const buildSlide = (s, originalIndex, realIndex) => `
   <div class="hero-slide${realIndex === 0 ? " is-active" : ""}" data-real-index="${realIndex}">
     <img class="hero-slide-img" src="${escapeHtml(s.image)}" alt="${escapeHtml(s.name)}さんの写真" />
     <span class="hero-slide-num">Pickup ${String(originalIndex + 1).padStart(2, "0")}</span>
@@ -129,19 +101,18 @@ export const initHeroSlideshow = () => {
   if (!list.length) return;
   total = list.length;
 
-  const last = list[total - 1];
-  const first = list[0];
+  // [末尾クローン] + [本体] + [先頭クローン]
   container.innerHTML =
-    buildSlideHTML(last, total - 1, -1) +
-    list.map((s, i) => buildSlideHTML(s, i, i)).join("") +
-    buildSlideHTML(first, 0, -2);
+    buildSlide(list[total - 1], total - 1, -1) +
+    list.map((s, i) => buildSlide(s, i, i)).join("") +
+    buildSlide(list[0], 0, -2);
+
+  container.children[0].classList.remove("is-active");
+  container.children[container.children.length - 1].classList.remove("is-active");
 
   renderDots(total);
 
-  requestAnimationFrame(() => {
-    setPosition(current + 1, false);
-    positionArrows();
-  });
+  requestAnimationFrame(() => setPosition(current + 1, false));
 
   document.getElementById("hero-prev")?.addEventListener("click", () => {
     goPrev(); clearInterval(timer); startAuto();
@@ -149,7 +120,6 @@ export const initHeroSlideshow = () => {
   document.getElementById("hero-next")?.addEventListener("click", () => {
     goNext(); clearInterval(timer); startAuto();
   });
-
   document.getElementById("hero-dots")?.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-index]");
     if (!btn || isTransitioning) return;
@@ -161,10 +131,7 @@ export const initHeroSlideshow = () => {
     startAuto();
   });
 
-  window.addEventListener("resize", () => {
-    setPosition(current + 1, false);
-    positionArrows();
-  });
+  window.addEventListener("resize", () => setPosition(current + 1, false));
 
   startAuto();
 };

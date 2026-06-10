@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>プロジェクト一覧 | CoIU Meetup</title>
+    <meta name="description" content="CoIU生が取り組む、問いを起点にしたプロジェクト一覧です。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet" />
+    <script type="module" src="/src/projects.js"></script>
+  </head>
+  <body data-page="projects">
+    <header class="site-header">
+      <a class="brand" href="/index.html" aria-label="CoIU Meetup トップへ">
+        <span class="brand-kana">こういう学生に会える場所</span>
+        <span class="brand-logo">CoIU meetup ...</span>
+      </a>
+      <button class="hamburger" type="button" id="hamburger-btn" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-drawer">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+      <div class="nav-drawer-backdrop" id="nav-drawer-backdrop"></div>
+      <div class="nav-drawer-panel">
+        <button class="nav-drawer-close" type="button" id="nav-drawer-close" aria-label="メニューを閉じる">×</button>
+        <div class="nav-drawer-search">
+          <p class="nav-drawer-search-label">検索ワード</p>
+          <form class="nav-drawer-search-form" id="drawer-search-form">
+            <label class="sr-only" for="drawer-search-input">キーワードで検索</label>
+            <div class="nav-drawer-search-row">
+              <input id="drawer-search-input" class="nav-drawer-search-input" type="search" placeholder="名前・問い・テーマで検索" autocomplete="off" />
+              <button class="nav-drawer-search-btn" type="submit" aria-label="検索する">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="2"/><path d="M13 13L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </form>
+          <p class="nav-drawer-search-label" style="margin-top:28px">話題のキーワード</p>
+          <div class="nav-drawer-tag-list" id="drawer-tag-list"></div>
+        </div>
+        <nav class="nav-drawer-nav" aria-label="メインナビゲーション">
+          <a href="/students.html">STUDENTS</a>
+          <a href="/projects.html">PROJECTS</a>
+          <a href="/coiu.html">CoIUとは</a>
+          <a href="/about.html">ABOUT</a>
+        </nav>
+      </div>
+    </div>
+
+    <main>
+      <!-- プロジェクト一覧 -->
+      <div class="projects-page" id="projects-list-view">
+        <div class="projects-page-head">
+          <p class="section-kicker">PROJECTS</p>
+          <h1 class="projects-page-title">学生のプロジェクト</h1>
+          <p class="projects-page-desc">CoIU生が取り組む、問いを起点にしたプロジェクト一覧。</p>
+        </div>
+        <div class="projects-page-tags" id="projects-page-tags"></div>
+        <div class="projects-grid-wrap">
+          <div class="project-carousel-track" id="projects-grid"></div>
+        </div>
+        <p class="projects-page-empty" id="projects-page-empty" hidden>
+          該当するプロジェクトが見つかりませんでした。
+        </p>
+      </div>
+
+      <!-- プロジェクト詳細ビュー -->
+      <section class="student-detail" id="student-view" hidden aria-live="polite"></section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <span class="brand-kana">こういう学生に会える場所</span>
+        <strong>CoIU meetup ...</strong>
+      </div>
+      <nav aria-label="フッターナビゲーション">
+        <a href="/index.html">TOP</a>
+        <a href="/students.html">STUDENTS</a>
+        <a href="/coiu.html">CoIUとは</a>
+        <a href="/about.html">ABOUT</a>
+      </nav>
+      <a class="page-top" href="#">Page Top +</a>
+    </footer>
+  </body>
+</html>

@@ -1,8 +1,9 @@
 import "./css/main.css";
-import { loadStudents } from "./js/data.js";
+import { loadStudents, loadProjects } from "./js/data.js";
 import { students, state, fixedTopics } from "./js/state.js";
-import { escapeHtml, renderStudentDetail } from "./js/render.js";
+import { escapeHtml, renderStudentDetail, renderProjectDetail } from "./js/render.js";
 import { bindDrawerEvents } from "./js/drawer.js";
+import { getProjectBySlug } from "./js/state.js";
 
 // ── URL params ──────────────────────────────────────────────
 
@@ -153,6 +154,15 @@ const showDetail = (slug) => {
   window.scrollTo({ top: 0, behavior: "auto" });
 };
 
+const showProjectDetail = (slug) => {
+  const project = getProjectBySlug(slug);
+  if (!project) { showList(); return; }
+  renderProjectDetail(project);
+  if (searchView) searchView.hidden = true;
+  if (studentView) { studentView.hidden = false; }
+  window.scrollTo({ top: 0, behavior: "auto" });
+};
+
 const showList = () => {
   if (searchView) searchView.hidden = false;
   if (studentView) studentView.hidden = true;
@@ -162,6 +172,8 @@ const handleRoute = () => {
   const hash = location.hash.replace(/^#/, "");
   if (hash.startsWith("student/")) {
     showDetail(hash.replace("student/", ""));
+  } else if (hash.startsWith("project/")) {
+    showProjectDetail(hash.replace("project/", ""));
   } else {
     showList();
   }
@@ -228,7 +240,7 @@ const bindEvents = () => {
 // ── Init ────────────────────────────────────────────────────
 
 const init = async () => {
-  await loadStudents();
+  await Promise.all([loadStudents(), loadProjects()]);
 
   const params = getParams();
   currentQ = params.q;

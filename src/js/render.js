@@ -1,4 +1,4 @@
-import { students, state, getAllTopics, interestTopics, getProjectBySlug, getMemberStudents } from "./state.js";
+import { students, projects, state, getAllTopics, interestTopics, getProjectBySlug, getMemberStudents } from "./state.js";
 import { selectors } from "./selectors.js";
 import { fetchNoteArticles } from "../lib/noteRss.js";
 
@@ -518,12 +518,13 @@ export const renderStudentDetail = (student) => {
   `;
 };
 
-export const renderProjectDetail = (project) => {
+export const renderProjectDetail = (project, { backUrl } = {}) => {
   const members = getMemberStudents(project);
+  const resolvedBackUrl = backUrl ?? (isStudentsPage() ? "#" : "#feature");
 
   selectors.studentView.innerHTML = `
     <div class="profile-news-shell">
-      <a class="back-link" href="#feature">Back to students +</a>
+      <a class="back-link" href="${escapeHtml(resolvedBackUrl)}">Back to projects +</a>
       <div class="profile-news-layout">
         <article class="profile-article-main" aria-labelledby="project-detail-title">
           <header class="profile-article-header">
@@ -566,6 +567,42 @@ export const renderProjectDetail = (project) => {
       </div>
     </div>
   `;
+};
+
+const projectCard = (project, index) => {
+  const members = getMemberStudents(project);
+  const leadMember = members[0];
+  const num = String(index + 1).padStart(3, "0");
+  return `
+    <a
+      class="feature-card"
+      href="#project/${escapeHtml(project.slug)}"
+      aria-label="${escapeHtml(project.title)}の詳細を見る"
+    >
+      <span class="feature-card-place">CoIU Project</span>
+      <span class="feature-card-badge">${num}</span>
+      <span class="feature-card-number">project ${num}</span>
+      <span class="feature-card-image-wrap">
+        ${leadMember?.image
+          ? `<img class="feature-card-image" src="${escapeHtml(leadMember.image)}" alt="${escapeHtml(project.title)}" loading="lazy" />`
+          : `<span class="image-fallback feature-card-image">${escapeHtml(project.title[0])}</span>`
+        }
+      </span>
+      <span class="feature-card-body">
+        <span class="feature-card-title">${escapeHtml(project.title)}</span>
+        <span class="feature-card-question">${escapeHtml(project.summary)}</span>
+        <span class="tag-row">${(project.tags || []).slice(0, 4).map((t) => `<span class="tag-pill">${escapeHtml(t)}</span>`).join("")}</span>
+        <span class="read-more">Read more</span>
+      </span>
+    </a>
+  `;
+};
+
+const renderProjectGrid = () => {
+  const grid = document.getElementById("projects-grid");
+  if (!grid) return;
+  if (!projects.length) { grid.innerHTML = ""; return; }
+  grid.innerHTML = projects.map((p, i) => projectCard(p, i)).join("");
 };
 
 export const renderHome = () => {

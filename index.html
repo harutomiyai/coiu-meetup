@@ -49,6 +49,7 @@
         </div>
         <nav class="nav-drawer-nav" aria-label="メインナビゲーション">
           <a href="/students.html">STUDENTS</a>
+          <a href="/projects.html">PROJECTS</a>
           <a href="/coiu.html">CoIUとは</a>
           <a href="/about.html">ABOUT</a>
         </nav>
@@ -59,14 +60,9 @@
       <section id="home-view">
         <section class="top-grid" id="top">
           <div class="hero-slideshow" id="hero-slideshow" aria-label="学生プロジェクト紹介">
-            <!-- スライドはJSで動的生成 -->
             <div class="hero-slides" id="hero-slides"></div>
-
-            <!-- ナビ -->
             <button class="hero-prev" id="hero-prev" aria-label="前へ">←</button>
             <button class="hero-next" id="hero-next" aria-label="次へ">→</button>
-
-            <!-- ドット -->
             <div class="hero-dots" id="hero-dots"></div>
           </div>
         </section>
@@ -111,6 +107,20 @@
               <article class="content-card content-card-loading"><span class="content-thumb"></span><span class="content-card-body"><small>note</small><strong>　</strong><span class="content-card-excerpt"></span><em>　</em></span></article>
             </div>
           </div>
+        </section>
+
+        <section class="project-carousel-section" id="projects">
+          <div class="project-carousel-head">
+            <div>
+              <p class="section-kicker">PROJECTS</p>
+              <h2>学生のプロジェクト</h2>
+            </div>
+            <p class="project-carousel-desc">CoIU生が取り組む、問いを起点にしたプロジェクト一覧。</p>
+          </div>
+          <div class="project-carousel-wrap">
+            <div class="project-carousel-track" id="project-carousel-track"></div>
+          </div>
+          <a class="project-carousel-more" id="project-carousel-more" href="/projects.html" hidden>他のプロジェクトも見る +</a>
         </section>
 
         <section class="activity-section" aria-labelledby="activity-title">
