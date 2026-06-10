@@ -4,6 +4,7 @@ import { fetchNoteArticles, getNoteHomeUrl, hasNoteFeedSource } from "../lib/not
 
 let detailNoteRequestId = 0;
 let pickupScrollFrame = 0;
+let pickupAutoplayTimer = null;
 
 const linkOrder = ["note", "youtube", "podcast", "instagram", "x", "contact"];
 
@@ -270,6 +271,25 @@ const updatePickupVisibility = (root) => {
   });
 };
 
+const startPickupAutoplay = (root) => {
+  const viewport = root.querySelector(".pickup-viewport");
+  const slides = [...root.querySelectorAll(".pickup-slide")];
+  if (!viewport || slides.length < 2) return;
+
+  if (pickupAutoplayTimer) clearInterval(pickupAutoplayTimer);
+
+  pickupAutoplayTimer = setInterval(() => {
+    const currentIndex = slides.reduce((nearest, slide, index) => {
+      const currentDist = Math.abs(slide.offsetLeft - viewport.scrollLeft);
+      const nearestDist = Math.abs(slides[nearest].offsetLeft - viewport.scrollLeft);
+      return currentDist < nearestDist ? index : nearest;
+    }, 0);
+
+    const nextIndex = (currentIndex + 1) % slides.length;
+    viewport.scrollTo({ left: slides[nextIndex].offsetLeft, behavior: "smooth" });
+  }, 4000);
+};
+
 const initPickupScroller = () => {
   const root = selectors.todayQuestionCard.querySelector("[data-pickup-slider]");
   if (!root) return;
@@ -282,6 +302,13 @@ const initPickupScroller = () => {
     window.cancelAnimationFrame(pickupScrollFrame);
     pickupScrollFrame = window.requestAnimationFrame(() => updatePickupVisibility(root));
   });
+
+  viewport.addEventListener("pointerenter", () => {
+    if (pickupAutoplayTimer) clearInterval(pickupAutoplayTimer);
+  });
+  viewport.addEventListener("pointerleave", () => startPickupAutoplay(root));
+
+  startPickupAutoplay(root);
 };
 
 const renderPickupNoteCards = async (pickupStudents) => {

@@ -111,6 +111,19 @@
   grid-column: 1 / -1;
 }
 
+.detail-profile {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.detail-profile > * {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
 .detail-card h2 {
   margin: 0;
   font-family: "Noto Sans JP", sans-serif;
@@ -157,7 +170,6 @@
 .profile-copy {
   display: grid;
   gap: 14px;
-  max-width: 780px;
   line-height: 1.9;
 }
 
@@ -188,7 +200,7 @@
 }
 
 .profile-article-body {
-  max-width: 760px;
+  width: 100%;
 }
 
 .interest-reason-grid {
