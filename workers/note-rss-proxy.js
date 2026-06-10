@@ -165,6 +165,7 @@ function formatDate(pubDate) {
   if (!pubDate) return "";
   try {
     const d = new Date(pubDate);
+    if (Number.isNaN(d.getTime())) return pubDate;
     return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
   } catch {
     return pubDate;

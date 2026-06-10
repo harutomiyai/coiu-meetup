@@ -155,13 +155,6 @@ export const bindEvents = () => {
     toggleTopic(topicTarget.dataset.topic, targetHash);
   });
 
-  document.addEventListener("keydown", (event) => {
-    const topicTarget = event.target.closest(".story-card[data-topic]");
-    if (!topicTarget || !["Enter", " "].includes(event.key)) return;
-    event.preventDefault();
-    toggleTopic(topicTarget.dataset.topic);
-  });
-
   selectors.siteSearch?.addEventListener("input", (event) => {
     updateSearchQuery(event.currentTarget.value);
   });

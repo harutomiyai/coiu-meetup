@@ -409,14 +409,6 @@
     font-size: 1.65rem;
   }
 
-  .question-card h3 {
-    font-size: 1.45rem;
-  }
-
-  .question-rail {
-    grid-auto-columns: minmax(270px, 86vw);
-  }
-
   .tag-large {
     font-size: 1.22rem;
   }
@@ -459,25 +451,6 @@
     flex: 0 0 auto;
     font-size: 0.86rem;
     padding: 10px 12px;
-  }
-
-  .people-grid.is-marquee .person-card {
-    width: 235px;
-    flex-basis: 235px;
-  }
-
-  .people-grid.is-marquee {
-    margin-inline: -14px;
-    padding-inline: 34px;
-  }
-
-  .people-grid.is-marquee::before,
-  .people-grid.is-marquee::after {
-    width: 42px;
-  }
-
-  .people-grid.is-marquee .card-image img {
-    height: 118px;
   }
 
   .about-hero h1 {

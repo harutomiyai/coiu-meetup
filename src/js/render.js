@@ -278,7 +278,9 @@ const updatePickupSlider = (root, index) => {
   track.style.transform = `translateX(-${pickupIndex * 100}%)`;
 
   slides.forEach((slide, slideIndex) => {
-    slide.toggleAttribute("aria-hidden", slideIndex !== pickupIndex);
+    const isActive = slideIndex === pickupIndex;
+    slide.setAttribute("aria-hidden", String(!isActive));
+    slide.toggleAttribute("inert", !isActive);
   });
 
   dots.forEach((dot, dotIndex) => {
@@ -593,16 +595,6 @@ export const renderTopicControls = () => {
   if (selectors.clearTopic) {
     selectors.clearTopic.hidden = !hasActiveDiscoveryFilters();
   }
-
-  if (selectors.tagCloud) {
-    selectors.tagCloud.innerHTML = topics
-      .slice(1)
-      .map((topic, index) => {
-        const sizes = ["tag-large", "tag-medium", "tag-small"];
-        return topicButton(topic, isSelected(topic), `cloud-tag ${sizes[index % sizes.length]}`);
-      })
-      .join("");
-  }
 };
 
 export const renderHeroVisual = () => {
@@ -695,12 +687,6 @@ export const renderPeopleGrid = () => {
   const cards = filtered.map((student) => personCard(student)).join("");
 
   selectors.peopleGrid.innerHTML = cards;
-};
-
-export const renderRecentQuestions = () => {
-  if (selectors.recentQuestions) {
-    selectors.recentQuestions.innerHTML = "";
-  }
 };
 
 export const renderDiscoveryResults = () => {
