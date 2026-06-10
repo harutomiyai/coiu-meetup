@@ -6,61 +6,56 @@
     <title>About | CoIU Meetup</title>
     <meta
       name="description"
-      content="CoIU Meetupは、関心テーマや活動からCoIU生を見つけられる学生紹介サイトです。"
+      content="CoIU Meetupは、CoIU生の問い、活動、話せるテーマを集めた学生アーカイブです。"
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet" />
     <script type="module" src="/src/about.js"></script>
   </head>
   <body>
     <header class="site-header">
       <a class="brand" href="/index.html#top" aria-label="CoIU Meetup トップへ">
-        <span class="brand-mark">Co</span>
-        <span class="brand-text">CoIU Meetup</span>
+        <span class="brand-symbol" aria-hidden="true">co</span>
+        <span class="brand-caption">meetup</span>
       </a>
-      <nav class="site-nav" aria-label="メインナビゲーション">
-        <a href="/index.html#students">学生を探す</a>
-        <a href="/index.html#topics">テーマから探す</a>
-        <a href="/index.html#pickup">ピックアップ</a>
-        <a class="nav-clip" href="/about.html" aria-current="page">About</a>
-      </nav>
+      <p class="site-title">CoIU Meetupについて</p>
+      <a class="menu-dot menu-dot-link" href="/index.html#students" aria-label="CoIU生一覧へ戻る">
+        <span></span>
+        <span></span>
+        <span></span>
+      </a>
     </header>
 
     <main>
       <section class="about-page">
-        <div class="about-hero">
-          <div>
-            <p class="eyebrow">ABOUT</p>
-            <h1>CoIU Meetupについて</h1>
-            <p class="about-lead">
-              CoIUにどんな学生がいるのかを、関心テーマや活動から見つけられるサイトです。
-            </p>
+        <div class="shape-mark about-page-mark-left" aria-hidden="true">Co</div>
+        <div class="shape-mark about-page-mark-right" aria-hidden="true">IU</div>
+        <p class="about-rail">about meetup</p>
+        <div class="about-page-inner">
+          <p class="eyebrow">about</p>
+          <h1>問いを持って動いている人を、ちゃんと見つけられるように。</h1>
+          <p>
+            CoIU Meetupは、CoIU生の問い、活動、話せるテーマを集めた学生アーカイブです。イベントで出会った学生をあとから思い出すためにも、これから話したい人を見つけるためにも使えます。
+          </p>
+          <div class="about-principles" aria-label="このサイトの考え方">
+            <article>
+              <span>01</span>
+              <h2>問いから入る</h2>
+              <p>名前や肩書きより先に、その人がいま何を考えているのかを置きます。</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h2>活動を残す</h2>
+              <p>最近の取り組みや制作物を、あとから読み返せるかたちにします。</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h2>会話につなげる</h2>
+              <p>話せるテーマや相談できることを見て、次の一言を作れるようにします。</p>
+            </article>
           </div>
-          <img src="/images/hero/coiu-window.jpg" alt="CoIUの窓辺の写真" />
-        </div>
-
-        <div class="start-flow about-flow" aria-label="このサイトの目的">
-          <article>
-            <span>01</span>
-            <h2>学生を知る</h2>
-            <p>名前や写真だけではなく、何に関心があり、どんな活動をしている学生なのかを見られます。</p>
-          </article>
-          <article>
-            <span>02</span>
-            <h2>あとから探す</h2>
-            <p>イベントで出会った学生を、名前、テーマ、活動の断片からあとで探せます。</p>
-          </article>
-          <article>
-            <span>03</span>
-            <h2>テーマで見る</h2>
-            <p>教育、AI、地域、デザインなど、関心に近い入口からCoIU生のプロフィールを見られます。</p>
-          </article>
-          <article>
-            <span>04</span>
-            <h2>活動を見る</h2>
-            <p>代表プロジェクトや現在の問いから、その学生がいま何に向き合っているのかを知れます。</p>
-          </article>
+          <a class="text-arrow" href="/index.html#students">CoIU生一覧を見る</a>
         </div>
       </section>
     </main>
@@ -68,9 +63,13 @@
     <footer class="site-footer">
       <div>
         <strong>CoIU Meetup</strong>
-        <p>CoIU生の関心、活動、制作物、記事を紹介するサイト。</p>
+        <p>問いと活動から学生に出会うアーカイブ。</p>
       </div>
-      <a class="button button-dark" href="/index.html#students">学生を探す</a>
+      <nav aria-label="フッターナビゲーション">
+        <a href="/index.html#top">トップ</a>
+        <a href="/index.html#students">CoIU生一覧</a>
+        <a href="/about.html" aria-current="page">About</a>
+      </nav>
     </footer>
   </body>
 </html>

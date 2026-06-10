@@ -3,103 +3,96 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CoIU Meetup | CoIUには、こんな学生がいます。</title>
+    <title>CoIU Meetup | 問いから出会う学生アーカイブ</title>
     <meta
       name="description"
-      content="CoIU生を、問い・関心テーマ・活動から見つけられる人物メディア。イベントで出会った学生をあとから探せる入口です。"
+      content="CoIU生の問い、活動、話せるテーマを集めた学生アーカイブ。気になる関心から、話してみたい人を見つけられます。"
     />
-    <meta property="og:title" content="CoIU Meetup | CoIUには、こんな学生がいます。" />
-    <meta property="og:description" content="CoIU生を、問い・関心テーマ・活動から見つけられる人物メディア。" />
+    <meta property="og:title" content="CoIU Meetup | 問いから出会う学生アーカイブ" />
+    <meta property="og:description" content="CoIU生の問い、活動、話せるテーマを集めた学生アーカイブ。" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/images/hero/coiu-students.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet" />
     <script type="module" src="/src/main.js"></script>
   </head>
   <body>
     <header class="site-header">
       <a class="brand" href="#top" aria-label="CoIU Meetup トップへ">
-        <span class="brand-mark">Co</span>
-        <span class="brand-text">CoIU Meetup</span>
+        <span class="brand-symbol" aria-hidden="true">co</span>
+        <span class="brand-caption">meetup</span>
       </a>
-      <nav class="site-nav" aria-label="メインナビゲーション">
-        <a class="nav-clip" href="#students">学生を探す</a>
-        <button type="button" data-theme-modal-open>テーマから探す</button>
-        <a href="/about.html">About</a>
-      </nav>
-      <form class="site-search" role="search" aria-label="学生検索">
-        <label class="sr-only" for="site-search">学生名・テーマで検索</label>
-        <input id="site-search" type="search" placeholder="名前・テーマで探す" autocomplete="off" />
-      </form>
+      <p class="site-title">CoIU生と問いで出会う</p>
+      <button class="menu-dot" type="button" data-theme-modal-open aria-label="テーマメニューを開く">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </header>
 
     <main>
       <section id="home-view">
-        <!-- Full-width hero slideshow -->
         <section class="hero" id="top" aria-labelledby="hero-title">
-          <div class="hero-slideshow" id="hero-slideshow" aria-label="注目の学生">
-            <div class="hero-slide-track" id="hero-slide-track"></div>
-            <div class="hero-slideshow-dots" id="hero-dots" aria-label="スライド切り替え"></div>
+          <div class="shape-mark shape-mark-left" aria-hidden="true">Co</div>
+          <div class="shape-mark shape-mark-right" aria-hidden="true">IU</div>
+          <div class="hero-heading">
+            <p class="eyebrow">coiu question archives</p>
+            <h1 id="hero-title">問いから、学生に出会う。</h1>
           </div>
-          <div class="hero-inner-simple">
-            <div class="hero-copy-column">
-              <div class="hero-logo-block">
-                <p class="hero-kicker">CoIU Meetup</p>
-                <h1 id="hero-title">
-                  CoIUには、<br>
-                  <span class="hero-title-mark">
-                    こんな学生
-                    <svg viewBox="0 0 220 32" aria-hidden="true" focusable="false">
-                      <path d="M5 20 C50 29, 103 5, 156 15 C181 20, 201 25, 216 18" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" />
-                    </svg>
-                  </span>が<br>
-                  います。
-                </h1>
-                <p class="hero-lead">
-                  イベントで出会ったCoIU生を、名前やテーマからもう一度見つけられます。
-                </p>
-              </div>
-              <div class="hero-bottom" aria-label="主要アクション">
-                <div class="hero-actions" aria-label="主要アクション">
-                  <a class="button button-dark" href="#students">学生を見る</a>
-                  <button class="text-button hero-theme-link" type="button" data-theme-modal-open>テーマから探す</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="hero-visual" id="hero-visual" aria-label="注目学生"></div>
         </section>
 
-        <!-- Pickup featured students -->
-        <section class="section section-pickup" aria-labelledby="pickup-title">
-          <div class="section-heading">
+        <div class="archive-ribbon" aria-hidden="true">
+          <span>coiu archives</span>
+          <strong>問いの事例</strong>
+          <span>meetup archives</span>
+          <strong>学生紹介</strong>
+          <span>coiu archives</span>
+          <strong>問いの事例</strong>
+          <span>meetup archives</span>
+          <strong>学生紹介</strong>
+        </div>
+
+        <section class="archive-section" id="students" aria-labelledby="students-title">
+          <div class="archive-toolbar">
             <div>
-              <p class="eyebrow">PICK UP</p>
-              <h2 id="pickup-title">注目の学生</h2>
-              <p class="section-note">問いと活動で選んだ、今注目の学生たちです。</p>
+              <p class="eyebrow">student archive</p>
+              <h2 id="students-title">CoIU生一覧</h2>
             </div>
+            <form class="site-search" role="search" aria-label="学生検索">
+              <label class="sr-only" for="site-search">学生名・問い・テーマで検索</label>
+              <input id="site-search" type="search" placeholder="名前・問い・テーマで探す" autocomplete="off" />
+            </form>
+            <div class="result-head" id="topic-result-head"></div>
           </div>
-          <div id="today-question-card"></div>
+
+          <div class="topic-filter" aria-label="テーマで探す">
+            <p class="topic-filter-label">themes</p>
+            <div class="topic-list" id="topic-list"></div>
+            <button class="text-button" id="clear-topic" type="button">すべて</button>
+          </div>
+
+          <div class="people-grid" id="people-grid"></div>
+
+          <a class="archive-more" href="#guide">
+            <span>CoIU Meetupについて</span>
+            <span aria-hidden="true">→</span>
+          </a>
         </section>
 
-        <!-- Student list -->
-        <section class="section section-topics" id="students" aria-labelledby="students-title">
-          <div class="topics-shell">
-            <div class="section-heading topics-heading">
-              <div>
-                <p class="eyebrow">STUDENT LIST</p>
-                <h2 id="students-title">学生一覧</h2>
-                <p class="section-note wide">問いを読み比べて、話してみたい学生を見つけてください。</p>
-              </div>
-              <div class="result-head" id="topic-result-head"></div>
-            </div>
-            <div class="topic-filter">
-              <p class="topic-filter-label">テーマで絞り込む</p>
-              <div class="topic-list" id="topic-list" aria-label="テーマ一覧"></div>
-              <button class="text-button" id="clear-topic" type="button">すべて</button>
-            </div>
-            <div class="people-grid" id="people-grid"></div>
+        <section class="about-band" id="guide" aria-labelledby="guide-title">
+          <div class="shape-mark about-shape-left" aria-hidden="true">Co</div>
+          <div class="shape-mark about-shape-right" aria-hidden="true">IU</div>
+          <p class="about-rail">about meetup</p>
+          <div class="about-copy">
+            <p class="eyebrow">about</p>
+            <h2 id="guide-title">CoIU Meetupは、問いを持って動いている学生のアーカイブです。</h2>
+            <p>
+              写真、いま考えている問い、最近の活動、話せるテーマを並べることで、肩書きより先にその人の関心へ入れるようにしました。
+            </p>
+            <a class="text-arrow" href="/about.html">わたしたちについて</a>
           </div>
         </section>
       </section>
@@ -107,24 +100,36 @@
       <section class="student-detail" id="student-view" hidden aria-live="polite"></section>
     </main>
 
-    <div class="theme-modal" id="theme-modal" hidden role="dialog" aria-modal="true" aria-labelledby="theme-modal-title" aria-describedby="theme-modal-copy">
+    <div
+      class="theme-modal"
+      id="theme-modal"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="theme-modal-title"
+      aria-describedby="theme-modal-copy"
+    >
       <div class="theme-modal-backdrop" data-theme-modal-close></div>
       <div class="theme-modal-panel">
         <button class="theme-modal-close" type="button" data-theme-modal-close aria-label="テーマ選択を閉じる">×</button>
-        <p class="eyebrow">INTERESTS</p>
-        <h2 id="theme-modal-title">気になるテーマを選んでください</h2>
-        <p id="theme-modal-copy">興味に近いCoIU生を表示します。</p>
+        <p class="eyebrow">themes</p>
+        <h2 id="theme-modal-title">気になるテーマを選ぶ</h2>
+        <p id="theme-modal-copy">興味に近いCoIU生だけを表示します。</p>
         <div class="theme-modal-tags" id="theme-modal-tags" aria-label="興味テーマ"></div>
-        <button class="text-button" type="button" id="theme-modal-skip">あとで選ぶ</button>
+        <button class="text-button" type="button" id="theme-modal-skip">閉じる</button>
       </div>
     </div>
 
     <footer class="site-footer">
       <div>
         <strong>CoIU Meetup</strong>
-        <p>CoIU生の問い、活動、記事を紹介するサイト。</p>
+        <p>問いと活動から学生に出会うアーカイブ。</p>
       </div>
-      <a class="button button-outline" href="#students">学生を探す</a>
+      <nav aria-label="フッターナビゲーション">
+        <a href="#top">トップ</a>
+        <a href="#students">CoIU生一覧</a>
+        <a href="/about.html">About</a>
+      </nav>
     </footer>
   </body>
 </html>

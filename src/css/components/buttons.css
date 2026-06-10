@@ -3,60 +3,48 @@
   min-height: 42px;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--ink);
-  border-radius: var(--radius-card);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-tight);
+  background: transparent;
+  color: var(--accent);
   font-size: 0.86rem;
-  font-weight: 500;
+  font-weight: 700;
+  letter-spacing: 0;
   line-height: 1.15;
   padding: 10px 20px;
-  letter-spacing: 0.03em;
-  transition:
-    background-color 160ms ease,
-    color 160ms ease,
-    border-color 160ms ease;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
 }
 
 .button:hover,
 .button:focus-visible {
-  border-color: var(--ink);
-  background: var(--bg-cool);
-  color: var(--ink);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 
-.button-dark {
-  background: var(--ink);
+.button-dark,
+.button-cta {
+  background: var(--accent);
   color: #fff;
 }
 
 .button-dark:hover,
-.button-dark:focus-visible {
-  background: #333330;
-  border-color: #333330;
+.button-dark:focus-visible,
+.button-cta:hover,
+.button-cta:focus-visible {
+  background: #11136e;
+  border-color: #11136e;
   color: #fff;
 }
 
 .button-light {
+  border-color: var(--hairline);
   background: #fff;
   color: var(--ink);
 }
 
-.button-cta {
-  min-height: 48px;
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-  padding: 12px 22px;
-}
-
-.button-cta:hover,
-.button-cta:focus-visible {
-  background: #b8975a;
-  border-color: #b8975a;
-  color: #fff;
-}
-
 .button-outline {
-  border-color: rgba(255,255,255,0.5);
+  border-color: rgba(255, 255, 255, 0.72);
   background: transparent;
   color: #fff;
 }
@@ -64,7 +52,7 @@
 .button-outline:hover,
 .button-outline:focus-visible {
   border-color: #fff;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.12);
   color: #fff;
 }
 
@@ -79,9 +67,10 @@
   border: 0;
   border-bottom: 1px solid currentColor;
   background: transparent;
-  color: var(--ink);
+  color: var(--accent);
   font-size: 0.86rem;
-  font-weight: 500;
+  font-weight: 700;
+  letter-spacing: 0;
   line-height: 1.25;
   padding: 3px 0;
   white-space: nowrap;
@@ -92,5 +81,5 @@
 .text-arrow:focus-visible,
 .text-button:hover,
 .text-button:focus-visible {
-  opacity: 0.65;
+  opacity: 0.68;
 }

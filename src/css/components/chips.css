@@ -5,56 +5,58 @@
   display: inline-flex;
   align-items: center;
   border: 1px solid var(--hairline);
-  border-radius: 1px;
+  border-radius: var(--radius-tight);
   background: transparent;
   color: var(--ink-secondary);
   font-size: 0.74rem;
-  font-weight: 500;
+  font-weight: 700;
+  letter-spacing: 0;
   line-height: 1.15;
 }
 
-.topic-chip {
+.topic-chip,
+.theme-modal-tag {
   padding: 7px 11px;
   color: var(--ink);
-  border-color: var(--hairline);
-  transition:
-    background-color 160ms ease,
-    border-color 160ms ease;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 
 .topic-chip:hover,
 .topic-chip:focus-visible,
 .theme-modal-tag:hover,
 .theme-modal-tag:focus-visible {
-  background: var(--bg-cool);
-  border-color: var(--ink);
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .topic-chip.is-active,
 .theme-modal-tag.is-active {
-  background: var(--ink);
-  border-color: var(--ink);
+  background: var(--accent);
+  border-color: var(--accent);
   color: #fff;
-}
-
-.topic-chip.is-active:hover,
-.topic-chip.is-active:focus-visible,
-.theme-modal-tag.is-active:hover,
-.theme-modal-tag.is-active:focus-visible {
-  background: #333330;
-  border-color: #333330;
 }
 
 .tag-pill,
 .talk-pill {
-  font-size: 0.7rem;
   padding: 4px 7px;
-  letter-spacing: 0.02em;
 }
 
 .tag-row,
 .talk-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 6px;
+}
+
+.tag-pill {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.talk-pill {
+  background: #fff;
+  border-color: var(--hairline);
+  color: var(--ink);
 }

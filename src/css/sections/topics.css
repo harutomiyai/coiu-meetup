@@ -10,7 +10,7 @@
   align-items: end;
   margin-bottom: 24px;
   border-bottom: 1px solid var(--hairline);
-  padding-bottom: 22px;
+  padding-bottom: 24px;
 }
 
 .topics-heading .section-note.wide {
@@ -19,7 +19,7 @@
 
 .result-head {
   display: grid;
-  gap: 4px;
+  gap: 5px;
   min-width: 150px;
   text-align: right;
 }
@@ -31,21 +31,24 @@
 
 .result-head p {
   color: var(--ink);
-  font-size: 0.82rem;
+  font-size: 0.84rem;
+  font-weight: 700;
   line-height: 1.45;
 }
 
 .result-head p span {
   display: block;
-  color: var(--ink-secondary);
+  color: var(--accent);
+  font-family: var(--font-latin);
   font-size: 0.72rem;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .result-head strong {
-  font-family: "Noto Sans JP", sans-serif;
+  color: var(--accent);
+  font-family: var(--font-latin);
   font-size: 1.35rem;
-  font-weight: 700;
+  font-weight: 900;
   line-height: 1.2;
 }
 
@@ -61,8 +64,12 @@
 
 .topic-filter-label {
   margin: 0;
-  font-size: 0.86rem;
-  font-weight: 500;
+  color: var(--accent);
+  font-family: var(--font-latin);
+  font-size: 0.8rem;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 

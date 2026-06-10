@@ -1,16 +1,22 @@
 :root {
   color-scheme: light;
-  --bg-base: #FAFAF8;
-  --bg-warm: #F5F0E8;
-  --bg-cool: #F0EDE6;
-  --ink: #1A1A18;
-  --ink-secondary: #7A7770;
-  --accent: #C8A96E;
-  --link: #1A1A18;
-  --footer: #1A1A18;
-  --hairline: rgba(26, 26, 24, 0.12);
-  --radius-card: 2px;
-  --radius-tight: 1px;
+  --bg-base: #f6f4ed;
+  --bg-warm: #fbf7ec;
+  --bg-cool: #ece7dc;
+  --paper: #fffdf7;
+  --ink: #42210b;
+  --ink-secondary: #755b41;
+  --accent: #1d2087;
+  --accent-soft: #e7e8ff;
+  --gold: #d8a53a;
+  --link: #1d2087;
+  --footer: #1d2087;
+  --hairline: rgba(66, 33, 11, 0.16);
+  --shadow-soft: 0 16px 40px rgba(66, 33, 11, 0.08);
+  --radius-card: 6px;
+  --radius-tight: 2px;
+  --font-sans: "Noto Sans JP", sans-serif;
+  --font-latin: "Lato", "Noto Sans JP", sans-serif;
 }
 
 * {
@@ -18,9 +24,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
   overflow-x: hidden;
   background: var(--bg-base);
+  scroll-behavior: smooth;
 }
 
 body {
@@ -28,9 +34,9 @@ body {
   overflow-x: hidden;
   background: var(--bg-base);
   color: var(--ink);
-  font-family: "Noto Sans JP", sans-serif;
+  font-family: var(--font-sans);
   font-weight: 400;
-  line-height: 1.75;
+  line-height: 1.85;
   text-rendering: optimizeLegibility;
 }
 
@@ -69,11 +75,11 @@ img {
 
 ::selection {
   background: var(--accent);
-  color: var(--ink);
+  color: #fff;
 }
 
 :focus-visible {
-  outline: 2px solid var(--link);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -88,11 +94,13 @@ img {
 
 .eyebrow {
   margin: 0;
-  color: var(--ink-secondary);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.07em;
+  color: var(--accent);
+  font-family: var(--font-latin);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0;
   line-height: 1.2;
+  text-transform: uppercase;
 }
 
 @media (prefers-reduced-motion: reduce) {
