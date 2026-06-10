@@ -39,7 +39,7 @@
 .hero h1 {
   max-width: 700px;
   margin: 0;
-  font-family: "Shippori Mincho", serif;
+  font-family: "Noto Sans JP", sans-serif;
   font-size: 3.8rem;
   font-weight: 700;
   line-height: 1.18;
@@ -64,7 +64,7 @@
 
 .hero-subcopy {
   margin: 0;
-  font-family: "Shippori Mincho", serif;
+  font-family: "Noto Sans JP", sans-serif;
   font-size: 1.35rem;
   font-weight: 700;
   line-height: 1.55;
@@ -157,7 +157,7 @@
 }
 
 .hero-student-meta {
-  font-family: "Shippori Mincho", serif;
+  font-family: "Noto Sans JP", sans-serif;
   font-weight: 700;
 }
 
@@ -198,7 +198,7 @@
 .hero-queue-copy span {
   overflow: hidden;
   color: var(--ink);
-  font-family: "Shippori Mincho", serif;
+  font-family: "Noto Sans JP", sans-serif;
   font-size: 0.9rem;
   font-weight: 700;
   line-height: 1.5;

@@ -460,11 +460,11 @@ const noteArticleCard = (article, student) => `
       </div>
     </a>
     <div class="note-card-author">
-      <a href="#student/${escapeHtml(student.slug)}" aria-label="${escapeHtml(student.name)}さんのプロフィールを見る">
-        <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" loading="lazy" />
+      <a href="#student/${escapeHtml(student.slug)}" aria-label="${escapeHtml(article.creatorName || student.name)}さんのプロフィールを見る">
+        <img src="${escapeHtml(article.creatorImage || student.image)}" alt="${escapeHtml(article.creatorName || student.name)}さんの写真" loading="lazy" />
       </a>
       <a href="#student/${escapeHtml(student.slug)}">
-        <span>${escapeHtml(student.name)}</span>
+        <span>${escapeHtml(article.creatorName || student.name)}</span>
         <time>${escapeHtml(article.pubDate || "投稿日未取得")}</time>
       </a>
     </div>

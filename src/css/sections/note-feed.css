@@ -61,7 +61,7 @@
 .note-card-image-fallback strong {
   display: -webkit-box;
   overflow: hidden;
-  font-family: "Shippori Mincho", serif;
+  font-family: "Noto Sans JP", sans-serif;
   font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.55;
@@ -101,7 +101,7 @@
 
 .note-card-body h3 {
   margin: 0;
-  font-family: "Shippori Mincho", serif;
+  font-family: "Noto Sans JP", sans-serif;
   font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.55;

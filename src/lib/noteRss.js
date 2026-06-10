@@ -20,6 +20,13 @@ const getMediaThumbnail = (item) => {
   return toText(mediaNode?.getAttribute("url")) || toText(mediaNode?.textContent);
 };
 
+const getNoteNode = (item, localName) =>
+  Array.from(item.children).find(
+    (child) =>
+      child.tagName.toLowerCase() === `note:${localName}` ||
+      (child.localName?.toLowerCase() === localName && child.prefix?.toLowerCase() === "note"),
+  );
+
 const stripHtml = (html) =>
   toText(html)
     .replace(/<[^>]+>/g, " ")
@@ -133,6 +140,8 @@ const normalizeArticles = (articles, limit) =>
       pubDate: toText(article.pubDate),
       thumbnail: toText(article.thumbnail),
       excerpt: toText(article.excerpt),
+      creatorName: toText(article.creatorName),
+      creatorImage: toText(article.creatorImage),
     }));
 
 const parseRss = (xml, limit) => {
@@ -152,6 +161,8 @@ const parseRss = (xml, limit) => {
         pubDate: formatDate(getNodeText(item, "pubDate")),
         thumbnail: getMediaThumbnail(item),
         excerpt: stripHtml(description).replace(/続きをみる\s*$/, "").slice(0, 100),
+        creatorName: toText(getNoteNode(item, "creatorname")?.textContent),
+        creatorImage: toText(getNoteNode(item, "creatorimage")?.textContent),
       };
     })
     .filter((article) => article.title && article.link);
