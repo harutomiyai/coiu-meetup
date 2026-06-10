@@ -74,10 +74,10 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--hairline);
   border-radius: var(--radius-card);
   background: #fff;
-  color: var(--link);
+  color: var(--ink-secondary);
   font-size: 0.72rem;
   font-weight: 500;
   line-height: 1;
@@ -124,7 +124,7 @@
   align-items: center;
   margin-top: auto;
   border-top: 1px solid var(--hairline);
-  padding-top: 12px;
+  padding: 12px 18px 16px;
 }
 
 .note-card-author img {
@@ -144,6 +144,6 @@
 
 .note-card-author time {
   display: block;
-  color: var(--link);
+  color: var(--ink-secondary);
   font-size: 0.74rem;
 }

@@ -37,7 +37,7 @@
 
 .result-head p span {
   display: block;
-  color: var(--link);
+  color: var(--ink-secondary);
   font-size: 0.72rem;
   font-weight: 500;
 }

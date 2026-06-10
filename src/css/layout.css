@@ -137,6 +137,9 @@
 }
 
 .section-heading.loud {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 6px;
   justify-content: flex-start;
 }
 
@@ -149,16 +152,13 @@
 }
 
 .section-num {
-  display: grid;
-  min-width: 48px;
-  height: 48px;
+  display: block;
   margin: 0;
-  place-items: center;
-  border: 1.5px solid var(--ink);
-  border-radius: var(--radius-card);
-  background: #fff;
-  font-size: 0.9rem;
-  font-weight: 500;
+  color: var(--ink-secondary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  line-height: 1.2;
 }
 
 .section-note {
@@ -303,7 +303,7 @@ body.is-theme-modal-open {
 }
 
 .section-cta .eyebrow {
-  color: #fff;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .cta-inner {

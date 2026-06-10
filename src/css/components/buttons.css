@@ -17,12 +17,19 @@
 .button:hover,
 .button:focus-visible {
   border-color: var(--ink);
-  background: var(--accent);
+  background: var(--bg-cool);
   color: var(--ink);
 }
 
 .button-dark {
   background: var(--ink);
+  color: #fff;
+}
+
+.button-dark:hover,
+.button-dark:focus-visible {
+  background: #3a3a38;
+  border-color: #3a3a38;
   color: #fff;
 }
 
@@ -36,6 +43,13 @@
   background: var(--accent);
   color: var(--ink);
   padding: 13px 18px;
+}
+
+.button-cta:hover,
+.button-cta:focus-visible {
+  background: #e0b43a;
+  border-color: var(--ink);
+  color: var(--ink);
 }
 
 .button-outline {

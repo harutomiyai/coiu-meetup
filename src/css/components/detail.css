@@ -140,10 +140,10 @@
   position: absolute;
   top: 0.76em;
   left: 0;
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--ink-secondary);
   content: "";
 }
 
@@ -239,10 +239,10 @@
   height: 34px;
   flex: 0 0 34px;
   place-items: center;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--hairline);
   border-radius: 50%;
   background: #fff;
-  color: var(--link);
+  color: var(--ink);
   font-size: 0.82rem;
   font-weight: 500;
   line-height: 1;
@@ -308,7 +308,7 @@
 
 .student-note-date,
 .student-note-arrow {
-  color: var(--link);
+  color: var(--ink-secondary);
   font-size: 0.72rem;
   font-weight: 500;
 }

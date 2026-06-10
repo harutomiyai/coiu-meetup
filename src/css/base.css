@@ -4,10 +4,11 @@
   --bg-warm: #FBF1D6;
   --bg-cool: #ECE8DE;
   --ink: #1C1C1A;
-  --accent: #F5C84B;
-  --link: #2E4ACB;
+  --ink-secondary: #6B6860;   /* メタ・ラベル・日付 — クリック不可の補足テキスト */
+  --accent: #F5C84B;          /* ブランド専用 — ロゴマーク・h1下線・CTAボタンのみ */
+  --link: #2346B0;            /* 操作色 — クリック可能なテキストリンクのみ */
   --footer: #1B2A6B;
-  --hairline: rgba(28, 28, 26, 0.18);
+  --hairline: rgba(28, 28, 26, 0.15);
   --radius-card: 8px;
   --radius-tight: 2px;
 }
@@ -87,10 +88,10 @@ img {
 
 .eyebrow {
   margin: 0;
-  color: var(--link);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0;
+  color: var(--ink-secondary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
   line-height: 1.2;
 }
 
