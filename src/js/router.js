@@ -107,82 +107,29 @@ export const searchQuestion = (query) => {
   }
 };
 
+const goToSearch = (q = "", tags = []) => {
+  const params = new URLSearchParams();
+  if (q) params.set("q", q);
+  tags.forEach((t) => params.append("tag", t));
+  const qs = params.toString();
+  location.href = `/students.html${qs ? `?${qs}` : ""}`;
+};
+
 export const bindEvents = () => {
   import("./drawer.js").then(({ bindDrawerEvents }) => {
     bindDrawerEvents({
-      onTagClick: (tag) => toggleTopic(tag),
-      onSearchInput: (value) => {
-        updateSearchQuery(value);
-        if (window.location.hash !== getDiscoveryTargetHash()) {
-          window.location.hash = getDiscoveryTargetHash();
-        }
-      },
-      onSearchSubmit: (value) => {
-        updateSearchQuery(value);
-        if (window.location.hash !== getDiscoveryTargetHash()) {
-          window.location.hash = getDiscoveryTargetHash();
-        }
-        window.setTimeout(() => {
-          document.getElementById("feature")?.scrollIntoView({ behavior: "smooth" });
-        }, 320);
-      },
+      onSearchSubmit: (value) => goToSearch(value, []),
     });
   });
 
   document.addEventListener("click", (event) => {
-    const openTarget = event.target.closest("[data-search-modal-open]");
-    if (openTarget) {
-      openSearchModal();
-      return;
-    }
-
     const closeTarget = event.target.closest("[data-search-modal-close]");
-    if (closeTarget) {
-      closeSearchModal();
-      return;
-    }
-
-    const questionTarget = event.target.closest("[data-question-search]");
-    if (questionTarget) {
-      searchQuestion(questionTarget.dataset.questionSearch);
-      return;
-    }
+    if (closeTarget) { closeSearchModal(); return; }
 
     const topicTarget = event.target.closest("[data-topic]");
-    if (!topicTarget) return;
-
-    if (topicTarget.closest("#search-modal")) {
-      toggleTopic(topicTarget.dataset.topic, getDiscoveryTargetHash());
+    if (topicTarget) {
+      goToSearch("", [topicTarget.dataset.topic]);
       return;
-    }
-
-    toggleTopic(topicTarget.dataset.topic, getDiscoveryTargetHash());
-  });
-
-  selectors.siteSearch?.addEventListener("focus", () => {
-    openSearchModal();
-  });
-
-  selectors.siteSearch?.addEventListener("click", () => {
-    openSearchModal();
-  });
-
-  selectors.siteSearch?.addEventListener("input", (event) => {
-    updateSearchQuery(event.currentTarget.value);
-  });
-
-  selectors.siteSearch?.form?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    openSearchModal();
-    if (window.location.hash !== getDiscoveryTargetHash()) {
-      window.location.hash = getDiscoveryTargetHash();
-    }
-  });
-
-  selectors.modalSearchInput?.addEventListener("input", (event) => {
-    updateSearchQuery(event.currentTarget.value);
-    if (window.location.hash !== getDiscoveryTargetHash()) {
-      window.location.hash = getDiscoveryTargetHash();
     }
   });
 

@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CoIU生を探す | CoIU Meetup</title>
-    <meta name="description" content="CoIU生を名前、問い、テーマから検索できる一覧ページです。" />
+    <title>検索結果 | CoIU Meetup</title>
+    <meta name="description" content="CoIU生をキーワードやテーマで検索した結果ページです。" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet" />
-    <script type="module" src="/src/students.js"></script>
+    <script type="module" src="/src/search.js"></script>
   </head>
-  <body data-page="students">
+  <body data-page="search">
     <header class="site-header">
       <a class="brand" href="/index.html" aria-label="CoIU Meetup トップへ">
         <span class="brand-kana">こういう学生に会える場所</span>
@@ -47,40 +47,39 @@
       </div>
     </div>
 
-    <main>
-      <!-- 検索ヘッダー -->
-      <div class="search-page search-page--students">
-        <div class="search-page-head">
-          <div class="search-page-meta">
-            <p class="section-kicker">STUDENTS / SEARCH</p>
-            <h1 class="search-page-title" id="search-page-title">CoIU生を探す</h1>
-          </div>
-          <form class="search-page-form" id="search-page-form">
-            <div class="search-page-input-row">
-              <input id="search-page-input" class="search-page-input" type="search"
-                placeholder="名前・問い・テーマで検索" autocomplete="off" />
-              <button class="search-page-btn" type="submit" aria-label="検索">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="2"/><path d="M13 13L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-              </button>
-            </div>
-          </form>
-          <div class="search-page-tags" id="search-page-tags"></div>
+    <main class="search-page">
+      <div class="search-page-head">
+        <div class="search-page-meta">
+          <p class="section-kicker">SEARCH RESULTS</p>
+          <h1 class="search-page-title" id="search-page-title">検索結果</h1>
         </div>
-
-        <div class="search-page-results">
-          <div class="search-page-results-head">
-            <p class="search-page-count" id="search-page-count"></p>
-            <a class="small-outline" href="/index.html">← トップへ戻る</a>
+        <form class="search-page-form" id="search-page-form">
+          <div class="search-page-input-row">
+            <input
+              id="search-page-input"
+              class="search-page-input"
+              type="search"
+              placeholder="名前・問い・テーマで検索"
+              autocomplete="off"
+            />
+            <button class="search-page-btn" type="submit" aria-label="検索">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="2"/><path d="M13 13L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
           </div>
-          <div class="people-grid" id="people-grid"></div>
-          <p class="search-page-empty" id="search-page-empty" hidden>
-            該当するCoIU生が見つかりませんでした。別のキーワードをお試しください。
-          </p>
-        </div>
+        </form>
+        <div class="search-page-tags" id="search-page-tags"></div>
       </div>
 
-      <!-- 学生詳細ビュー -->
-      <section class="student-detail" id="student-view" hidden aria-live="polite"></section>
+      <div class="search-page-results">
+        <div class="search-page-results-head">
+          <p class="search-page-count" id="search-page-count"></p>
+          <a class="small-outline" href="/index.html">← トップへ戻る</a>
+        </div>
+        <div class="people-grid" id="people-grid"></div>
+        <p class="search-page-empty" id="search-page-empty" hidden>
+          該当するCoIU生が見つかりませんでした。別のキーワードをお試しください。
+        </p>
+      </div>
     </main>
 
     <footer class="site-footer">
@@ -90,7 +89,7 @@
       </div>
       <nav aria-label="フッターナビゲーション">
         <a href="/index.html">TOP</a>
-        <a href="/index.html#contents">CONTENTS</a>
+        <a href="/students.html">STUDENTS</a>
         <a href="/coiu.html">CoIUとは</a>
         <a href="/about.html">ABOUT</a>
       </nav>

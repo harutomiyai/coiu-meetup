@@ -13,7 +13,7 @@ export const initKeywordRunner = () => {
     tempSpan.style.visibility = "hidden";
     tempSpan.style.position = "absolute";
     document.body.appendChild(tempSpan);
-    const spanW = tempSpan.offsetWidth + 28; // 28 = gap
+    const spanW = tempSpan.offsetWidth + 80; // 80 = gap
     document.body.removeChild(tempSpan);
 
     const oneSetW = spanW * original.length;
@@ -28,7 +28,7 @@ export const initKeywordRunner = () => {
 
     // duration はトラック前半幅に比例
     const halfW = track.scrollWidth / 2;
-    track.style.animationDuration = `${Math.max(8, halfW / 60)}s`;
+    track.style.animationDuration = `${Math.max(20, halfW / 30)}s`;
   };
 
   build();

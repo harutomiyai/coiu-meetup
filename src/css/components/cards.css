@@ -92,6 +92,7 @@
 }
 
 .feature-card-number {
+  display: none;
   position: absolute;
   top: 138px;
   left: 16px;

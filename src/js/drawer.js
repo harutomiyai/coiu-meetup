@@ -66,31 +66,49 @@ export const bindDrawerEvents = ({ onTagClick, onSearchInput, onSearchSubmit } =
     }
 
     renderDrawerTags();
-    onTagClick?.(tag);
 
-    // タグ選択後にドロワーを閉じて結果を表示
-    window.setTimeout(() => closeDrawer(), 200);
+    if (onTagClick) {
+      onTagClick(tag);
+      window.setTimeout(() => closeDrawer(), 200);
+    } else {
+      // search.html へ遷移
+      const params = new URLSearchParams();
+      const q = document.getElementById("drawer-search-input")?.value ?? "";
+      if (q) params.set("q", q);
+      _activeTopics.forEach((t) => params.append("tag", t));
+      const qs = params.toString();
+      location.href = `/students.html${qs ? `?${qs}` : ""}`;
+    }
   });
 
   const searchInput = document.getElementById("drawer-search-input");
+  let isComposing = false;
 
-  searchInput?.addEventListener("input", (event) => {
+  searchInput?.addEventListener("compositionstart", () => { isComposing = true; });
+  searchInput?.addEventListener("compositionend", (event) => {
+    isComposing = false;
     onSearchInput?.(event.currentTarget.value);
   });
-
-  // Enterキーで検索実行・ドロワーを閉じる
-  searchInput?.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      onSearchSubmit?.(event.currentTarget.value);
-      closeDrawer();
-    }
+  searchInput?.addEventListener("input", (event) => {
+    if (!isComposing) onSearchInput?.(event.currentTarget.value);
   });
+
+  // Enterキーで検索実行（フォームsubmitで処理されるので不要だが念のため除外）
 
   // 検索ボタン（フォームsubmit対応）
   document.getElementById("drawer-search-form")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const value = searchInput?.value ?? "";
-    onSearchSubmit?.(value);
+    if (onSearchSubmit) {
+      onSearchSubmit(value);
+    } else {
+      // search.html へ遷移（index/about/coiu ページ用）
+      const params = new URLSearchParams();
+      if (value) params.set("q", value);
+      _activeTopics.forEach((t) => params.append("tag", t));
+      const qs = params.toString();
+      location.href = `/students.html${qs ? `?${qs}` : ""}`;
+    }
     closeDrawer();
   });
 
