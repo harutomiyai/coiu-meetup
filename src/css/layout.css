@@ -302,6 +302,10 @@ body.is-theme-modal-open {
   padding-bottom: 96px;
 }
 
+.section-cta .eyebrow {
+  color: #fff;
+}
+
 .cta-inner {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

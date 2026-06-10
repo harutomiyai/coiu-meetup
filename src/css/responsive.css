@@ -55,7 +55,7 @@
   }
 
   .hero {
-    padding: 72px 20px 88px;
+    padding: 56px 20px 72px;
   }
 
   .hero h1 {
@@ -69,7 +69,7 @@
   .hero-spotlight-card,
   .hero-spotlight-image,
   .hero-spotlight-image img {
-    min-height: 460px;
+    min-height: 360px;
   }
 
   .section {
@@ -103,14 +103,12 @@
   }
 
   .pickup-card,
-  .pickup-slide .person-card-pickup,
   .detail-hero,
   .detail-grid {
     grid-template-columns: 1fr;
   }
 
   .pickup-image,
-  .pickup-slide .card-image,
   .detail-image {
     min-height: 360px;
     border-right: 0;
@@ -266,7 +264,6 @@
   }
 
   .pickup-body,
-  .pickup-slide .person-card-body,
   .detail-main,
   .detail-card,
   .article-section,

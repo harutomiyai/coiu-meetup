@@ -2,29 +2,8 @@ import { students, state, getAllTopics, interestTopics } from "./state.js";
 import { selectors } from "./selectors.js";
 import { fetchNoteArticles, getNoteHomeUrl, hasNoteFeedSource } from "../lib/noteRss.js";
 
-const HERO_PREVIEW_LIMIT = 3;
-const RECOMMENDATION_LIMIT = 3;
-const PICKUP_AUTOPLAY_DELAY = 7000;
-const PICKUP_RESUME_DELAY = 12000;
-
-let pickupIndex = 0;
-let pickupTimerId;
-let pickupResumeTimerId;
 let detailNoteRequestId = 0;
-
-const tagThemeByName = {
-  教育: "tag-theme-human",
-  問い: "tag-theme-human",
-  N高: "tag-theme-human",
-  AI: "tag-theme-tech",
-  プログラミング: "tag-theme-tech",
-  Web制作: "tag-theme-tech",
-  地域: "tag-theme-local",
-  活動公開: "tag-theme-local",
-  デザイン: "tag-theme-design",
-  Podcast: "tag-theme-design",
-  起業: "tag-theme-business",
-};
+let pickupScrollFrame = 0;
 
 const linkOrder = ["note", "youtube", "podcast", "instagram", "x", "contact"];
 
@@ -80,11 +59,9 @@ const getLinkUrl = (student, key) => {
   return student.links?.[key] || "";
 };
 
-const getTagThemeClass = (tag) => tagThemeByName[tag] || "tag-theme-general";
-
 const topicButton = (topic, isActive = false, className = "topic-chip") => `
   <button
-    class="${className} ${getTagThemeClass(topic)} ${isActive ? "is-active" : ""}"
+    class="${className} ${isActive ? "is-active" : ""}"
     type="button"
     data-topic="${escapeHtml(topic)}"
     aria-pressed="${isActive ? "true" : "false"}"
@@ -93,7 +70,7 @@ const topicButton = (topic, isActive = false, className = "topic-chip") => `
   </button>
 `;
 
-const tagPill = (tag) => `<span class="tag-pill ${getTagThemeClass(tag)}">#${escapeHtml(tag)}</span>`;
+const tagPill = (tag) => `<span class="tag-pill">#${escapeHtml(tag)}</span>`;
 
 const getProfileLead = (student) => {
   if (student.profileLead) return student.profileLead;
@@ -178,16 +155,6 @@ const getDiscoveryLabel = () => {
   return "すべての学生";
 };
 
-const getRecommendationNote = () => {
-  const topicLabel = state.selectedTopics.map((topic) => `#${topic}`).join(" ");
-  const query = state.searchQuery.trim();
-
-  if (topicLabel && query) return `${topicLabel} と「${query}」に近い学生を上から表示しています。`;
-  if (topicLabel) return `${topicLabel} に近い学生を上から表示しています。`;
-  if (query) return `「${query}」に合う学生を上から表示しています。`;
-  return "気になるテーマを選ぶと、近い学生を上から表示します。";
-};
-
 const getEmptyTitle = () =>
   state.selectedTopics.length ? "このテーマの学生は準備中です" : "条件に合う学生は準備中です";
 
@@ -203,147 +170,139 @@ const heroSpotlightCard = (student) => `
     <span class="hero-spotlight-body">
       <span class="hero-card-label">PICK UP STUDENT</span>
       <strong>${escapeHtml(student.name)}</strong>
-      <span class="hero-student-catch">${escapeHtml(student.catch)}</span>
       <span class="hero-student-meta">${escapeHtml(student.currentQuestion)}</span>
-      <span class="hero-student-tags">
-        ${student.tags.slice(0, 3).map((tag) => `<span class="${getTagThemeClass(tag)}">#${escapeHtml(tag)}</span>`).join("")}
-      </span>
     </span>
   </a>
 `;
 
-const heroQueueCard = (student, index) => `
+const heroQueueCard = (student) => `
   <a
     class="hero-queue-card"
     href="#student/${escapeHtml(student.slug)}"
     aria-label="${escapeHtml(student.name)}さんの詳細を見る"
   >
-    <span class="hero-queue-index">${String(index + 1).padStart(2, "0")}</span>
     <span class="hero-queue-copy">
       <strong>${escapeHtml(student.name)}</strong>
-      <span>${escapeHtml(student.catch)}</span>
+      <span>${escapeHtml(student.currentQuestion)}</span>
     </span>
   </a>
 `;
 
-const cardImage = (student) => `
-  <a class="card-image" href="#student/${escapeHtml(student.slug)}" aria-label="${escapeHtml(student.name)}さんの詳細を見る" tabindex="-1">
-    <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
-  </a>
-`;
-
-const personCard = (student, variant = "grid") => {
-  const isPickup = variant === "pickup";
-  const visibleTags = student.tags.slice(0, variant === "grid" ? 2 : 3);
+const personCard = (student) => {
+  const visibleTags = student.tags.slice(0, 2);
 
   return `
-    <article class="person-card person-card-${variant}" data-student-slug="${escapeHtml(student.slug)}">
-      ${cardImage(student)}
-      <div class="person-card-body">
-        <h3>${escapeHtml(student.name)}</h3>
-        <p class="person-meta">${escapeHtml(student.generation)}</p>
-        <p class="person-catch">${escapeHtml(student.catch)}</p>
-        <div class="tag-row">
+    <a
+      class="person-card person-card-grid"
+      href="#student/${escapeHtml(student.slug)}"
+      data-student-slug="${escapeHtml(student.slug)}"
+      aria-label="${escapeHtml(student.name)}さんの詳細を見る"
+    >
+      <span class="card-image">
+        <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" loading="lazy" />
+      </span>
+      <span class="person-card-body">
+        <span class="card-question">${escapeHtml(student.currentQuestion)}</span>
+        <span class="person-card-meta-row">
+          <span class="person-name">${escapeHtml(student.name)}</span>
+          <span class="generation-badge">${escapeHtml(student.generation)}</span>
+        </span>
+        <span class="tag-row">
           ${visibleTags.map(tagPill).join("")}
-        </div>
-        <p class="card-question"><span>QUESTION</span><strong>${escapeHtml(student.currentQuestion)}</strong></p>
-        <p class="activity-line">${escapeHtml(student.currentProject)}</p>
-        ${isPickup ? `
-          <div class="card-hint-box">
-            <span class="card-hint-label">本人の言葉</span>
-            <p>${escapeHtml(student.oneOnOneMessage)}</p>
-          </div>
-        ` : ""}
-        <div class="card-actions">
-          <a class="button button-dark button-small" href="#student/${escapeHtml(student.slug)}">この人を知る</a>
-        </div>
-      </div>
-    </article>
+        </span>
+        <span class="card-hover-link">話を聞きに行く →</span>
+      </span>
+    </a>
   `;
 };
 
 const pickupSlide = (student, index) => `
   <div class="pickup-slide" role="group" aria-label="${index + 1}人目のピックアップ学生">
-    ${personCard(student, "pickup")}
+    <article class="pickup-card" data-student-slug="${escapeHtml(student.slug)}">
+      <a class="pickup-image" href="#student/${escapeHtml(student.slug)}" aria-label="${escapeHtml(student.name)}さんのプロフィールを見る">
+        <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" />
+      </a>
+      <div class="pickup-body">
+        <p class="pickup-question">${escapeHtml(student.currentQuestion)}</p>
+        <div class="pickup-person">
+          <strong>${escapeHtml(student.name)}</strong>
+          <span class="generation-badge">${escapeHtml(student.generation)}</span>
+        </div>
+        <p class="pickup-message">「${escapeHtml(student.oneOnOneMessage)}」</p>
+        <div class="pickup-note-slot" data-pickup-note-slug="${escapeHtml(student.slug)}" hidden></div>
+        <a class="text-arrow" href="#student/${escapeHtml(student.slug)}">プロフィールを見る →</a>
+      </div>
+    </article>
   </div>
 `;
 
-const updatePickupSlider = (root, index) => {
-  const slides = root.querySelectorAll(".pickup-slide");
-  const dots = root.querySelectorAll("[data-pickup-dot]");
-  const track = root.querySelector(".pickup-track");
-  if (!slides.length || !track) return;
+const pickupNoteArticleCard = (article) => `
+  <a class="pickup-note-card" href="${escapeHtml(article.link)}" target="_blank" rel="noreferrer">
+    <span class="pickup-note-thumb">
+      ${
+        article.thumbnail
+          ? `<img src="${escapeHtml(article.thumbnail)}" alt="${escapeHtml(article.title)}" loading="lazy" />`
+          : ""
+      }
+    </span>
+    <span class="pickup-note-copy">
+      <span>最新note</span>
+      <strong>${escapeHtml(article.title)}</strong>
+    </span>
+  </a>
+`;
 
-  pickupIndex = (index + slides.length) % slides.length;
-  track.style.transform = `translateX(-${pickupIndex * 100}%)`;
+const updatePickupVisibility = (root) => {
+  const viewport = root.querySelector(".pickup-viewport");
+  const slides = [...root.querySelectorAll(".pickup-slide")];
+  if (!viewport || !slides.length) return;
 
-  slides.forEach((slide, slideIndex) => {
-    const isActive = slideIndex === pickupIndex;
+  const nearestIndex = slides.reduce((nearest, slide, index) => {
+    const currentDistance = Math.abs(slide.offsetLeft - viewport.scrollLeft);
+    const nearestDistance = Math.abs(slides[nearest].offsetLeft - viewport.scrollLeft);
+    return currentDistance < nearestDistance ? index : nearest;
+  }, 0);
+
+  slides.forEach((slide, index) => {
+    const isActive = index === nearestIndex;
     slide.setAttribute("aria-hidden", String(!isActive));
     slide.toggleAttribute("inert", !isActive);
   });
-
-  dots.forEach((dot, dotIndex) => {
-    dot.classList.toggle("is-active", dotIndex === pickupIndex);
-    dot.setAttribute("aria-current", dotIndex === pickupIndex ? "true" : "false");
-  });
 };
 
-const clearPickupTimers = () => {
-  window.clearInterval(pickupTimerId);
-  window.clearTimeout(pickupResumeTimerId);
-};
-
-const startPickupAutoplay = (root) => {
-  const slideCount = root.querySelectorAll(".pickup-slide").length;
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  clearPickupTimers();
-
-  if (slideCount <= 1 || reduceMotion) return;
-
-  pickupTimerId = window.setInterval(() => {
-    updatePickupSlider(root, pickupIndex + 1);
-  }, PICKUP_AUTOPLAY_DELAY);
-};
-
-const pausePickupAutoplay = (root) => {
-  clearPickupTimers();
-  pickupResumeTimerId = window.setTimeout(() => startPickupAutoplay(root), PICKUP_RESUME_DELAY);
-};
-
-const initPickupSlider = () => {
+const initPickupScroller = () => {
   const root = selectors.todayQuestionCard.querySelector("[data-pickup-slider]");
   if (!root) return;
 
-  const slideCount = root.querySelectorAll(".pickup-slide").length;
-  pickupIndex = 0;
-  updatePickupSlider(root, 0);
+  const viewport = root.querySelector(".pickup-viewport");
+  if (!viewport) return;
 
-  root.querySelector("[data-pickup-prev]")?.addEventListener("click", () => {
-    updatePickupSlider(root, pickupIndex - 1);
-    pausePickupAutoplay(root);
+  updatePickupVisibility(root);
+  viewport.addEventListener("scroll", () => {
+    window.cancelAnimationFrame(pickupScrollFrame);
+    pickupScrollFrame = window.requestAnimationFrame(() => updatePickupVisibility(root));
   });
+};
 
-  root.querySelector("[data-pickup-next]")?.addEventListener("click", () => {
-    updatePickupSlider(root, pickupIndex + 1);
-    pausePickupAutoplay(root);
-  });
+const renderPickupNoteCards = async (pickupStudents) => {
+  await Promise.all(
+    pickupStudents.map(async (student) => {
+      if (!hasNoteFeedSource(student)) return;
 
-  root.querySelectorAll("[data-pickup-dot]").forEach((dot) => {
-    dot.addEventListener("click", () => {
-      updatePickupSlider(root, Number(dot.dataset.pickupDot));
-      pausePickupAutoplay(root);
-    });
-  });
+      const slot = [...selectors.todayQuestionCard.querySelectorAll("[data-pickup-note-slug]")]
+        .find((item) => item.dataset.pickupNoteSlug === student.slug);
+      if (!slot) return;
 
-  root.addEventListener("mouseenter", () => clearPickupTimers());
-  root.addEventListener("mouseleave", () => startPickupAutoplay(root));
-  root.addEventListener("focusin", () => clearPickupTimers());
-  root.addEventListener("focusout", () => startPickupAutoplay(root));
-
-  root.querySelector(".pickup-controls")?.toggleAttribute("hidden", slideCount <= 1);
-  root.querySelector(".pickup-dots")?.toggleAttribute("hidden", slideCount <= 1);
-  startPickupAutoplay(root);
+      try {
+        const [article] = await fetchNoteArticles(student, { limit: 1 });
+        if (!article) return;
+        slot.innerHTML = pickupNoteArticleCard(article);
+        slot.hidden = false;
+      } catch {
+        slot.hidden = true;
+      }
+    }),
+  );
 };
 
 const getFilteredStudents = () => (hasActiveDiscoveryFilters() ? getRankedStudents() : students);
@@ -473,29 +432,43 @@ const renderStudentNoteArticles = async (student) => {
 
   if (!section || !grid || !hasNoteFeedSource(student)) return;
 
-  const articles = await fetchNoteArticles(student, { limit: 3 });
-  if (requestId !== detailNoteRequestId || !articles.length) return;
+  try {
+    const articles = await fetchNoteArticles(student, { limit: 3 });
+    if (requestId !== detailNoteRequestId || !articles.length) return;
 
-  grid.innerHTML = articles.map(studentNoteArticleCard).join("");
-  section.hidden = false;
+    grid.innerHTML = articles.map(studentNoteArticleCard).join("");
+    section.hidden = false;
+  } catch {
+    section.hidden = true;
+  }
 };
 
-const noteArticleCard = (article) => `
-  <a class="note-article-card" href="${escapeHtml(article.link)}" target="_blank" rel="noreferrer">
-    <div class="note-card-image">
-      ${
-        article.thumbnail
-          ? `<img src="${escapeHtml(article.thumbnail)}" alt="${escapeHtml(article.title)}" loading="lazy" />`
-          : `<div class="note-card-image-fallback" aria-hidden="true"></div>`
-      }
-      <span class="note-badge">note</span>
+const noteArticleCard = (article, student) => `
+  <article class="note-article-card">
+    <a class="note-card-main" href="${escapeHtml(article.link)}" target="_blank" rel="noreferrer">
+      <div class="note-card-image">
+        ${
+          article.thumbnail
+            ? `<img src="${escapeHtml(article.thumbnail)}" alt="${escapeHtml(article.title)}" loading="lazy" />`
+            : `<div class="note-card-image-fallback"><strong>${escapeHtml(article.title)}</strong></div>`
+        }
+        <span class="note-badge">note</span>
+      </div>
+      <div class="note-card-body">
+        <h3>${escapeHtml(article.title)}</h3>
+        ${article.excerpt ? `<p class="note-card-excerpt">${escapeHtml(article.excerpt)}…</p>` : ""}
+      </div>
+    </a>
+    <div class="note-card-author">
+      <a href="#student/${escapeHtml(student.slug)}" aria-label="${escapeHtml(student.name)}さんのプロフィールを見る">
+        <img src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" loading="lazy" />
+      </a>
+      <a href="#student/${escapeHtml(student.slug)}">
+        <span>${escapeHtml(student.name)}</span>
+        <time>${escapeHtml(article.pubDate || "投稿日未取得")}</time>
+      </a>
     </div>
-    <div class="note-card-body">
-      <p class="note-card-date">${escapeHtml(article.pubDate)}</p>
-      <h3>${escapeHtml(article.title)}</h3>
-      ${article.excerpt ? `<p class="note-card-excerpt">${escapeHtml(article.excerpt)}…</p>` : ""}
-    </div>
-  </a>
+  </article>
 `;
 
 export const renderStudentDetail = (student) => {
@@ -598,35 +571,21 @@ export const renderTopicControls = () => {
 };
 
 export const renderHeroVisual = () => {
-  const heroStudents = students.filter((student) => student.featured).slice(0, HERO_PREVIEW_LIMIT);
-  const fallbackStudents = heroStudents.length ? heroStudents : students.slice(0, HERO_PREVIEW_LIMIT);
+  const heroStudents = students.filter((student) => student.featured).slice(0, 3);
+  const fallbackStudents = heroStudents.length ? heroStudents : students.slice(0, 3);
   const [spotlightStudent, ...queueStudents] = fallbackStudents;
 
+  if (!spotlightStudent) {
+    selectors.heroVisual.innerHTML = "";
+    return;
+  }
+
   selectors.heroVisual.innerHTML = `
-    ${spotlightStudent ? heroSpotlightCard(spotlightStudent) : ""}
+    ${heroSpotlightCard(spotlightStudent)}
     <div class="hero-queue" aria-label="次に見る学生">
-      ${queueStudents.map(heroQueueCard).join("")}
+      ${queueStudents.slice(0, 2).map(heroQueueCard).join("")}
     </div>
   `;
-};
-
-export const renderRecommendations = () => {
-  const activeFilters = hasActiveDiscoveryFilters();
-  const filteredStudents = getFilteredStudents();
-  const defaultStudents = students.filter((student) => !student.featured).slice(0, RECOMMENDATION_LIMIT);
-  const fallbackStudents = defaultStudents.length ? defaultStudents : students.slice(0, RECOMMENDATION_LIMIT);
-  const recommendedStudents = activeFilters ? filteredStudents.slice(0, RECOMMENDATION_LIMIT) : fallbackStudents;
-
-  selectors.recommendationNote.textContent = getRecommendationNote();
-
-  selectors.recommendationGrid.innerHTML = recommendedStudents.length
-    ? recommendedStudents.map((student) => personCard(student, "featured")).join("")
-    : `
-      <div class="empty-state recommendation-empty">
-        <h3>${escapeHtml(getEmptyTitle())}</h3>
-        <p>別のテーマやキーワードでも探してみてください。</p>
-      </div>
-    `;
 };
 
 export const renderTodayQuestion = () => {
@@ -635,32 +594,16 @@ export const renderTodayQuestion = () => {
 
   selectors.todayQuestionCard.innerHTML = `
     <div class="pickup-slider" data-pickup-slider>
-      <div class="pickup-viewport" aria-live="polite">
+      <div class="pickup-viewport" tabindex="0" aria-label="ピックアップ学生を横にスクロール">
         <div class="pickup-track">
           ${fallbackStudents.map(pickupSlide).join("")}
         </div>
       </div>
-      <div class="pickup-controls" aria-label="ピックアップ学生の切り替え">
-        <button class="pickup-arrow" type="button" data-pickup-prev aria-label="前の学生">←</button>
-        <div class="pickup-dots" aria-label="現在のスライド">
-          ${fallbackStudents
-            .map(
-              (student, index) => `
-                <button
-                  class="pickup-dot"
-                  type="button"
-                  data-pickup-dot="${index}"
-                  aria-label="${escapeHtml(student.name)}さんを表示"
-                ></button>
-              `,
-            )
-            .join("")}
-        </div>
-        <button class="pickup-arrow" type="button" data-pickup-next aria-label="次の学生">→</button>
-      </div>
     </div>
   `;
-  initPickupSlider();
+
+  initPickupScroller();
+  renderPickupNoteCards(fallbackStudents);
 };
 
 export const renderPeopleGrid = () => {
@@ -668,8 +611,8 @@ export const renderPeopleGrid = () => {
   const label = getDiscoveryLabel();
 
   selectors.topicResultHead.innerHTML = `
-    <p>${escapeHtml(label)}</p>
-    <span>${filtered.length} people</span>
+    <p><span>表示中</span>${escapeHtml(label)}</p>
+    <strong>${filtered.length} people</strong>
   `;
 
   selectors.peopleGrid.className = "people-grid is-grid";
@@ -684,30 +627,40 @@ export const renderPeopleGrid = () => {
     return;
   }
 
-  const cards = filtered.map((student) => personCard(student)).join("");
-
-  selectors.peopleGrid.innerHTML = cards;
+  selectors.peopleGrid.innerHTML = filtered.map((student) => personCard(student)).join("");
 };
 
 export const renderDiscoveryResults = () => {
   renderTopicControls();
-  renderRecommendations();
   renderPeopleGrid();
 };
 
 export const renderNoteArticles = async () => {
   if (!selectors.noteFeedSection || !selectors.noteFeedGrid) return;
-  const noteStudent = students.find(hasNoteFeedSource);
-  if (!noteStudent) return;
+
+  const noteStudents = students.filter(hasNoteFeedSource);
+  if (!noteStudents.length) return;
 
   try {
-    const articles = await fetchNoteArticles(noteStudent, { limit: 3 });
-    if (!Array.isArray(articles) || !articles.length) throw new Error("empty");
+    const results = await Promise.allSettled(
+      noteStudents.map(async (student) => {
+        const articles = await fetchNoteArticles(student, { limit: 3 });
+        return articles.map((article) => ({ article, student }));
+      }),
+    );
 
-    selectors.noteFeedGrid.innerHTML = articles.map(noteArticleCard).join("");
+    const articleItems = results
+      .flatMap((result) => (result.status === "fulfilled" ? result.value : []))
+      .slice(0, 3);
+
+    if (!articleItems.length) throw new Error("empty");
+
+    selectors.noteFeedGrid.innerHTML = articleItems
+      .map(({ article, student }) => noteArticleCard(article, student))
+      .join("");
     selectors.noteFeedSection.removeAttribute("hidden");
   } catch {
-    // leave section hidden on any failure
+    selectors.noteFeedSection.setAttribute("hidden", "");
   }
 };
 

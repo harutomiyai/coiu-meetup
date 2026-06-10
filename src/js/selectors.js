@@ -5,8 +5,6 @@ export const selectors = {
   themeModal: document.querySelector("#theme-modal"),
   themeModalTags: document.querySelector("#theme-modal-tags"),
   themeModalSkip: document.querySelector("#theme-modal-skip"),
-  recommendationGrid: document.querySelector("#recommendation-grid"),
-  recommendationNote: document.querySelector("#recommendation-note"),
   todayQuestionCard: document.querySelector("#today-question-card"),
   topicList: document.querySelector("#topic-list"),
   peopleGrid: document.querySelector("#people-grid"),

@@ -13,7 +13,7 @@ export const showStudent = (slug) => {
   const student = students.find((item) => item.slug === slug);
 
   if (!student) {
-    window.location.hash = "#topics";
+    window.location.hash = "#students";
     return;
   }
 
@@ -151,8 +151,7 @@ export const bindEvents = () => {
       return;
     }
 
-    const targetHash = topicTarget.closest("#topic-list") ? "#topics" : "#students";
-    toggleTopic(topicTarget.dataset.topic, targetHash);
+    toggleTopic(topicTarget.dataset.topic, "#students");
   });
 
   selectors.siteSearch?.addEventListener("input", (event) => {
@@ -166,7 +165,7 @@ export const bindEvents = () => {
     }
   });
 
-  selectors.clearTopic?.addEventListener("click", () => clearDiscovery("#topics"));
+  selectors.clearTopic?.addEventListener("click", () => clearDiscovery("#students"));
 
   selectors.themeModalSkip?.addEventListener("click", () => closeThemeModal());
 
