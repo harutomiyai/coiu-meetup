@@ -515,47 +515,48 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
   const resolvedBackUrl = backUrl ?? (isStudentsPage() ? "#" : "#feature");
 
   selectors.studentView.innerHTML = `
-    <div class="profile-news-shell">
-      <a class="back-link" href="${escapeHtml(resolvedBackUrl)}">Back to projects +</a>
-      <div class="profile-news-layout">
-        <article class="profile-article-main" aria-labelledby="project-detail-title">
-          <header class="profile-article-header">
-            <p class="profile-press-label">PROJECT <span>DETAIL</span></p>
-            <div class="profile-article-meta">
-              <span>${(project.tags || []).join(" / ")}</span>
-              <span class="profile-project-status">${escapeHtml(project.status === "active" ? "進行中" : project.status || "")}</span>
-            </div>
-            <h1 id="project-detail-title">${escapeHtml(project.title)}</h1>
-          </header>
+    <div class="project-detail-page">
+      <div class="project-detail-hero">
+        <div class="project-detail-hero-inner">
+          <a class="back-link" href="${escapeHtml(resolvedBackUrl)}">Back to projects +</a>
+          <div class="project-detail-meta">
+            ${(project.tags || []).map((t) => `<span class="project-detail-tag">${escapeHtml(t)}</span>`).join("")}
+            <span class="profile-project-status">${escapeHtml(project.status === "active" ? "進行中" : project.status || "")}</span>
+          </div>
+          <h1 class="project-detail-title" id="project-detail-title">${escapeHtml(project.title)}</h1>
+        </div>
+      </div>
 
-          <section class="profile-article-block">
-            <div class="profile-block-head">
-              <p class="section-kicker">OVERVIEW</p>
-              <h2>プロジェクト概要</h2>
+      ${project.image ? `
+        <div class="project-detail-img-wrap">
+          <img class="project-detail-image" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" />
+        </div>
+      ` : ""}
+
+      <div class="project-detail-body">
+        <section class="project-detail-section">
+          <p class="section-kicker">OVERVIEW</p>
+          <h2>プロジェクト概要</h2>
+          <p>${escapeHtml(project.detail || project.summary)}</p>
+        </section>
+
+        ${members.length ? `
+          <section class="project-detail-section">
+            <p class="section-kicker">MEMBERS</p>
+            <h2>メンバー</h2>
+            <div class="profile-project-member-list">
+              ${members.map((m) => `
+                <a class="profile-project-member" href="/students.html#student/${escapeHtml(m.slug)}">
+                  ${m.image ? `<img src="${escapeHtml(m.image)}" alt="${escapeHtml(m.name)}" />` : ""}
+                  <div>
+                    <strong>${escapeHtml(m.name)}</strong>
+                    <p>${escapeHtml(m.catch || m.currentQuestion || "")}</p>
+                  </div>
+                </a>
+              `).join("")}
             </div>
-            <p>${escapeHtml(project.detail || project.summary)}</p>
           </section>
-
-          ${members.length ? `
-            <section class="profile-article-block">
-              <div class="profile-block-head">
-                <p class="section-kicker">MEMBERS</p>
-                <h2>メンバー</h2>
-              </div>
-              <div class="profile-project-member-list">
-                ${members.map((m) => `
-                  <a class="profile-project-member" href="/students.html#student/${escapeHtml(m.slug)}">
-                    ${m.image ? `<img src="${escapeHtml(m.image)}" alt="${escapeHtml(m.name)}" />` : ""}
-                    <div>
-                      <strong>${escapeHtml(m.name)}</strong>
-                      <p>${escapeHtml(m.catch || m.currentQuestion || "")}</p>
-                    </div>
-                  </a>
-                `).join("")}
-              </div>
-            </section>
-          ` : ""}
-        </article>
+        ` : ""}
       </div>
     </div>
   `;
@@ -575,9 +576,11 @@ const projectCard = (project, index) => {
       <span class="feature-card-badge">${num}</span>
       <span class="feature-card-number">project ${num}</span>
       <span class="feature-card-image-wrap">
-        ${leadMember?.image
-          ? `<img class="feature-card-image" src="${escapeHtml(leadMember.image)}" alt="${escapeHtml(project.title)}" loading="lazy" />`
-          : `<span class="image-fallback feature-card-image">${escapeHtml(project.title[0])}</span>`
+        ${project.image
+          ? `<img class="feature-card-image" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" loading="lazy" />`
+          : leadMember?.image
+            ? `<img class="feature-card-image" src="${escapeHtml(leadMember.image)}" alt="${escapeHtml(project.title)}" loading="lazy" />`
+            : `<span class="image-fallback feature-card-image">${escapeHtml(project.title[0])}</span>`
         }
       </span>
       <span class="feature-card-body">

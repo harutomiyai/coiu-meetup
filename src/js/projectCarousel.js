@@ -14,7 +14,7 @@ const CELL_COLORS = [
 
 const buildGridCell = (project, index) => {
   const members = getMemberStudents(project);
-  const img = members[0]?.image ?? "";
+  const img = project.image ?? members[0]?.image ?? "";
   const num = String(index + 1).padStart(2, "0");
   const bg = CELL_COLORS[index % CELL_COLORS.length];
 

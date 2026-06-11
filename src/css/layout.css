@@ -489,6 +489,7 @@ main {
 .top-grid {
   width: 100%;
   margin: 0;
+  scroll-margin-top: 76px;
 }
 
 /* ── Hero Slideshow ── */
@@ -498,7 +499,7 @@ main {
   position: relative;
   width: 100%;
   background: #fff;
-  padding: 40px 0 180px;
+  padding: 40px 0 80px;
   overflow: hidden;
   border-bottom: 2px solid var(--ink);
 }
@@ -650,8 +651,8 @@ main {
   transition: opacity 160ms ease;
 }
 
-.hero-prev { left: calc(50% - 19% - 44px - 12px); }
-.hero-next { left: calc(50% + 19% + 12px); }
+.hero-prev { left: max(16px, calc((100vw - var(--max)) / 2)); }
+.hero-next { right: max(16px, calc((100vw - var(--max)) / 2)); left: auto; }
 
 .hero-prev:hover,
 .hero-next:hover { opacity: 0.7; }
@@ -661,7 +662,7 @@ main {
   display: flex;
   justify-content: center;
   gap: 8px;
-  padding-top: 80px;
+  padding: 48px 0 8px;
 }
 
 .hero-dot {
@@ -1092,14 +1093,13 @@ main {
 
 .feature-section {
   width: 100%;
-  padding: 72px 0 0;
+  padding: 72px max(22px, calc((100vw - var(--max)) / 2)) 0;
   scroll-margin-top: 88px;
 }
 
 .feature-section .section-head,
 .feature-section .archive-toolbar {
-  width: min(var(--max), calc(100% - 44px));
-  margin-inline: auto;
+  width: 100%;
 }
 
 .feature-section .archive-more {
@@ -1109,6 +1109,10 @@ main {
 
 .all-students-section {
   padding-top: 42px;
+}
+
+.students-section {
+  background: #fff;
 }
 
 .feature-section--flush {
@@ -1458,9 +1462,8 @@ main {
 /* ── Search Page ── */
 
 .search-page {
-  width: min(var(--max), calc(100% - 44px));
-  margin: 0 auto;
-  padding: 80px 0 160px;
+  width: 100%;
+  padding: 80px max(22px, calc((100vw - var(--max)) / 2)) 160px;
 }
 
 .search-page-head {
