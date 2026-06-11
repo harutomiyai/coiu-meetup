@@ -501,7 +501,6 @@ main {
   background: #fff;
   padding: 40px 0 80px;
   overflow: hidden;
-  border-bottom: 2px solid var(--ink);
 }
 
 .hero-slides {
@@ -627,7 +626,17 @@ main {
 }
 .hero-slide-link:hover { opacity: 0.6; }
 
-.hero-slide-summary { display: none; }
+.hero-slide-summary {
+  display: -webkit-box;
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.7;
+  color: #555;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 .hero-slide-img--placeholder { background: #e8e8e8; }
 
 /* prev / next */
@@ -848,7 +857,7 @@ main {
 
 /* ── Projects Page ── */
 .projects-page {
-  background: #f5c93e;
+  background: #fff;
   min-height: calc(100vh - 76px);
   padding: 56px max(24px, calc((100vw - var(--max)) / 2)) 72px;
 }
@@ -1047,24 +1056,51 @@ main {
   }
 }
 
+.info-banner-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: min(var(--max), calc(100% - 44px));
+  margin: 0 auto;
+  padding: 32px 0;
+}
+
 .base-banner {
   display: grid;
-  grid-template-columns: minmax(200px, 0.42fr) minmax(0, 0.58fr);
-  gap: 24px;
-  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: stretch;
   width: 100%;
   margin: 0;
-  border-radius: 0;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--ink);
   background: var(--blue);
-  padding: 32px max(24px, calc((100vw - var(--max)) / 2));
+  overflow: hidden;
 }
 
 .base-banner img {
   width: 100%;
-  aspect-ratio: 16 / 7;
-  border-radius: var(--radius-sm);
+  height: 100%;
+  aspect-ratio: unset;
+  min-height: 180px;
+  border-radius: 0;
   object-fit: cover;
+  object-position: center;
 }
+
+.base-banner > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 28px 24px;
+}
+
+.base-banner--about {
+  background: var(--ink);
+  color: #fff;
+}
+
 
 .base-banner p,
 .base-banner h2,
@@ -1073,15 +1109,15 @@ main {
 }
 
 .base-banner h2 {
-  font-size: clamp(2rem, 5vw, 4.7rem);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
   font-weight: 900;
-  line-height: 0.98;
+  line-height: 1.1;
 }
 
 .base-banner p,
 .base-banner span {
-  font-size: clamp(0.9rem, 2vw, 1.2rem);
-  font-weight: 900;
+  font-size: clamp(0.72rem, 1.2vw, 0.88rem);
+  font-weight: 700;
 }
 
 .section {
@@ -1113,6 +1149,8 @@ main {
 
 .students-section {
   background: #fff;
+  border-top: none;
+  border-bottom: none;
 }
 
 .feature-section--flush {

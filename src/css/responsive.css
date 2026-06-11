@@ -10,7 +10,6 @@
   }
 
   .top-grid,
-  .base-banner,
   .about-main-visual {
     grid-template-columns: 1fr;
   }
@@ -81,6 +80,11 @@
 
   .information-panel {
     padding: 16px;
+  }
+
+  .info-banner-row {
+    grid-template-columns: 1fr;
+    padding: 20px 0;
   }
 
   .base-banner {

@@ -47,8 +47,7 @@
 .people-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 2px solid var(--ink);
-  border-left: 2px solid var(--ink);
+  border: 2px solid var(--ink);
   background: #222;
   gap: 2px;
 }

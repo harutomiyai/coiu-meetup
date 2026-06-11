@@ -473,16 +473,20 @@ body:has(#student-view:not([hidden])) .site-header {
 /* ── Project Detail Page ── */
 .project-detail-page {
   width: 100%;
-  background: #f0ece4;
+  background: #fff;
   min-height: calc(100vh - 76px);
 }
 
 .project-detail-hero {
-  padding: 56px max(24px, calc((100vw - var(--max)) / 2)) 48px;
+  width: 100%;
+  background: #f0ece4;
+  padding: 56px max(24px, calc((100vw - 680px) / 2)) 40px;
+  position: relative;
 }
 
 .project-detail-hero-inner {
-  max-width: 760px;
+  max-width: 680px;
+  margin: 0 auto;
   display: grid;
   gap: 20px;
 }
@@ -497,14 +501,13 @@ body:has(#student-view:not([hidden])) .site-header {
 .project-detail-tag {
   display: inline-flex;
   align-items: center;
-  height: 28px;
-  border: 1.5px solid rgba(0,0,0,0.25);
-  border-radius: 999px;
-  background: rgba(0,0,0,0.07);
-  color: var(--ink);
-  font-size: 0.72rem;
-  font-weight: 900;
-  padding: 0 12px;
+  height: 30px;
+  border-radius: 6px;
+  background: #1a2340;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0 14px;
 }
 
 .project-detail-title {
@@ -517,13 +520,23 @@ body:has(#student-view:not([hidden])) .site-header {
 }
 
 .project-detail-img-wrap {
-  padding: 0 max(24px, calc((100vw - var(--max)) / 2));
+  width: min(680px, calc(100% - 48px));
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.project-detail-img-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 0 -9999px 50% -9999px;
+  background: #f0ece4;
+  z-index: -1;
 }
 
 .project-detail-image {
   display: block;
-  width: min(760px, 100%);
-  margin-inline: auto;
+  width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: center;
@@ -531,9 +544,9 @@ body:has(#student-view:not([hidden])) .site-header {
 }
 
 .project-detail-body {
-  max-width: 760px;
+  width: min(680px, calc(100% - 48px));
   margin: 0 auto;
-  padding: 56px max(24px, calc((100vw - var(--max)) / 2)) 96px;
+  padding: 48px 0 96px;
   display: grid;
   gap: 0;
 }
@@ -541,7 +554,7 @@ body:has(#student-view:not([hidden])) .site-header {
 .project-detail-section {
   display: grid;
   gap: 12px;
-  border-top: 1px solid rgba(0,0,0,0.12);
+  border-top: 1px solid rgba(0,0,0,0.15);
   padding: 32px 0;
 }
 
@@ -557,4 +570,65 @@ body:has(#student-view:not([hidden])) .site-header {
   font-size: 0.95rem;
   line-height: 2;
   color: #333;
+}
+
+.project-related-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.project-related-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  overflow: hidden;
+  transition: background 140ms ease;
+}
+
+.project-related-card:hover {
+  background: #f7f7f2;
+}
+
+.project-related-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.project-related-img--empty {
+  background: #e8e8e8;
+}
+
+.project-related-body {
+  display: grid;
+  gap: 6px;
+  padding: 0 12px 14px;
+  min-width: 0;
+}
+
+.project-related-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.project-related-tags span {
+  font-size: 0.65rem;
+  font-weight: 900;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px 8px;
+  color: var(--muted);
+}
+
+.project-related-body strong {
+  font-size: 0.88rem;
+  font-weight: 900;
+  line-height: 1.5;
 }

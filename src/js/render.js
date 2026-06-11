@@ -512,16 +512,17 @@ export const renderStudentDetail = (student) => {
 
 export const renderProjectDetail = (project, { backUrl } = {}) => {
   const members = getMemberStudents(project);
+  const related = projects
+    .filter((p) => p.slug !== project.slug && (p.tags || []).some((t) => (project.tags || []).includes(t)))
+    .slice(0, 3);
   const resolvedBackUrl = backUrl ?? (isStudentsPage() ? "#" : "#feature");
 
   selectors.studentView.innerHTML = `
     <div class="project-detail-page">
       <div class="project-detail-hero">
         <div class="project-detail-hero-inner">
-          <a class="back-link" href="${escapeHtml(resolvedBackUrl)}">Back to projects +</a>
           <div class="project-detail-meta">
             ${(project.tags || []).map((t) => `<span class="project-detail-tag">${escapeHtml(t)}</span>`).join("")}
-            <span class="profile-project-status">${escapeHtml(project.status === "active" ? "進行中" : project.status || "")}</span>
           </div>
           <h1 class="project-detail-title" id="project-detail-title">${escapeHtml(project.title)}</h1>
         </div>
@@ -551,6 +552,25 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
                   <div>
                     <strong>${escapeHtml(m.name)}</strong>
                     <p>${escapeHtml(m.catch || m.currentQuestion || "")}</p>
+                  </div>
+                </a>
+              `).join("")}
+            </div>
+          </section>
+        ` : ""}
+        ${related.length ? `
+          <section class="project-detail-section">
+            <p class="section-kicker">RELATED</p>
+            <h2>関連プロジェクト</h2>
+            <div class="project-related-list">
+              ${related.map((p) => `
+                <a class="project-related-card" href="#project/${escapeHtml(p.slug)}">
+                  ${p.image ? `<img class="project-related-img" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" />` : `<div class="project-related-img project-related-img--empty"></div>`}
+                  <div class="project-related-body">
+                    <div class="project-related-tags">
+                      ${(p.tags || []).slice(0, 3).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}
+                    </div>
+                    <strong>${escapeHtml(p.title)}</strong>
                   </div>
                 </a>
               `).join("")}

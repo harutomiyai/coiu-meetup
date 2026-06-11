@@ -1,4 +1,4 @@
-import { students } from "./state.js";
+import { projects, getMemberStudents } from "./state.js";
 import { escapeHtml } from "./render.js";
 
 let current = 0;
@@ -7,7 +7,7 @@ let timer = null;
 let isTransitioning = false;
 const GAP = 24;
 
-const getSlides = () => students.filter((s) => s.image && s.currentProject);
+const getSlides = () => projects.filter((p) => p.image);
 
 const renderDots = (n) => {
   const dots = document.getElementById("hero-dots");
@@ -79,19 +79,22 @@ const startAuto = () => {
   timer = setInterval(goNext, 5000);
 };
 
-const buildSlide = (s, originalIndex, realIndex) => `
-  <a class="hero-slide${realIndex === 0 ? " is-active" : ""}" data-real-index="${realIndex}" href="/students.html#student/${escapeHtml(s.slug)}">
-    <img class="hero-slide-img" src="${escapeHtml(s.image)}" alt="${escapeHtml(s.name)}さんの写真" />
-    <span class="hero-slide-num">Pickup ${String(originalIndex + 1).padStart(2, "0")}</span>
-    <div class="hero-slide-card">
-      <p class="hero-slide-name">${escapeHtml(s.name)}</p>
-      <h2 class="hero-slide-project">${escapeHtml(s.currentProject)}</h2>
-      <div class="hero-slide-tags">
-        ${(s.tags || []).slice(0, 3).map((t) => `<span class="hero-slide-tag">${escapeHtml(t)}</span>`).join("")}
+const buildSlide = (project, originalIndex, realIndex) => {
+  const members = getMemberStudents(project);
+  const memberNames = members.map((m) => m.name).join(" / ");
+
+  return `
+    <a class="hero-slide${realIndex === 0 ? " is-active" : ""}" data-real-index="${realIndex}" href="/students.html#project/${escapeHtml(project.slug)}">
+      <img class="hero-slide-img" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" />
+      <span class="hero-slide-num">Project ${String(originalIndex + 1).padStart(2, "0")}</span>
+      <div class="hero-slide-card">
+        ${memberNames ? `<p class="hero-slide-name">${escapeHtml(memberNames)}</p>` : ""}
+        <h2 class="hero-slide-project">${escapeHtml(project.title)}</h2>
+        <p class="hero-slide-summary">${escapeHtml(project.summary)}</p>
       </div>
-    </div>
-  </a>
-`;
+    </a>
+  `;
+};
 
 export const initHeroSlideshow = () => {
   const container = document.getElementById("hero-slides");
@@ -101,10 +104,9 @@ export const initHeroSlideshow = () => {
   if (!list.length) return;
   total = list.length;
 
-  // [末尾クローン] + [本体] + [先頭クローン]
   container.innerHTML =
     buildSlide(list[total - 1], total - 1, -1) +
-    list.map((s, i) => buildSlide(s, i, i)).join("") +
+    list.map((p, i) => buildSlide(p, i, i)).join("") +
     buildSlide(list[0], 0, -2);
 
   container.children[0].classList.remove("is-active");
