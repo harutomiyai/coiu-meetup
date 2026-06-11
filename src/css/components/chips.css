@@ -52,6 +52,29 @@
   white-space: normal;
 }
 
+/* 親タグ：白背景・黒枠（カテゴリを示す） */
+.tag-pill--parent {
+  background: #fff;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+/* 子タグ：薄いグレー背景（詳細ラベル） */
+.tag-pill--child {
+  background: var(--bg-soft, #f5f5f5);
+  color: var(--muted, #666);
+  border-color: var(--line-soft, #e0e0e0);
+  font-weight: 700;
+}
+
+/* 詳細ページのカテゴリグループ */
+.tag-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+}
+
 .topic-filter {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;

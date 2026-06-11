@@ -1,8 +1,8 @@
-import { students, projects, state, getAllTopics, interestTopics, getProjectBySlug, getMemberStudents } from "./state.js";
+import { students, projects, state, getAllTopics, getInterestTopics, getProjectBySlug, getMemberStudents, getParentTagsForStudent, tagCategories } from "./state.js";
 import { selectors } from "./selectors.js";
 import { fetchNoteArticles } from "../lib/noteRss.js";
 
-const linkOrder = ["note", "youtube", "podcast", "instagram", "x", "contact"];
+const linkOrder = ["contact", "note", "youtube", "podcast", "instagram", "x"];
 const HOME_STUDENT_LIMIT = 8;
 const CONTENT_FEED_SOURCE = {
   name: "宮井陽音",
@@ -34,7 +34,7 @@ const getExternalLabel = (key) => {
     podcast: "Podcast",
     x: "X",
     instagram: "Instagram",
-    contact: "Contact",
+    contact: "話しかける",
   };
   return labels[key] || key;
 };
@@ -76,6 +76,7 @@ const getSearchText = (student) =>
     student.currentQuestion,
     student.story,
     ...asArray(student.tags),
+    ...getParentTagsForStudent(student),
     ...getStudentTalkThemes(student),
   ]
     .map(normalizeText)
@@ -84,8 +85,10 @@ const getSearchText = (student) =>
 export const hasActiveDiscoveryFilters = () =>
   state.selectedTopics.length > 0 || normalizeText(state.searchQuery).length > 0;
 
-const getStudentTopicScore = (student) =>
-  state.selectedTopics.filter((topic) => asArray(student.tags).includes(topic)).length;
+const getStudentTopicScore = (student) => {
+  const parentTags = getParentTagsForStudent(student);
+  return state.selectedTopics.filter((topic) => parentTags.includes(topic)).length;
+};
 
 const getRankedStudents = () => {
   const query = normalizeText(state.searchQuery);
@@ -138,6 +141,28 @@ const renderTags = (tags = [], limit = tags.length) =>
     .map((tag) => `<span class="tag-pill">${escapeHtml(tag)}</span>`)
     .join("");
 
+const renderParentTags = (student, limit = 4) => {
+  const parents = getParentTagsForStudent(student).slice(0, limit);
+  return parents.map((tag) => `<span class="tag-pill tag-pill--parent">${escapeHtml(tag)}</span>`).join("");
+};
+
+const renderDetailTagGroups = (student) => {
+  const childTags = asArray(student.tags);
+  const groups = tagCategories
+    .map((cat) => {
+      const matched = childTags.filter((t) => cat.children.includes(t));
+      return matched.length ? { label: cat.label, tags: matched } : null;
+    })
+    .filter(Boolean);
+  if (!groups.length) return renderTags(childTags);
+  return groups.map((g) => `
+    <span class="tag-group">
+      <span class="tag-pill tag-pill--parent">${escapeHtml(g.label)}</span>
+      ${g.tags.map((t) => `<span class="tag-pill tag-pill--child">${escapeHtml(t)}</span>`).join("")}
+    </span>
+  `).join("");
+};
+
 const isStudentsPage = () => document.body.dataset.page === "students";
 
 const detailList = (items) => asArray(items).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
@@ -162,7 +187,7 @@ const personCard = (student) => {
         <span class="feature-card-title">${escapeHtml(student.name)}</span>
         <span class="feature-card-question">${escapeHtml(student.currentQuestion || getStudentKeyLine(student))}</span>
         <span class="feature-card-copy">${escapeHtml(getStudentStoryLead(student))}</span>
-        <span class="tag-row">${renderTags(student.tags, 4)}</span>
+        <span class="tag-row">${renderParentTags(student)}</span>
         <span class="read-more">Read more</span>
       </span>
     </a>
@@ -345,7 +370,7 @@ export const renderTopicControls = () => {
   const isSelected = (topic) => state.selectedTopics.includes(topic);
 
   if (selectors.searchModalTags) {
-    selectors.searchModalTags.innerHTML = interestTopics
+    selectors.searchModalTags.innerHTML = getInterestTopics()
       .map((topic) => topicButton(topic, isSelected(topic), "search-modal-tag"))
       .join("");
   }
@@ -416,6 +441,42 @@ const renderSingleProjectCard = (project) => `
   </a>
 `;
 
+const renderInterviewItem = (item) => {
+  const image = item.image
+    ? `<figure class="interview-figure">
+        <img class="interview-img" src="${escapeHtml(item.image)}" alt="${escapeHtml(item.imageAlt || "")}" loading="lazy" />
+        ${item.imageCaption ? `<figcaption class="interview-figcaption">${escapeHtml(item.imageCaption)}</figcaption>` : ""}
+      </figure>`
+    : "";
+  const quote = item.quote
+    ? `<blockquote class="interview-quote">${escapeHtml(item.quote)}</blockquote>`
+    : "";
+  return `
+    <li class="interview-item">
+      <p class="interview-q">${escapeHtml(item.question)}</p>
+      <p class="interview-a">${escapeHtml(item.answer)}</p>
+      ${quote}
+      ${image}
+    </li>
+  `;
+};
+
+const renderInterviewSection = (student) => {
+  const items = asArray(student.interview);
+  if (!items.length) return "";
+  return `
+    <section class="profile-article-block profile-interview">
+      <div class="profile-block-head">
+        <p class="section-kicker">INTERVIEW</p>
+        <h2>インタビュー</h2>
+      </div>
+      <ol class="interview-list">
+        ${items.map(renderInterviewItem).join("")}
+      </ol>
+    </section>
+  `;
+};
+
 const renderProjectSection = (student) => {
   const slugs = asArray(student.projectSlugs).length
     ? asArray(student.projectSlugs)
@@ -452,7 +513,7 @@ export const renderStudentDetail = (student) => {
             <div class="profile-article-meta">
               <span class="profile-article-gen">CoIU / ${escapeHtml(genLabel)}</span>
             </div>
-            <div class="profile-article-tags">${renderTags(student.tags, 4)}</div>
+            <div class="profile-article-tags">${renderParentTags(student)}</div>
             <h1 id="detail-title">${escapeHtml(student.name)}｜${escapeHtml(student.currentQuestion || getStudentKeyLine(student))}</h1>
           </header>
 
@@ -460,6 +521,7 @@ export const renderStudentDetail = (student) => {
             ${renderImage(student, "profile-main-image", "eager")}
             <figcaption class="profile-main-figcaption">
               <strong class="profile-main-name">${escapeHtml(student.name)}</strong>
+              ${student.bio ? `<p class="profile-main-bio">${escapeHtml(student.bio)}</p>` : ""}
             </figcaption>
           </figure>
 
@@ -477,6 +539,8 @@ export const renderStudentDetail = (student) => {
             </div>
             ${aboutParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
           </section>
+
+          ${renderInterviewSection(student)}
 
           ${renderProjectSection(student)}
 
@@ -508,8 +572,8 @@ export const renderStudentDetail = (student) => {
               ? `
                 <section class="profile-article-block">
                   <div class="profile-block-head">
-                    <p class="section-kicker">LINK</p>
-                    <h2>外部で活動を見る</h2>
+                    <p class="section-kicker">CONTACT</p>
+                    <h2>つながる</h2>
                   </div>
                   <div class="profile-links">${links}</div>
                 </section>

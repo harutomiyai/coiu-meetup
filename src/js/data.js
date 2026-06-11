@@ -1,7 +1,8 @@
-import { setStudents, setProjects } from "./state.js";
+import { setStudents, setProjects, setTagCategories } from "./state.js";
 
 const STUDENTS_INDEX_URL = "/data/students/index.json";
 const PROJECTS_INDEX_URL = "/data/projects/index.json";
+const TAGS_URL = "/data/tags.json";
 
 const fetchJson = async (url) => {
   const response = await fetch(url);
@@ -34,6 +35,11 @@ export const loadProjects = async () => {
   setProjects(data);
 };
 
+export const loadTagCategories = async () => {
+  const data = await fetchJson(TAGS_URL);
+  setTagCategories(data);
+};
+
 export const loadAll = async () => {
-  await Promise.all([loadStudents(), loadProjects()]);
+  await Promise.all([loadStudents(), loadProjects(), loadTagCategories()]);
 };

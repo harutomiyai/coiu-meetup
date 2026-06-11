@@ -1,16 +1,19 @@
-const TAGS = ["AI", "地域", "デザイン", "起業", "教育", "プログラミング", "問い", "活動公開"];
+import { tagCategories } from "./state.js";
 
 let _activeTopics = [];
 
 const renderDrawerTags = () => {
   const list = document.getElementById("drawer-tag-list");
   if (!list) return;
-  list.innerHTML = TAGS.map((tag) => `
+  const tags = tagCategories.length
+    ? tagCategories.map((c) => c.label)
+    : [];
+  list.innerHTML = tags.map((tag) => `
     <button
       class="nav-drawer-tag${_activeTopics.includes(tag) ? " is-active" : ""}"
       type="button"
       data-drawer-tag="${tag}"
-    >#${tag}</button>
+    >${tag}</button>
   `).join("");
 };
 

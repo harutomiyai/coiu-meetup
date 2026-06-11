@@ -1,6 +1,6 @@
 import "./css/main.css";
-import { loadStudents, loadProjects } from "./js/data.js";
-import { students, state, fixedTopics } from "./js/state.js";
+import { loadStudents, loadProjects, loadTagCategories } from "./js/data.js";
+import { students, state, tagCategories, getParentTagsForStudent } from "./js/state.js";
 import { escapeHtml, renderStudentDetail, renderProjectDetail } from "./js/render.js";
 import { bindDrawerEvents } from "./js/drawer.js";
 import { getProjectBySlug } from "./js/state.js";
@@ -34,6 +34,7 @@ const getSearchText = (student) =>
     student.currentQuestion,
     student.story,
     ...(Array.isArray(student.tags) ? student.tags : []),
+    ...getParentTagsForStudent(student),
   ]
     .map(normalizeText)
     .join(" ");
@@ -42,7 +43,8 @@ const filterStudents = (q, tags) => {
   const query = normalizeText(q);
   return students.filter((s) => {
     const matchQuery = !query || getSearchText(s).includes(query);
-    const matchTags = tags.length === 0 || tags.every((t) => (s.tags || []).includes(t));
+    const parentTags = getParentTagsForStudent(s);
+    const matchTags = tags.length === 0 || tags.every((t) => parentTags.includes(t));
     return matchQuery && matchTags;
   });
 };
@@ -76,17 +78,16 @@ const personCard = (student) => {
 
 // ── Tag filter ──────────────────────────────────────────────
 
-const TAGS = ["AI", "地域", "デザイン", "起業", "教育", "プログラミング", "問い", "活動公開", "Web制作"];
-
 let currentQ = "";
 let currentTags = [];
 
 const renderTagFilter = () => {
   const el = document.getElementById("search-page-tags");
   if (!el) return;
-  el.innerHTML = TAGS.map((tag) => `
+  const tags = tagCategories.map((c) => c.label);
+  el.innerHTML = tags.map((tag) => `
     <button class="search-page-tag${currentTags.includes(tag) ? " is-active" : ""}"
-      type="button" data-tag="${escapeHtml(tag)}">#${escapeHtml(tag)}</button>
+      type="button" data-tag="${escapeHtml(tag)}">${escapeHtml(tag)}</button>
   `).join("");
 };
 
@@ -226,7 +227,7 @@ const bindEvents = () => {
 // ── Init ────────────────────────────────────────────────────
 
 const init = async () => {
-  await Promise.all([loadStudents(), loadProjects()]);
+  await Promise.all([loadStudents(), loadProjects(), loadTagCategories()]);
 
   const params = getParams();
   currentQ = params.q;
