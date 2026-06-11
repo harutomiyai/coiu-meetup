@@ -1,8 +1,9 @@
 .content-section {
   width: 100%;
-  margin: 0 auto 20px;
+  margin: 0;
   overflow: hidden;
-  border-bottom: 1px solid var(--line);
+  border-top: none;
+  border-bottom: none;
   background: #fff;
   padding: 48px 0;
 }

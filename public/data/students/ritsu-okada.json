@@ -67,5 +67,6 @@
     "instagram": "",
     "contact": "https://forms.gle/xxxx"
   },
-  "projectSlug": "map-app"
+  "projectSlug": "map-app",
+  "projectSlugs": ["map-app", "local-service", "question-ai-tool"]
 }

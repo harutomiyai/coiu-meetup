@@ -47,10 +47,7 @@ const getLinkUrl = (student, key) => {
   return student.links?.[key] || "";
 };
 
-const getArchiveNumber = (student) => {
-  const index = students.findIndex((item) => item.slug === student.slug);
-  return String(index >= 0 ? index + 1 : 0).padStart(3, "0");
-};
+const getGenerationLabel = (student) => student.generation || "1期生";
 
 const asArray = (value) => (Array.isArray(value) ? value.filter(Boolean) : []);
 
@@ -146,7 +143,7 @@ const isStudentsPage = () => document.body.dataset.page === "students";
 const detailList = (items) => asArray(items).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
 
 const personCard = (student) => {
-  const archiveNumber = getArchiveNumber(student);
+  const genLabel = getGenerationLabel(student);
 
   return `
     <a
@@ -156,8 +153,8 @@ const personCard = (student) => {
       aria-label="${escapeHtml(student.name)}さんの詳細を見る"
     >
       <span class="feature-card-place">CoIU / ${escapeHtml(student.generation)}</span>
-      <span class="feature-card-badge">${archiveNumber}</span>
-      <span class="feature-card-number">archive ${archiveNumber}</span>
+      <span class="feature-card-badge">${escapeHtml(genLabel)}</span>
+      <span class="feature-card-number">${escapeHtml(genLabel)}</span>
       <span class="feature-card-image-wrap">
         ${renderImage(student, "feature-card-image")}
       </span>
@@ -176,7 +173,7 @@ const infoItem = (student) => `
   <a class="info-item" href="#student/${escapeHtml(student.slug)}">
     ${renderImage(student, "info-item-image")}
     <span>
-      <small>${escapeHtml(student.generation)} / archive ${getArchiveNumber(student)}</small>
+      <small>CoIU / ${escapeHtml(getGenerationLabel(student))}</small>
       <strong>${escapeHtml(student.name)}</strong>
       <em>${escapeHtml(getStudentKeyLine(student))}</em>
     </span>
@@ -227,7 +224,7 @@ const relatedPostCard = (student) => `
   <a class="related-post-card" href="#student/${escapeHtml(student.slug)}">
     ${renderImage(student, "related-post-image")}
     <span>
-      <small>${escapeHtml(student.generation)} / archive ${getArchiveNumber(student)}</small>
+      <small>CoIU / ${escapeHtml(getGenerationLabel(student))}</small>
       <strong>${escapeHtml(student.name)}</strong>
       <em>${escapeHtml(student.currentQuestion || getStudentKeyLine(student))}</em>
     </span>
@@ -409,42 +406,41 @@ export const renderDiscoveryResults = () => {
   renderPeopleGrid();
 };
 
+const renderSingleProjectCard = (project) => `
+  <a class="profile-project-card" href="/students.html#project/${escapeHtml(project.slug)}">
+    <div class="profile-project-card-tags">${(project.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>
+    <strong class="profile-project-card-title">${escapeHtml(project.title)}</strong>
+    <p class="profile-project-card-summary">${escapeHtml(project.summary)}</p>
+    <span class="profile-project-card-link">プロジェクト詳細 →</span>
+  </a>
+`;
+
 const renderProjectSection = (student) => {
-  const project = student.projectSlug ? getProjectBySlug(student.projectSlug) : null;
-  if (!project) return "";
-  const members = getMemberStudents(project)
-    .filter((m) => m.slug !== student.slug);
+  const slugs = asArray(student.projectSlugs).length
+    ? asArray(student.projectSlugs)
+    : student.projectSlug
+    ? [student.projectSlug]
+    : [];
+  const projectList = slugs.map(getProjectBySlug).filter(Boolean);
+  if (!projectList.length) return "";
+
+  const gridClass = projectList.length > 1 ? "profile-projects-grid" : "";
+
   return `
     <section class="profile-article-block profile-project-block">
       <div class="profile-block-head">
         <p class="section-kicker">PROJECT</p>
         <h2>取り組んでいるプロジェクト</h2>
       </div>
-      <a class="profile-project-card" href="/students.html#project/${escapeHtml(project.slug)}">
-        <div class="profile-project-card-tags">${(project.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>
-        <strong class="profile-project-card-title">${escapeHtml(project.title)}</strong>
-        <p class="profile-project-card-summary">${escapeHtml(project.summary)}</p>
-        <span class="profile-project-card-link">プロジェクト詳細 →</span>
-      </a>
-      ${members.length ? `
-        <div class="profile-project-members">
-          <p class="section-kicker" style="margin-top:20px">MEMBER</p>
-          <div class="profile-project-member-list">
-            ${members.map((m) => `
-              <a class="profile-project-member" href="/students.html#student/${escapeHtml(m.slug)}">
-                ${m.image ? `<img src="${escapeHtml(m.image)}" alt="${escapeHtml(m.name)}" />` : ""}
-                <span>${escapeHtml(m.name)}</span>
-              </a>
-            `).join("")}
-          </div>
-        </div>
-      ` : ""}
+      <div class="${gridClass}">
+        ${projectList.map(renderSingleProjectCard).join("")}
+      </div>
     </section>
   `;
 };
 
 export const renderStudentDetail = (student) => {
-  const archiveNumber = getArchiveNumber(student);
+  const genLabel = getGenerationLabel(student);
   const aboutParagraphs = asArray(student.about).length ? asArray(student.about) : [student.story].filter(Boolean);
   const links = renderDetailLinks(student);
 
@@ -457,7 +453,7 @@ export const renderStudentDetail = (student) => {
           <header class="profile-article-header">
             <p class="profile-press-label">STUDENT PROFILE <span>ABOUT</span></p>
             <div class="profile-article-meta">
-              <span>archive ${archiveNumber}</span>
+              <span>CoIU / ${escapeHtml(genLabel)}</span>
               <time>2026.06 QUESTION</time>
             </div>
             <h1 id="detail-title">${escapeHtml(student.name)}｜${escapeHtml(student.currentQuestion || getStudentKeyLine(student))}</h1>
@@ -469,15 +465,11 @@ export const renderStudentDetail = (student) => {
           </div>
 
           <figure class="profile-main-figure">
-            <div class="profile-hero-grid">
-              ${renderImage(student, "profile-main-image", "eager")}
-              <div class="profile-question-tile">
-                <p>QUESTION</p>
-                <strong>${escapeHtml(student.currentQuestion || getStudentKeyLine(student))}</strong>
-                <span>${renderTags(student.tags, 4)}</span>
-              </div>
-            </div>
-            <figcaption>${escapeHtml(student.name)} / ${escapeHtml(getStudentKeyLine(student))}</figcaption>
+            ${renderImage(student, "profile-main-image", "eager")}
+            <figcaption class="profile-main-figcaption">
+              <strong class="profile-main-name">${escapeHtml(student.name)}</strong>
+              <span class="tag-row">${renderTags(student.tags, 4)}</span>
+            </figcaption>
           </figure>
 
           <p class="profile-lead">${escapeHtml(getStudentStoryLead(student))}</p>

@@ -80,17 +80,17 @@ const startAuto = () => {
 };
 
 const buildSlide = (s, originalIndex, realIndex) => `
-  <div class="hero-slide${realIndex === 0 ? " is-active" : ""}" data-real-index="${realIndex}">
+  <a class="hero-slide${realIndex === 0 ? " is-active" : ""}" data-real-index="${realIndex}" href="/students.html#student/${escapeHtml(s.slug)}">
     <img class="hero-slide-img" src="${escapeHtml(s.image)}" alt="${escapeHtml(s.name)}さんの写真" />
     <span class="hero-slide-num">Pickup ${String(originalIndex + 1).padStart(2, "0")}</span>
     <div class="hero-slide-card">
+      <p class="hero-slide-name">${escapeHtml(s.name)}</p>
       <h2 class="hero-slide-project">${escapeHtml(s.currentProject)}</h2>
       <div class="hero-slide-tags">
         ${(s.tags || []).slice(0, 3).map((t) => `<span class="hero-slide-tag">${escapeHtml(t)}</span>`).join("")}
       </div>
-      <a class="hero-slide-link" href="/students.html#student/${escapeHtml(s.slug)}">詳しく見る →</a>
     </div>
-  </div>
+  </a>
 `;
 
 export const initHeroSlideshow = () => {
@@ -114,11 +114,11 @@ export const initHeroSlideshow = () => {
 
   requestAnimationFrame(() => setPosition(current + 1, false));
 
-  document.getElementById("hero-prev")?.addEventListener("click", () => {
-    goPrev(); clearInterval(timer); startAuto();
+  document.getElementById("hero-prev")?.addEventListener("click", (e) => {
+    e.preventDefault(); goPrev(); clearInterval(timer); startAuto();
   });
-  document.getElementById("hero-next")?.addEventListener("click", () => {
-    goNext(); clearInterval(timer); startAuto();
+  document.getElementById("hero-next")?.addEventListener("click", (e) => {
+    e.preventDefault(); goNext(); clearInterval(timer); startAuto();
   });
   document.getElementById("hero-dots")?.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-index]");

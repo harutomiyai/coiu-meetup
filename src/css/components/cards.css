@@ -47,25 +47,33 @@
 .people-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid var(--line);
-  border-left: 1px solid var(--line);
+  border-top: 2px solid var(--ink);
+  border-left: 2px solid var(--ink);
+  background: #222;
+  gap: 2px;
 }
 
 .feature-card {
   position: relative;
   display: grid;
   min-height: 448px;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
   background: #fff;
   color: var(--ink);
   padding: 22px;
-  transition: background 160ms ease;
+  border-radius: 0;
+  transition: background 200ms ease, border-radius 200ms ease;
 }
 
 .feature-card:hover,
 .feature-card:focus-visible {
-  background: #fbfbef;
+  background: #f5f5e8;
+  border-radius: 14px;
+  z-index: 1;
+}
+
+.feature-card:hover .feature-card-image,
+.feature-card:focus-visible .feature-card-image {
+  filter: brightness(0.88);
 }
 
 .feature-card-place {
@@ -115,6 +123,7 @@
   border-radius: var(--radius-sm);
   object-fit: cover;
   object-position: center 20%;
+  transition: filter 200ms ease;
 }
 
 .feature-card-body {

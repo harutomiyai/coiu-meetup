@@ -1,5 +1,5 @@
 .article-section {
-  border: 1.5px solid var(--ink);
+  border: 2px solid var(--ink);
   border-radius: var(--radius-card);
   background: #fff;
   padding: 42px 48px;

@@ -58,13 +58,10 @@ const renderTags = (tags = []) =>
   (Array.isArray(tags) ? tags : []).slice(0, 4)
     .map((t) => `<span class="tag-pill">${escapeHtml(t)}</span>`).join("");
 
-const getArchiveNumber = (student) => {
-  const idx = students.findIndex((s) => s.slug === student.slug);
-  return String(idx >= 0 ? idx + 1 : 0).padStart(3, "0");
-};
+const getGenerationLabel = (student) => student.generation || "1期生";
 
 const personCard = (student) => {
-  const num = getArchiveNumber(student);
+  const genLabel = getGenerationLabel(student);
   const keyLine = student.currentQuestion || student.catch || student.currentProject || "問いを準備中";
   const lead = (() => {
     const first = String(student.story || "").split("。").find(Boolean);
@@ -74,8 +71,8 @@ const personCard = (student) => {
     <a class="feature-card" href="#student/${escapeHtml(student.slug)}"
        aria-label="${escapeHtml(student.name)}さんの詳細を見る">
       <span class="feature-card-place">CoIU / ${escapeHtml(student.generation || "")}</span>
-      <span class="feature-card-badge">${num}</span>
-      <span class="feature-card-number">archive ${num}</span>
+      <span class="feature-card-badge">${escapeHtml(genLabel)}</span>
+      <span class="feature-card-number">${escapeHtml(genLabel)}</span>
       <span class="feature-card-image-wrap">${renderImage(student)}</span>
       <span class="feature-card-body">
         <span class="feature-card-title">${escapeHtml(student.name)}</span>

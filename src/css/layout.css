@@ -8,9 +8,9 @@
   align-items: center;
   justify-content: space-between;
   min-height: 76px;
-  padding: 0 max(22px, calc((100vw - var(--max)) / 2));
+  padding: 0 max(32px, calc((100vw - var(--max)) / 2));
   background: #fff;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-soft);
 }
 
 /* ── Hamburger ── */
@@ -128,7 +128,7 @@
   align-items: center;
   gap: 0;
   border: none;
-  border-bottom: 1.5px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
   background: transparent;
   transition: border-color 180ms ease;
 }
@@ -498,8 +498,9 @@ main {
   position: relative;
   width: 100%;
   background: #fff;
-  padding: 40px 0 120px;
+  padding: 40px 0 180px;
   overflow: hidden;
+  border-bottom: 2px solid var(--ink);
 }
 
 .hero-slides {
@@ -511,7 +512,7 @@ main {
 
 .hero-slide {
   position: relative;
-  flex: 0 0 54%;
+  flex: 0 0 38%;
   display: flex;
   flex-direction: column;
   overflow: visible;
@@ -520,6 +521,8 @@ main {
   margin-right: 24px;
   transform: scale(0.85);
   transform-origin: center top;
+  text-decoration: none;
+  color: inherit;
 }
 
 .hero-slide.is-active {
@@ -560,24 +563,32 @@ main {
 
 .hero-slide-card {
   position: absolute;
-  bottom: -24px;
+  bottom: -36px;
   left: -16px;
   z-index: 3;
-  width: min(320px, 80%);
+  width: min(360px, 85%);
   background: #fff;
-  border: 1.5px solid var(--ink);
+  border: 2px solid var(--ink);
   border-radius: 10px;
-  padding: 16px 20px;
+  padding: 18px 22px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .hero-slide-meta { display: none; }
 
+.hero-slide-name {
+  margin: 0;
+  font-size: clamp(0.82rem, 1.2vw, 0.95rem);
+  font-weight: 900;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
 .hero-slide-project {
   margin: 0;
-  font-size: clamp(0.88rem, 1.4vw, 1.05rem);
+  font-size: clamp(1rem, 1.7vw, 1.3rem);
   font-weight: 900;
   line-height: 1.45;
   color: var(--ink);
@@ -608,7 +619,7 @@ main {
   font-size: 0.76rem;
   font-weight: 900;
   color: var(--ink);
-  border-bottom: 1.5px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
   padding-bottom: 2px;
   width: fit-content;
   transition: opacity 160ms ease;
@@ -639,8 +650,8 @@ main {
   transition: opacity 160ms ease;
 }
 
-.hero-prev { left: calc(50% - 27% - 44px - 12px); }
-.hero-next { left: calc(50% + 27% + 12px); }
+.hero-prev { left: calc(50% - 19% - 44px - 12px); }
+.hero-next { left: calc(50% + 19% + 12px); }
 
 .hero-prev:hover,
 .hero-next:hover { opacity: 0.7; }
@@ -650,7 +661,7 @@ main {
   display: flex;
   justify-content: center;
   gap: 8px;
-  padding-top: 16px;
+  padding-top: 80px;
 }
 
 .hero-dot {
@@ -674,8 +685,8 @@ main {
 /* ── Project Grid Section ── */
 .project-carousel-section {
   background: #f5c93e;
-  border-top: 1px solid rgba(0,0,0,0.08);
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
   padding: 56px max(24px, calc((100vw - var(--max)) / 2)) 64px;
 }
 
@@ -790,7 +801,7 @@ main {
   display: inline-flex;
   align-items: center;
   height: 20px;
-  border: 1.5px solid var(--ink);
+  border: 2px solid var(--ink);
   border-radius: 999px;
   font-size: 0.62rem;
   font-weight: 900;
@@ -1002,7 +1013,8 @@ main {
 
 .keyword-runner {
   overflow: hidden;
-  border-top: 1px solid var(--line);
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
   background: #222;
   color: #fff;
   white-space: nowrap;
@@ -1039,11 +1051,11 @@ main {
   grid-template-columns: minmax(200px, 0.42fr) minmax(0, 0.58fr);
   gap: 24px;
   align-items: center;
-  width: min(var(--max), calc(100% - 44px));
-  margin: 42px auto 72px;
-  border-radius: var(--radius-md);
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
   background: var(--blue);
-  padding: 24px 34px;
+  padding: 32px max(24px, calc((100vw - var(--max)) / 2));
 }
 
 .base-banner img {
@@ -1080,15 +1092,19 @@ main {
 
 .feature-section {
   width: 100%;
-  padding: 72px 0;
+  padding: 72px 0 0;
   scroll-margin-top: 88px;
 }
 
 .feature-section .section-head,
-.feature-section .archive-toolbar,
-.feature-section .archive-more {
+.feature-section .archive-toolbar {
   width: min(var(--max), calc(100% - 44px));
   margin-inline: auto;
+}
+
+.feature-section .archive-more {
+  width: 100%;
+  margin-inline: 0;
 }
 
 .all-students-section {
@@ -1136,25 +1152,29 @@ main {
 
 .archive-more {
   display: flex;
-  width: fit-content;
-  min-height: 34px;
+  width: 100%;
+  min-height: 72px;
   align-items: center;
   justify-content: center;
-  margin: 24px auto 0;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--yellow);
-  color: #fff;
-  font-size: 0.78rem;
+  margin: 0;
+  border-left: 2px solid var(--ink);
+  border-right: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.82rem;
   font-weight: 900;
   line-height: 1;
-  padding: 8px 16px;
+  padding: 20px 16px;
+  transition: background 160ms ease, color 160ms ease;
 }
 
 .archive-more:hover,
 .archive-more:focus-visible {
-  background: var(--ink);
+  background: #222;
   color: #fff;
+  border-color: #222;
 }
 
 .collage-board {
