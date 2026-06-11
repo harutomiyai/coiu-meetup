@@ -407,11 +407,12 @@ export const renderDiscoveryResults = () => {
 };
 
 const renderSingleProjectCard = (project) => `
-  <a class="profile-project-card" href="/students.html#project/${escapeHtml(project.slug)}">
-    <div class="profile-project-card-tags">${(project.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>
-    <strong class="profile-project-card-title">${escapeHtml(project.title)}</strong>
-    <p class="profile-project-card-summary">${escapeHtml(project.summary)}</p>
-    <span class="profile-project-card-link">プロジェクト詳細 →</span>
+  <a class="project-related-card" href="/students.html#project/${escapeHtml(project.slug)}">
+    ${project.image ? `<img class="project-related-img" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" />` : `<div class="project-related-img project-related-img--empty"></div>`}
+    <div class="project-related-body">
+      <div class="project-related-tags">${(project.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>
+      <strong>${escapeHtml(project.title)}</strong>
+    </div>
   </a>
 `;
 
@@ -424,15 +425,13 @@ const renderProjectSection = (student) => {
   const projectList = slugs.map(getProjectBySlug).filter(Boolean);
   if (!projectList.length) return "";
 
-  const gridClass = projectList.length > 1 ? "profile-projects-grid" : "";
-
   return `
     <section class="profile-article-block profile-project-block">
       <div class="profile-block-head">
         <p class="section-kicker">PROJECT</p>
         <h2>取り組んでいるプロジェクト</h2>
       </div>
-      <div class="${gridClass}">
+      <div class="project-related-list">
         ${projectList.map(renderSingleProjectCard).join("")}
       </div>
     </section>
@@ -446,29 +445,21 @@ export const renderStudentDetail = (student) => {
 
   selectors.studentView.innerHTML = `
     <div class="profile-news-shell">
-      <a class="back-link" href="#feature">Back to students +</a>
-
       <div class="profile-news-layout">
         <article class="profile-article-main" aria-labelledby="detail-title">
           <header class="profile-article-header">
-            <p class="profile-press-label">STUDENT PROFILE <span>ABOUT</span></p>
+            <p class="section-kicker">STUDENT PROFILE</p>
             <div class="profile-article-meta">
-              <span>CoIU / ${escapeHtml(genLabel)}</span>
-              <time>2026.06 QUESTION</time>
+              <span class="profile-article-gen">CoIU / ${escapeHtml(genLabel)}</span>
             </div>
+            <div class="profile-article-tags">${renderTags(student.tags, 4)}</div>
             <h1 id="detail-title">${escapeHtml(student.name)}｜${escapeHtml(student.currentQuestion || getStudentKeyLine(student))}</h1>
           </header>
-
-          <div class="profile-date-strip">
-            <span>CoIU / ${escapeHtml(student.generation)}</span>
-            <strong>${escapeHtml(student.name)}</strong>
-          </div>
 
           <figure class="profile-main-figure">
             ${renderImage(student, "profile-main-image", "eager")}
             <figcaption class="profile-main-figcaption">
               <strong class="profile-main-name">${escapeHtml(student.name)}</strong>
-              <span class="tag-row">${renderTags(student.tags, 4)}</span>
             </figcaption>
           </figure>
 
@@ -477,7 +468,6 @@ export const renderStudentDetail = (student) => {
           <div class="profile-summary-box">
             <p class="section-kicker">QUESTION</p>
             <strong>${escapeHtml(student.currentQuestion || getStudentKeyLine(student))}</strong>
-            <span>${escapeHtml(student.oneOnOneMessage || "")}</span>
           </div>
 
           <section class="profile-article-block">
@@ -489,6 +479,29 @@ export const renderStudentDetail = (student) => {
           </section>
 
           ${renderProjectSection(student)}
+
+          ${
+            student.spotifyEmbedUrl
+              ? `
+                <section class="profile-article-block">
+                  <div class="profile-block-head">
+                    <p class="section-kicker">PODCAST</p>
+                    <h2>Podcast</h2>
+                  </div>
+                  <iframe
+                    style="border-radius:12px"
+                    src="${student.spotifyEmbedUrl}"
+                    width="100%"
+                    height="152"
+                    frameborder="0"
+                    allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                  ></iframe>
+                </section>
+              `
+              : ""
+          }
 
           ${
             links

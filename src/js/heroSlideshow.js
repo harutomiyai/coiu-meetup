@@ -1,18 +1,73 @@
 import { projects, getMemberStudents } from "./state.js";
 import { escapeHtml } from "./render.js";
 
-let current = 0;
-let total = 0;
-let timer = null;
-let isTransitioning = false;
 const GAP = 24;
+const DURATION = 600;
+const INTERVAL = 5000;
+
+// 3セット複製: [clone-tail | originals | clone-head]
+// current は originals 内のインデックス (0 〜 total-1)
+// vIdx (virtual index) は実際の DOM 上の位置: total + current が中央セット
+
+let total = 0;
+let current = 0;
+let vCurrent = 0; // DOM上の仮想インデックス (= total + current で初期化)
+let timer = null;
+let rafId = null;
+let animStart = null;
+let animFrom = 0;
+let animTo = 0;
 
 const getSlides = () => projects.filter((p) => p.image);
+const getTrack = () => document.getElementById("hero-slides");
 
-const renderDots = (n) => {
-  const dots = document.getElementById("hero-dots");
-  if (!dots) return;
-  dots.innerHTML = Array.from({ length: n }, (_, i) =>
+const slideWidth = () => getTrack()?.children[0]?.offsetWidth ?? 0;
+const containerWidth = () => getTrack()?.parentElement?.offsetWidth ?? 0;
+
+// vIdx 番のスライドを画面中央に置くオフセット
+const offsetFor = (vIdx) => {
+  const sw = slideWidth();
+  const cw = containerWidth();
+  return (cw - sw) / 2 - vIdx * (sw + GAP);
+};
+
+const applyOffset = (x) => {
+  const t = getTrack();
+  if (t) t.style.transform = `translateX(${x}px)`;
+};
+
+// --- RAF イージング ---
+const ease = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+const cancelAnim = () => {
+  if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+  animStart = null;
+};
+
+const animateTo = (from, to, onDone) => {
+  cancelAnim();
+  animFrom = from;
+  animTo = to;
+  const step = (ts) => {
+    if (animStart === null) animStart = ts;
+    const t = Math.min((ts - animStart) / DURATION, 1);
+    applyOffset(animFrom + (animTo - animFrom) * ease(t));
+    if (t < 1) {
+      rafId = requestAnimationFrame(step);
+    } else {
+      rafId = null;
+      animStart = null;
+      onDone?.();
+    }
+  };
+  rafId = requestAnimationFrame(step);
+};
+
+// --- ドット ---
+const renderDots = () => {
+  const el = document.getElementById("hero-dots");
+  if (!el) return;
+  el.innerHTML = Array.from({ length: total }, (_, i) =>
     `<button class="hero-dot${i === 0 ? " is-active" : ""}" data-index="${i}" aria-label="${i + 1}枚目"></button>`
   ).join("");
 };
@@ -23,70 +78,92 @@ const updateDots = () => {
   });
 };
 
+// is-active は全 DOM スライドのうち real-index === current のものに付ける
 const updateActive = () => {
   document.querySelectorAll(".hero-slide").forEach((el) => {
     el.classList.toggle("is-active", Number(el.dataset.realIndex) === current);
   });
 };
 
-const getOffset = (vIdx) => {
-  const track = document.getElementById("hero-slides");
-  if (!track) return 0;
-  const slideW = track.children[0]?.offsetWidth ?? 0;
-  const containerW = track.parentElement.offsetWidth;
-  return (containerW - slideW) / 2 - vIdx * (slideW + GAP);
-};
+// --- 移動 ---
+const moveTo = (newReal, animated, onDone) => {
+  // vCurrent から newReal へ一番近い仮想インデックスを選ぶ
+  const centerSet = total; // middle set starts at DOM index `total`
+  const newV = centerSet + newReal;
+  const from = offsetFor(vCurrent);
+  const to = offsetFor(newV);
 
-const setPosition = (vIdx, animated) => {
-  const track = document.getElementById("hero-slides");
-  if (!track) return;
-  track.style.transition = animated ? "transform 600ms cubic-bezier(0.4, 0, 0.2, 1)" : "none";
-  track.style.transform = `translateX(${getOffset(vIdx)}px)`;
-};
-
-const goNext = () => {
-  if (isTransitioning) return;
-  isTransitioning = true;
-  const nextReal = (current + 1) % total;
-  const targetV = current === total - 1 ? total + 1 : nextReal + 1;
-  current = nextReal;
+  current = newReal;
+  vCurrent = newV;
   updateActive();
   updateDots();
-  setPosition(targetV, true);
-  document.getElementById("hero-slides")?.addEventListener("transitionend", () => {
-    setPosition(current + 1, false);
-    isTransitioning = false;
-  }, { once: true });
+
+  if (!animated) {
+    cancelAnim();
+    applyOffset(to);
+    onDone?.();
+    return;
+  }
+  animateTo(from, to, onDone);
+};
+
+// 次へ（アニメが走っていたら無視）
+const goNext = () => {
+  if (rafId) return;
+  const nextReal = (current + 1) % total;
+  const from = offsetFor(vCurrent);
+  const newV = vCurrent + 1; // 右に1つ進む
+  const to = offsetFor(newV);
+
+  current = nextReal;
+  vCurrent = newV;
+  updateActive();
+  updateDots();
+
+  animateTo(from, to, () => {
+    // 端に達したら中央セットへワープ（見た目の変化なし）
+    if (vCurrent >= total * 2) {
+      vCurrent -= total;
+      applyOffset(offsetFor(vCurrent));
+    }
+  });
 };
 
 const goPrev = () => {
-  if (isTransitioning) return;
-  isTransitioning = true;
+  if (rafId) return;
   const prevReal = ((current - 1) + total) % total;
-  const targetV = current === 0 ? 0 : prevReal + 1;
+  const from = offsetFor(vCurrent);
+  const newV = vCurrent - 1;
+  const to = offsetFor(newV);
+
   current = prevReal;
+  vCurrent = newV;
   updateActive();
   updateDots();
-  setPosition(targetV, true);
-  document.getElementById("hero-slides")?.addEventListener("transitionend", () => {
-    setPosition(current + 1, false);
-    isTransitioning = false;
-  }, { once: true });
+
+  animateTo(from, to, () => {
+    // 端に達したら中央セットへワープ
+    if (vCurrent < total) {
+      vCurrent += total;
+      applyOffset(offsetFor(vCurrent));
+    }
+  });
 };
 
+// --- 自動再生 ---
 const startAuto = () => {
   clearInterval(timer);
-  timer = setInterval(goNext, 5000);
+  timer = setInterval(goNext, INTERVAL);
 };
 
-const buildSlide = (project, originalIndex, realIndex) => {
+// --- スライドビルド ---
+const buildSlide = (project, realIndex, isActive) => {
   const members = getMemberStudents(project);
   const memberNames = members.map((m) => m.name).join(" / ");
-
   return `
-    <a class="hero-slide${realIndex === 0 ? " is-active" : ""}" data-real-index="${realIndex}" href="/students.html#project/${escapeHtml(project.slug)}">
+    <a class="hero-slide${isActive ? " is-active" : ""}" data-real-index="${realIndex}" href="/students.html#project/${escapeHtml(project.slug)}">
       <img class="hero-slide-img" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" />
-      <span class="hero-slide-num">Project ${String(originalIndex + 1).padStart(2, "0")}</span>
+      <span class="hero-slide-num">Project ${String(realIndex + 1).padStart(2, "0")}</span>
       <div class="hero-slide-card">
         ${memberNames ? `<p class="hero-slide-name">${escapeHtml(memberNames)}</p>` : ""}
         <h2 class="hero-slide-project">${escapeHtml(project.title)}</h2>
@@ -103,18 +180,18 @@ export const initHeroSlideshow = () => {
   const list = getSlides();
   if (!list.length) return;
   total = list.length;
+  current = 0;
 
-  container.innerHTML =
-    buildSlide(list[total - 1], total - 1, -1) +
-    list.map((p, i) => buildSlide(p, i, i)).join("") +
-    buildSlide(list[0], 0, -2);
+  // 3セット: [tail clone | originals | head clone]
+  const tail = list.map((p, i) => buildSlide(p, i, false));
+  const orig = list.map((p, i) => buildSlide(p, i, i === 0));
+  const head = list.map((p, i) => buildSlide(p, i, false));
+  container.innerHTML = [...tail, ...orig, ...head].join("");
 
-  container.children[0].classList.remove("is-active");
-  container.children[container.children.length - 1].classList.remove("is-active");
-
-  renderDots(total);
-
-  requestAnimationFrame(() => setPosition(current + 1, false));
+  // 初期位置: 中央セットの current=0 → vIdx = total + 0 = total
+  vCurrent = total; // originals の先頭 → これで左にコンテンツが見える
+  renderDots();
+  requestAnimationFrame(() => applyOffset(offsetFor(vCurrent)));
 
   document.getElementById("hero-prev")?.addEventListener("click", (e) => {
     e.preventDefault(); goPrev(); clearInterval(timer); startAuto();
@@ -124,16 +201,16 @@ export const initHeroSlideshow = () => {
   });
   document.getElementById("hero-dots")?.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-index]");
-    if (!btn || isTransitioning) return;
-    current = Number(btn.dataset.index);
-    setPosition(current + 1, false);
-    updateActive();
-    updateDots();
+    if (!btn || rafId) return;
+    moveTo(Number(btn.dataset.index), true);
     clearInterval(timer);
     startAuto();
   });
 
-  window.addEventListener("resize", () => setPosition(current + 1, false));
+  window.addEventListener("resize", () => {
+    cancelAnim();
+    applyOffset(offsetFor(vCurrent));
+  });
 
   startAuto();
 };

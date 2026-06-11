@@ -16,7 +16,7 @@ body:has(#student-view:not([hidden])) .site-header {
 
 .profile-news-shell {
   width: min(var(--max), calc(100% - 44px));
-  margin: 56px auto 80px;
+  margin: 40px auto 80px;
 }
 
 .back-link {
@@ -30,6 +30,7 @@ body:has(#student-view:not([hidden])) .site-header {
   font-weight: 900;
   line-height: 1;
   padding: 7px 14px;
+  margin-bottom: 24px;
 }
 
 .back-link:hover,
@@ -40,9 +41,10 @@ body:has(#student-view:not([hidden])) .site-header {
 
 .profile-news-layout {
   display: grid;
-  grid-template-columns: minmax(0, 760px) minmax(260px, 1fr);
+  grid-template-columns: minmax(0, 760px);
   gap: 42px;
   align-items: start;
+  justify-content: center;
   margin-top: 24px;
 }
 
@@ -53,27 +55,38 @@ body:has(#student-view:not([hidden])) .site-header {
 
 .profile-article-header {
   display: grid;
-  gap: 14px;
+  gap: 10px;
   border-bottom: 1px solid var(--line);
   padding: 18px 0 24px;
 }
 
-.profile-article-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
+.profile-article-header .section-kicker {
+  font-size: 0.95rem;
 }
 
-.profile-article-meta span {
-  border: 1px solid var(--line-soft);
-  border-radius: 999px;
-  background: #f0f0ee;
+.profile-article-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-article-gen {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.profile-article-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.profile-article-tags .tag-pill {
+  background: transparent;
   color: var(--ink);
-  font-size: 0.68rem;
-  font-weight: 900;
-  line-height: 1;
-  padding: 5px 10px;
+  border-color: var(--line);
+  font-weight: 700;
 }
 
 .profile-article-header h1 {
@@ -136,7 +149,7 @@ body:has(#student-view:not([hidden])) .site-header {
 }
 
 .profile-main-name {
-  font-size: 1.3rem;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 900;
   line-height: 1.2;
   color: var(--ink);
@@ -381,16 +394,16 @@ body:has(#student-view:not([hidden])) .site-header {
 .profile-projects-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 12px;
 }
 
 /* ---- Project card (in student detail) ---- */
 .profile-project-card {
   display: grid;
   gap: 10px;
-  border: 2px solid var(--ink);
+  border: 1px solid var(--line);
   border-radius: 10px;
-  padding: 20px 24px;
+  padding: 20px 22px;
   color: var(--ink);
   transition: background 160ms ease;
 }
@@ -401,11 +414,12 @@ body:has(#student-view:not([hidden])) .site-header {
   gap: 6px;
 }
 .profile-project-card-tags span {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 2px 10px;
+  color: var(--muted);
 }
 .profile-project-card-title {
   font-size: 1rem;
@@ -421,9 +435,10 @@ body:has(#student-view:not([hidden])) .site-header {
 .profile-project-card-link {
   font-size: 0.78rem;
   font-weight: 900;
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
   padding-bottom: 2px;
   justify-self: start;
+  margin-top: 4px;
 }
 .profile-project-status {
   display: inline-block;
@@ -576,6 +591,21 @@ body:has(#student-view:not([hidden])) .site-header {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
+}
+
+.profile-project-block .project-related-list {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+
+.profile-project-block .project-related-card {
+  flex: 0 0 260px;
+  scroll-snap-align: start;
 }
 
 .project-related-card {

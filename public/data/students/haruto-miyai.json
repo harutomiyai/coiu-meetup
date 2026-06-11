@@ -79,5 +79,6 @@
     "youtube": "発表や活動の動画を見られます。",
     "contact": "必要な問い合わせを運営へ送れます。"
   },
-  "projectSlug": "coiu-media"
+  "projectSlug": "coiu-media",
+  "spotifyEmbedUrl": "https://open.spotify.com/embed/show/0kAx1XuNna8j02xH5cegFh?utm_source=generator&si=4ca5ce9bb7624d29"
 }

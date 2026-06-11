@@ -47,7 +47,7 @@
 }
 
 .hamburger.is-open span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+  transform: translateY(-14px) rotate(-45deg);
 }
 
 /* ── Nav Drawer (fullscreen) ── */
@@ -58,8 +58,8 @@
   position: fixed;
   inset: 0;
   z-index: 40;
-  background: #fff;
-  color: var(--ink);
+  background: var(--ink);
+  color: #fff;
   opacity: 0;
   pointer-events: none;
   transition: opacity 280ms ease;
@@ -91,19 +91,19 @@
   align-items: center;
   justify-content: center;
   appearance: none;
-  border: 1.5px solid var(--line);
+  border: 1.5px solid rgba(255,255,255,0.25);
   border-radius: 50%;
-  background: #fff;
-  color: var(--ink);
+  background: transparent;
+  color: #fff;
   cursor: pointer;
   font-size: 1.1rem;
   line-height: 1;
-  transition: background 160ms ease;
+  transition: background 160ms ease, border-color 160ms ease;
 }
 
 .nav-drawer-close:hover {
-  background: var(--ink);
-  color: #fff;
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.5);
 }
 
 /* Search block (top) */
@@ -116,7 +116,7 @@
   margin: 0 0 12px;
   font-size: 0.65rem;
   font-weight: 900;
-  color: var(--muted);
+  color: rgba(255,255,255,0.45);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -128,13 +128,13 @@
   align-items: center;
   gap: 0;
   border: none;
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 2px solid rgba(255,255,255,0.25);
   background: transparent;
   transition: border-color 180ms ease;
 }
 
 .nav-drawer-search-row:focus-within {
-  border-bottom-color: var(--ink);
+  border-bottom-color: #fff;
 }
 
 .nav-drawer-search-input {
@@ -142,7 +142,7 @@
   min-height: 64px;
   border: none;
   background: transparent;
-  color: var(--ink);
+  color: #fff;
   font-size: clamp(1.1rem, 2.5vw, 1.5rem);
   font-weight: 700;
   padding: 0 0;
@@ -151,7 +151,7 @@
 .nav-drawer-search-input:focus { outline: none; }
 
 .nav-drawer-search-input::placeholder {
-  color: var(--muted);
+  color: rgba(255,255,255,0.35);
   font-weight: 700;
 }
 
@@ -164,9 +164,9 @@
   flex-shrink: 0;
   border: none;
   background: transparent;
-  color: var(--ink);
+  color: #fff;
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 0.45;
   transition: opacity 160ms ease;
 }
 
@@ -182,26 +182,27 @@
   display: inline-flex;
   align-items: center;
   min-height: 36px;
-  border: 1.5px solid var(--line);
+  border: 1.5px solid rgba(255,255,255,0.22);
   border-radius: 999px;
-  background: #fff;
-  color: var(--ink);
+  background: transparent;
+  color: #fff;
   font-size: 0.82rem;
   font-weight: 900;
   padding: 7px 18px;
   cursor: pointer;
-  transition: background 140ms ease, color 140ms ease, border-color 140ms ease, transform 120ms ease;
+  transition: background 140ms ease, border-color 140ms ease, transform 120ms ease;
 }
 
 .nav-drawer-tag:hover {
-  background: #f0f0ee;
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.45);
   transform: translateY(-1px);
 }
 
 .nav-drawer-tag.is-active {
-  background: var(--ink);
-  color: #fff;
-  border-color: var(--ink);
+  background: #fff;
+  color: var(--ink);
+  border-color: #fff;
 }
 
 /* Nav links (below search) */
@@ -210,7 +211,7 @@
   flex-direction: column;
   gap: 0;
   padding: 0;
-  border-top: 1.5px solid var(--line);
+  border-top: 1px solid rgba(255,255,255,0.15);
 }
 
 .nav-drawer-nav a {
@@ -218,11 +219,11 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 0;
-  border-bottom: 1.5px solid var(--line);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
   font-size: clamp(1.5rem, 3.5vw, 2.6rem);
   font-weight: 900;
   line-height: 1;
-  color: var(--ink);
+  color: #fff;
   letter-spacing: -0.01em;
   transition: color 160ms ease, padding-left 200ms ease;
 }
@@ -236,7 +237,7 @@
 }
 
 .nav-drawer-nav a:hover {
-  color: var(--muted);
+  color: rgba(255,255,255,0.5);
   padding-left: 8px;
 }
 
@@ -506,7 +507,6 @@ main {
 .hero-slides {
   display: flex;
   align-items: flex-start;
-  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
 
@@ -1420,41 +1420,69 @@ main {
 .site-footer {
   display: grid;
   grid-template-columns: minmax(180px, 1fr) auto auto;
-  gap: 32px;
-  align-items: end;
+  gap: 40px;
+  align-items: center;
   margin-top: 0;
-  background: var(--yellow);
+  background: var(--ink);
   color: #fff;
-  padding: 46px max(22px, calc((100% - var(--max)) / 2));
+  padding: 52px max(32px, calc((100% - var(--max)) / 2));
+  border-top: 2px solid var(--ink);
 }
 
 .footer-brand {
   display: grid;
-  gap: 4px;
+  gap: 6px;
+}
+
+.footer-brand .brand-kana {
+  font-size: 0.62rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.08em;
 }
 
 .footer-brand strong {
   font-size: clamp(1.6rem, 4vw, 3rem);
+  font-weight: 900;
   line-height: 0.95;
+  color: #fff;
 }
 
 .site-footer nav {
   display: grid;
-  gap: 8px;
-  font-size: 0.8rem;
+  gap: 10px;
+  font-size: 0.72rem;
+  font-weight: 900;
   color: #fff;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.site-footer nav a { color: #fff; }
+.site-footer nav a {
+  color: rgba(255,255,255,0.7);
+  transition: color 160ms ease;
+}
+
+.site-footer nav a:hover { color: #fff; }
 
 .page-top {
   justify-self: end;
-  border: 1px solid var(--line);
+  align-self: end;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border: none;
   border-radius: 999px;
-  background: #fff;
+  background: var(--yellow);
+  color: var(--ink);
   font-size: 0.72rem;
-  padding: 6px 14px;
+  font-weight: 900;
+  padding: 10px 20px;
+  transition: opacity 160ms ease;
 }
+
+.page-top:hover { opacity: 0.85; }
 
 .about-page {
   width: min(var(--max), calc(100% - 44px));
