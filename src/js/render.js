@@ -510,6 +510,30 @@ export const renderStudentDetail = (student) => {
   `;
 };
 
+const renderProjectTimeline = (project) => {
+  const timeline = asArray(project.timeline).filter((e) => e.date && e.label);
+  if (!timeline.length) return "";
+
+  return `
+    <section class="project-detail-section project-timeline-section">
+      <p class="section-kicker">TIMELINE</p>
+      <h2>活動の記録</h2>
+      <ol class="project-timeline">
+        ${timeline.map((entry, i) => `
+          <li class="project-timeline-item${i === timeline.length - 1 ? " is-latest" : ""}">
+            <div class="project-timeline-dot"></div>
+            <div class="project-timeline-content">
+              <time class="project-timeline-date">${escapeHtml(entry.date)}</time>
+              <strong class="project-timeline-label">${escapeHtml(entry.label)}</strong>
+              ${entry.body ? `<p class="project-timeline-body">${escapeHtml(entry.body)}</p>` : ""}
+            </div>
+          </li>
+        `).join("")}
+      </ol>
+    </section>
+  `;
+};
+
 export const renderProjectDetail = (project, { backUrl } = {}) => {
   const members = getMemberStudents(project);
   const related = projects
@@ -540,6 +564,8 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
           <h2>プロジェクト概要</h2>
           <p>${escapeHtml(project.detail || project.summary)}</p>
         </section>
+
+        ${renderProjectTimeline(project)}
 
         ${members.length ? `
           <section class="project-detail-section">

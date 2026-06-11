@@ -632,3 +632,100 @@ body:has(#student-view:not([hidden])) .site-header {
   font-weight: 900;
   line-height: 1.5;
 }
+
+/* ── Project Timeline ── */
+.project-timeline-section {
+  gap: 20px;
+}
+
+.project-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.project-timeline::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 7px;
+  width: 2px;
+  background: var(--line);
+}
+
+.project-timeline-item {
+  display: flex;
+  gap: 20px;
+  position: relative;
+  padding-bottom: 28px;
+}
+
+.project-timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.project-timeline-dot {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  background: #fff;
+  margin-top: 1px;
+  position: relative;
+  z-index: 1;
+}
+
+.project-timeline-item.is-latest .project-timeline-dot {
+  border-color: var(--ink);
+  background: var(--ink);
+}
+
+.project-timeline-content {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding-bottom: 4px;
+}
+
+.project-timeline-date {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.project-timeline-item.is-latest .project-timeline-date {
+  color: var(--ink);
+}
+
+.project-timeline-label {
+  font-size: 0.95rem;
+  font-weight: 900;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.project-timeline-item.is-latest .project-timeline-label::after {
+  content: "最新";
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 0.65rem;
+  font-weight: 900;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 4px;
+  padding: 2px 7px;
+  vertical-align: middle;
+  line-height: 1.6;
+}
+
+.project-timeline-body {
+  margin: 4px 0 0;
+  font-size: 0.88rem;
+  line-height: 1.9;
+  color: #444;
+}
