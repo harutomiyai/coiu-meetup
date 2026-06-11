@@ -61,25 +61,14 @@ const renderTags = (tags = []) =>
 const getGenerationLabel = (student) => student.generation || "1期生";
 
 const personCard = (student) => {
-  const genLabel = getGenerationLabel(student);
   const keyLine = student.currentQuestion || student.catch || student.currentProject || "問いを準備中";
-  const lead = (() => {
-    const first = String(student.story || "").split("。").find(Boolean);
-    return first ? `${first}。` : student.projectDetail || keyLine;
-  })();
   return `
     <a class="feature-card" href="#student/${escapeHtml(student.slug)}"
        aria-label="${escapeHtml(student.name)}さんの詳細を見る">
-      <span class="feature-card-place">CoIU / ${escapeHtml(student.generation || "")}</span>
-      <span class="feature-card-badge">${escapeHtml(genLabel)}</span>
-      <span class="feature-card-number">${escapeHtml(genLabel)}</span>
       <span class="feature-card-image-wrap">${renderImage(student)}</span>
       <span class="feature-card-body">
         <span class="feature-card-title">${escapeHtml(student.name)}</span>
         <span class="feature-card-question">${escapeHtml(keyLine)}</span>
-        <span class="feature-card-copy">${escapeHtml(lead)}</span>
-        <span class="tag-row">${renderTags(student.tags)}</span>
-        <span class="read-more">Read more</span>
       </span>
     </a>
   `;

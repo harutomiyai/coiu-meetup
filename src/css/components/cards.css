@@ -51,15 +51,17 @@
   border-left: 2px solid var(--ink);
   background: #222;
   gap: 2px;
+  width: min(var(--max), calc(100% - max(64px, calc(100vw - var(--max)))));
+  margin: 0 auto;
 }
 
 .feature-card {
   position: relative;
   display: grid;
-  min-height: 448px;
+  min-height: 200px;
   background: #fff;
   color: var(--ink);
-  padding: 22px;
+  padding: 10px;
   border-radius: 0;
   transition: background 200ms ease, border-radius 200ms ease;
 }
@@ -113,8 +115,8 @@
 
 .feature-card-image-wrap {
   display: block;
-  width: calc(100% - 22px);
-  margin: 34px 0 22px auto;
+  width: calc(100% - 10px);
+  margin: 10px 0 8px auto;
 }
 
 .feature-card-image {
@@ -133,15 +135,15 @@
 }
 
 .feature-card-title {
-  font-size: 1rem;
+  font-size: 0.78rem;
   font-weight: 900;
   line-height: 1.45;
 }
 
 .feature-card-question {
   display: block;
-  min-height: 4.8em;
-  font-size: 0.9rem;
+  min-height: 3.2em;
+  font-size: 0.68rem;
   line-height: 1.6;
 }
 
@@ -149,7 +151,7 @@
   display: -webkit-box;
   overflow: hidden;
   color: var(--muted);
-  font-size: 0.76rem;
+  font-size: 0.6rem;
   line-height: 1.7;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
