@@ -1,0 +1,165 @@
+#!/usr/bin/env node
+// Generates projects/<slug>.html for each project before the Vite build.
+// Each file gets project-specific meta tags for SEO, then the client-side
+// JS loads the full detail view at runtime.
+
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = resolve(__dirname, "..");
+
+const BASE_URL = "https://coiu-meetup.vercel.app";
+
+const index = JSON.parse(
+  readFileSync(resolve(root, "public/data/projects/index.json"), "utf-8")
+);
+
+mkdirSync(resolve(root, "projects"), { recursive: true });
+
+for (const entry of index) {
+  const project = JSON.parse(
+    readFileSync(resolve(root, `public${entry.path}`), "utf-8")
+  );
+
+  const { slug, title, summary, image, tags = [] } = project;
+  const url = `${BASE_URL}/projects/${slug}.html`;
+  const ogImage = image ? `${BASE_URL}${image}` : `${BASE_URL}/images/hero/coiu-students.jpg`;
+  const description = summary || title;
+  const keywords = ["CoIU", "CoIU Meetup", "学生プロジェクト", ...tags].join(", ");
+
+  const html = `<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>${escHtml(title)} | CoIU Meetup</title>
+    <meta name="description" content="${escAttr(description)}" />
+    <meta name="keywords" content="${escAttr(keywords)}" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="${url}" />
+    <meta property="og:title" content="${escAttr(title)} | CoIU Meetup" />
+    <meta property="og:description" content="${escAttr(description)}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:image" content="${ogImage}" />
+    <meta property="og:site_name" content="CoIU Meetup" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "${escJson(title)}",
+      "description": "${escJson(description)}",
+      "url": "${url}",
+      "image": "${ogImage}",
+      "inLanguage": "ja",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "CoIU Meetup",
+        "url": "${BASE_URL}/"
+      }
+    }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+    <script type="module" src="/src/project-detail.js"></script>
+  </head>
+  <body data-page="project-detail" data-slug="${escAttr(slug)}">
+    <header class="site-header">
+      <a class="brand" href="/index.html" aria-label="CoIU Meetup トップへ">
+        <span class="brand-kana">こういう学生に会える場所</span>
+        <span class="brand-logo">CoIU meetup ...</span>
+      </a>
+      <button class="hamburger" type="button" id="hamburger-btn" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-drawer">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+      <div class="nav-drawer-backdrop" id="nav-drawer-backdrop"></div>
+      <div class="nav-drawer-panel">
+        <button class="nav-drawer-close" type="button" id="nav-drawer-close" aria-label="メニューを閉じる">×</button>
+        <div class="nav-drawer-search">
+          <p class="nav-drawer-search-label">検索ワード</p>
+          <form class="nav-drawer-search-form" id="drawer-search-form">
+            <label class="sr-only" for="drawer-search-input">キーワードで検索</label>
+            <div class="nav-drawer-search-row">
+              <input id="drawer-search-input" class="nav-drawer-search-input" type="search" placeholder="名前・問い・テーマで検索" autocomplete="off" />
+              <button class="nav-drawer-search-btn" type="submit" aria-label="検索する">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="2"/><path d="M13 13L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              </button>
+            </div>
+          </form>
+          <p class="nav-drawer-search-label" style="margin-top:28px">話題のキーワード</p>
+          <div class="nav-drawer-tag-list" id="drawer-tag-list"></div>
+        </div>
+        <nav class="nav-drawer-nav" aria-label="メインナビゲーション">
+          <a href="/students.html">STUDENTS</a>
+          <a href="/projects.html">PROJECTS</a>
+          <a href="/coiu.html">CoIUとは</a>
+          <a href="/about.html">ABOUT</a>
+        </nav>
+      </div>
+    </div>
+
+    <main>
+      <section class="student-detail" id="student-view" aria-live="polite"></section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <span class="brand-kana">こういう学生に会える場所</span>
+            <strong>CoIU meetup ...</strong>
+          </div>
+          <a class="page-top" href="#">
+            <span>Page Top</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M8 12V4M4 8l4-4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+        <div class="footer-bottom">
+          <nav aria-label="フッターナビゲーション">
+            <a href="/index.html">TOP</a>
+            <a href="/index.html#contents">CONTENTS</a>
+            <a href="/index.html#feature">FEATURE</a>
+            <a href="/coiu.html">CoIUとは</a>
+            <a href="/about.html">ABOUT</a>
+          </nav>
+          <p class="footer-copy">&copy; 2024 CoIU meetup</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+`;
+
+  writeFileSync(resolve(root, `projects/${slug}.html`), html, "utf-8");
+  console.log(`  generated: projects/${slug}.html`);
+}
+
+console.log(`\nDone. ${index.length} project pages generated.`);
+
+function escHtml(s) {
+  return String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function escAttr(s) {
+  return String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;");
+}
+
+function escJson(s) {
+  return String(s ?? "").replaceAll('"', '\\"');
+}

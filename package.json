@@ -4,12 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "node scripts/generate-project-pages.js && vite",
+    "build": "node scripts/generate-project-pages.js && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
     "sharp": "^0.35.1",
     "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0"
   }
 }

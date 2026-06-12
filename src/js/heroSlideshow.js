@@ -171,7 +171,7 @@ const buildSlide = (project, realIndex, isActive, isFirst = false) => {
     ? 'fetchpriority="high" loading="eager" decoding="sync"'
     : 'loading="lazy" decoding="async"';
   return `
-    <a class="hero-slide${isActive ? " is-active" : ""}" data-real-index="${realIndex}" href="/students.html#project/${escapeHtml(project.slug)}">
+    <a class="hero-slide${isActive ? " is-active" : ""}" data-real-index="${realIndex}" href="/projects/${escapeHtml(project.slug)}.html">
       <picture><source srcset="${escapeHtml(project.image.replace(/\.(jpe?g|png)$/i, ".webp"))}" type="image/webp" /><img class="hero-slide-img" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" ${imgAttrs} /></picture>
       <span class="hero-slide-num">Project ${String(realIndex + 1).padStart(2, "0")}</span>
       <div class="hero-slide-card">

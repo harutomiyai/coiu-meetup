@@ -1,4 +1,8 @@
 import "./css/main.css";
+import { inject } from "@vercel/analytics";
+import { injectSpeedInsights } from "@vercel/speed-insights";
+inject();
+injectSpeedInsights();
 import { loadAll } from "./js/data.js";
 import { renderHome, renderLoadError } from "./js/render.js";
 import { bindEvents, handleRoute } from "./js/router.js";

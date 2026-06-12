@@ -824,6 +824,7 @@ main {
 
 .project-grid-img {
   width: 130px;
+  height: 100%;
   object-fit: cover;
   object-position: center 20%;
   display: block;
@@ -833,6 +834,7 @@ main {
 .project-grid-img--empty {
   background: #ddd;
   width: 130px;
+  height: 100%;
   border-left: 2px solid var(--ink);
 }
 

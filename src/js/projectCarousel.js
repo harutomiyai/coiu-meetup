@@ -12,7 +12,7 @@ const buildGridCell = (project, index) => {
   return `
     <a
       class="project-grid-cell"
-      href="/students.html#project/${escapeHtml(project.slug)}"
+      href="/projects/${escapeHtml(project.slug)}.html"
       style="--cell-bg: ${bg}"
       aria-label="${escapeHtml(project.title)}の詳細を見る"
     >

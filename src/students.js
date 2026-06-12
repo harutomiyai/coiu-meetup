@@ -1,4 +1,8 @@
 import "./css/main.css";
+import { inject } from "@vercel/analytics";
+import { injectSpeedInsights } from "@vercel/speed-insights";
+inject();
+injectSpeedInsights();
 import { loadStudents, loadProjects, loadTagCategories } from "./js/data.js";
 import { students, state, tagCategories, getParentTagsForStudent } from "./js/state.js";
 import { escapeHtml, renderStudentDetail, renderProjectDetail, personCard } from "./js/render.js";

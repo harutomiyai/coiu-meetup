@@ -1,5 +1,12 @@
 import { resolve } from "node:path";
+import { readdirSync } from "node:fs";
 import { defineConfig } from "vite";
+
+const projectPages = Object.fromEntries(
+  readdirSync(resolve(__dirname, "projects"))
+    .filter((f) => f.endsWith(".html"))
+    .map((f) => [`project-${f.replace(".html", "")}`, resolve(__dirname, "projects", f)])
+);
 
 export default defineConfig({
   server: {
@@ -19,6 +26,7 @@ export default defineConfig({
         coiu: resolve(__dirname, "coiu.html"),
         students: resolve(__dirname, "students.html"),
         projects: resolve(__dirname, "projects.html"),
+        ...projectPages,
       },
     },
   },

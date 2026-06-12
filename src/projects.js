@@ -1,4 +1,8 @@
 import "./css/main.css";
+import { inject } from "@vercel/analytics";
+import { injectSpeedInsights } from "@vercel/speed-insights";
+inject();
+injectSpeedInsights();
 import { loadAll } from "./js/data.js";
 import { projects, tagCategories } from "./js/state.js";
 import { escapeHtml, renderProjectDetail } from "./js/render.js";
@@ -19,7 +23,7 @@ const buildGridCell = (project, index) => {
   return `
     <a
       class="project-grid-cell"
-      href="#project/${escapeHtml(project.slug)}"
+      href="/projects/${escapeHtml(project.slug)}.html"
       style="--cell-bg: ${bg}"
       aria-label="${escapeHtml(project.title)}の詳細を見る"
     >

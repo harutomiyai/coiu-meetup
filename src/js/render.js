@@ -437,7 +437,7 @@ export const renderDiscoveryResults = () => {
 };
 
 const renderSingleProjectCard = (project) => `
-  <a class="project-related-card" href="/students.html#project/${escapeHtml(project.slug)}">
+  <a class="project-related-card" href="/projects/${escapeHtml(project.slug)}.html">
     ${project.image ? `<picture><source srcset="${escapeHtml(toWebP(project.image))}" type="image/webp" /><img class="project-related-img" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" loading="lazy" decoding="async" /></picture>` : `<div class="project-related-img project-related-img--empty"></div>`}
     <div class="project-related-body">
       <div class="project-related-tags">${(project.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>
@@ -672,7 +672,7 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
             <h2>関連プロジェクト</h2>
             <div class="project-related-list">
               ${related.map((p) => `
-                <a class="project-related-card" href="#project/${escapeHtml(p.slug)}">
+                <a class="project-related-card" href="/projects/${escapeHtml(p.slug)}.html">
                   ${p.image ? `<picture><source srcset="${escapeHtml(toWebP(p.image))}" type="image/webp" /><img class="project-related-img" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" loading="lazy" decoding="async" /></picture>` : `<div class="project-related-img project-related-img--empty"></div>`}
                   <div class="project-related-body">
                     <div class="project-related-tags">
@@ -697,7 +697,7 @@ const projectCard = (project, index) => {
   return `
     <a
       class="feature-card"
-      href="#project/${escapeHtml(project.slug)}"
+      href="/projects/${escapeHtml(project.slug)}.html"
       aria-label="${escapeHtml(project.title)}の詳細を見る"
     >
       <span class="feature-card-place">CoIU Project</span>
