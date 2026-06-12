@@ -4,6 +4,7 @@ import { renderHome, renderLoadError } from "./js/render.js";
 import { bindEvents, handleRoute } from "./js/router.js";
 import { initHeroSlideshow } from "./js/heroSlideshow.js";
 import { initProjectCarousel } from "./js/projectCarousel.js";
+import { initNoteMarquee } from "./js/noteMarquee.js";
 
 const init = async () => {
   try {
@@ -13,6 +14,7 @@ const init = async () => {
     handleRoute();
     initHeroSlideshow();
     initProjectCarousel();
+    initNoteMarquee();
   } catch (error) {
     renderLoadError(error);
   }

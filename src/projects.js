@@ -1,6 +1,6 @@
 import "./css/main.css";
 import { loadAll } from "./js/data.js";
-import { projects } from "./js/state.js";
+import { projects, tagCategories } from "./js/state.js";
 import { escapeHtml, renderProjectDetail } from "./js/render.js";
 import { getMemberStudents, getProjectBySlug } from "./js/state.js";
 import { bindDrawerEvents } from "./js/drawer.js";
@@ -41,22 +41,74 @@ const buildGridCell = (project, index) => {
 
 // ── Tag filter ────────────────────────────────────────────────
 
-let currentTag = "";
+const VISIBLE_LIMIT = 5;
+let currentParent = "";  // 選択中の親タグ label
+let currentChild  = "";  // 選択中の子タグ
+let tagsExpanded  = false;
 
-const getAllTags = () => {
-  const set = new Set();
-  projects.forEach((p) => (p.tags || []).forEach((t) => set.add(t)));
-  return Array.from(set);
+const getParentTags = () => {
+  const usedChildren = new Set();
+  projects.forEach((p) => (p.tags || []).forEach((t) => usedChildren.add(t)));
+  return tagCategories.filter((cat) =>
+    cat.children.some((c) => usedChildren.has(c))
+  );
 };
 
 const renderTagFilter = () => {
-  const el = document.getElementById("projects-page-tags");
-  if (!el) return;
-  const tags = getAllTags();
-  el.innerHTML = [
-    `<button class="search-page-tag${!currentTag ? " is-active" : ""}" type="button" data-tag="">すべて</button>`,
-    ...tags.map((t) => `<button class="search-page-tag${currentTag === t ? " is-active" : ""}" type="button" data-tag="${escapeHtml(t)}">#${escapeHtml(t)}</button>`),
-  ].join("");
+  const parentEl = document.getElementById("projects-page-tags");
+  const childEl  = document.getElementById("projects-page-child-tags");
+  if (!parentEl) return;
+
+  // 親タグ行
+  const parents = getParentTags();
+  const visible = tagsExpanded ? parents : parents.slice(0, VISIBLE_LIMIT);
+  const hasMore = parents.length > VISIBLE_LIMIT;
+
+  const parentButtons = [
+    `<button class="search-page-tag${!currentParent ? " is-active" : ""}" type="button" data-parent="">すべて</button>`,
+    ...visible.map((cat) =>
+      `<button class="search-page-tag${currentParent === cat.label ? " is-active" : ""}" type="button" data-parent="${escapeHtml(cat.label)}">${escapeHtml(cat.label)}</button>`
+    ),
+  ];
+  if (hasMore) {
+    parentButtons.push(
+      `<button class="search-page-tag search-page-tag--more" type="button" data-action="toggle-tags">${tagsExpanded ? "閉じる ↑" : `もっと見る +${parents.length - VISIBLE_LIMIT}`}</button>`
+    );
+  }
+  parentEl.innerHTML = parentButtons.join("");
+
+  // 子タグ行
+  if (!childEl) return;
+  if (!currentParent) {
+    childEl.hidden = true;
+    childEl.innerHTML = "";
+    return;
+  }
+  const cat = tagCategories.find((c) => c.label === currentParent);
+  if (!cat) { childEl.hidden = true; return; }
+
+  const usedChildren = new Set();
+  projects.forEach((p) => (p.tags || []).forEach((t) => usedChildren.add(t)));
+  const children = cat.children.filter((c) => usedChildren.has(c));
+
+  childEl.hidden = false;
+  childEl.innerHTML = children
+    .map((c) =>
+      `<button class="search-page-tag search-page-tag--child${currentChild === c ? " is-active" : ""}" type="button" data-child="${escapeHtml(c)}">${escapeHtml(c)}</button>`
+    )
+    .join("");
+};
+
+const getFilteredProjects = () => {
+  if (currentChild) {
+    return projects.filter((p) => (p.tags || []).includes(currentChild));
+  }
+  if (currentParent) {
+    const cat = tagCategories.find((c) => c.label === currentParent);
+    if (!cat) return projects;
+    return projects.filter((p) => (p.tags || []).some((t) => cat.children.includes(t)));
+  }
+  return projects;
 };
 
 // ── Results ──────────────────────────────────────────────────
@@ -66,10 +118,7 @@ const renderGrid = () => {
   const empty = document.getElementById("projects-page-empty");
   if (!grid) return;
 
-  const filtered = currentTag
-    ? projects.filter((p) => (p.tags || []).includes(currentTag))
-    : projects;
-
+  const filtered = getFilteredProjects();
   grid.innerHTML = filtered.map((p, i) => buildGridCell(p, i)).join("");
   if (empty) empty.hidden = filtered.length > 0;
 };
@@ -108,13 +157,29 @@ const init = async () => {
   renderTagFilter();
   renderGrid();
 
-  document.getElementById("projects-page-tags")?.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-tag]");
+  const tagArea = document.getElementById("projects-page-tags");
+  const childArea = document.getElementById("projects-page-child-tags");
+
+  tagArea?.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-parent], [data-action]");
     if (!btn) return;
-    currentTag = btn.dataset.tag;
+    if (btn.dataset.action === "toggle-tags") {
+      tagsExpanded = !tagsExpanded;
+      renderTagFilter();
+      return;
+    }
+    currentParent = btn.dataset.parent;
+    currentChild  = "";
     renderTagFilter();
     renderGrid();
-    history.replaceState(null, "", location.pathname);
+  });
+
+  childArea?.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-child]");
+    if (!btn) return;
+    currentChild = currentChild === btn.dataset.child ? "" : btn.dataset.child;
+    renderTagFilter();
+    renderGrid();
   });
 
   bindDrawerEvents({

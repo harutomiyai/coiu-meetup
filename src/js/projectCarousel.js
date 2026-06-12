@@ -1,16 +1,7 @@
 import { projects, getMemberStudents } from "./state.js";
 import { escapeHtml } from "./render.js";
 
-const CELL_COLORS = [
-  "#ffffff",
-  "#fdf6e3",
-  "#ffffff",
-  "#eef6fb",
-  "#ffffff",
-  "#f3eeff",
-  "#ffffff",
-  "#edf7ee",
-];
+const CELL_COLORS = ["#ffffff"];
 
 const buildGridCell = (project, index) => {
   const members = getMemberStudents(project);

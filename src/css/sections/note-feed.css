@@ -2,8 +2,8 @@
   width: 100%;
   margin: 0;
   overflow: hidden;
-  border-top: 1px solid var(--line-soft);
-  border-bottom: 1px solid var(--line-soft);
+  border-top: 2px solid var(--line);
+  border-bottom: 2px solid var(--line);
   background: var(--paper);
   padding: 48px 0;
 }
@@ -49,6 +49,32 @@
   padding: 6px 12px;
 }
 
+.content-play-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 160ms ease;
+  margin-top: auto;
+  align-self: flex-end;
+}
+
+.content-play-btn:hover {
+  background: var(--ink);
+  color: #fff;
+}
+
+.content-play-btn svg {
+  display: block;
+}
+
 .content-marquee {
   overflow: hidden;
   width: 100%;
@@ -62,9 +88,6 @@
   animation: content-scroll 48s linear infinite;
 }
 
-.content-marquee:hover .content-track {
-  animation-duration: 120s;
-}
 
 .content-card {
   display: grid;
@@ -93,7 +116,7 @@
   justify-content: center;
   opacity: 0;
   transition: opacity 200ms ease;
-  border-radius: var(--radius-sm);
+  pointer-events: none;
 }
 
 .content-card:hover .content-card-overlay,
@@ -114,6 +137,16 @@
   padding: 10px 24px;
   border: none;
   white-space: nowrap;
+  pointer-events: auto;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform 400ms ease, opacity 400ms ease;
+}
+
+.content-card:hover .content-card-overlay-btn,
+.content-card:focus-visible .content-card-overlay-btn {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .content-thumb {
@@ -231,7 +264,6 @@
 .activity-section {
   background: #fff;
   padding: 48px max(22px, calc((100vw - var(--max)) / 2));
-  border-top: 1px solid var(--line);
 }
 
 .activity-section-head {

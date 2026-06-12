@@ -542,13 +542,14 @@ body:has(#student-view:not([hidden])) .site-header {
 .project-detail-tag {
   display: inline-flex;
   align-items: center;
-  height: 30px;
-  border-radius: 6px;
-  background: #1a2340;
-  color: #fff;
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 0 14px;
+  height: 22px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.62rem;
+  font-weight: 900;
+  padding: 0 7px;
 }
 
 .project-detail-title {
@@ -668,12 +669,16 @@ body:has(#student-view:not([hidden])) .site-header {
 }
 
 .project-related-tags span {
-  font-size: 0.6rem;
-  font-weight: 900;
-  border: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  border: 1.5px solid var(--line);
   border-radius: 999px;
-  padding: 2px 8px;
-  color: var(--muted);
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.62rem;
+  font-weight: 900;
+  padding: 0 7px;
   flex-shrink: 0;
 }
 
