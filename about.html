@@ -36,7 +36,8 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet" /></noscript>
     <script type="module" src="/src/about.js"></script>
   </head>
   <body>
@@ -87,7 +88,10 @@
               CoIU Meetupは、CoIU生の問い、活動、話せるテーマを集めた学生アーカイブです。イベントで出会った学生をあとから思い出すためにも、これから話したい人を見つけるためにも使えます。
             </p>
           </div>
-          <img src="/images/hero/coiu-window.jpg" alt="CoIUの窓辺の写真" />
+          <picture>
+            <source srcset="/images/hero/coiu-window.webp" type="image/webp" />
+            <img src="/images/hero/coiu-window.jpg" alt="CoIUの窓辺の写真" width="1200" height="800" loading="lazy" decoding="async" />
+          </picture>
         </div>
 
         <section class="about-story" aria-labelledby="about-story-title">

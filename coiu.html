@@ -37,7 +37,8 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet" /></noscript>
     <script type="module" src="/src/about.js"></script>
   </head>
   <body>
@@ -88,7 +89,10 @@
           <p class="coiu-hero-lead">CoIU（College of Innovation and Unlearning）は、学生が自分の「問い」を起点に、地域や社会の現場で学び続ける大学です。教室の外に飛び出し、人と関わりながら、自分だけの学びをつくっていく。</p>
         </div>
         <figure class="coiu-hero-figure">
-          <img src="/images/hero/coiu-students.jpg" alt="CoIU生たちの活動写真" />
+          <picture>
+            <source srcset="/images/hero/coiu-students.webp" type="image/webp" />
+            <img src="/images/hero/coiu-students.jpg" alt="CoIU生たちの活動写真" width="1200" height="800" fetchpriority="high" decoding="async" />
+          </picture>
         </figure>
       </section>
 
@@ -101,7 +105,10 @@
         <div class="coiu-concept-split">
           <div class="coiu-concept-item">
             <figure class="coiu-concept-img">
-              <img src="/images/hero/coiu-window.jpg" alt="問いを立てる" />
+              <picture>
+                <source srcset="/images/hero/coiu-window.webp" type="image/webp" />
+                <img src="/images/hero/coiu-window.jpg" alt="問いを立てる" width="1200" height="800" loading="lazy" decoding="async" />
+              </picture>
             </figure>
             <div class="coiu-concept-text">
               <span class="coiu-concept-num">01</span>
@@ -111,7 +118,10 @@
           </div>
           <div class="coiu-concept-item coiu-concept-item--rev">
             <figure class="coiu-concept-img">
-              <img src="/images/hero/coiu-students.jpg" alt="共創する" />
+              <picture>
+                <source srcset="/images/hero/coiu-students.webp" type="image/webp" />
+                <img src="/images/hero/coiu-students.jpg" alt="共創する" width="1200" height="800" loading="lazy" decoding="async" />
+              </picture>
             </figure>
             <div class="coiu-concept-text">
               <span class="coiu-concept-num">02</span>

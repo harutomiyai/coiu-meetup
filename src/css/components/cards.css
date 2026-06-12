@@ -50,6 +50,7 @@
   border: 2px solid var(--ink);
   background: #222;
   gap: 2px;
+  min-height: 320px;
 }
 
 .feature-card {

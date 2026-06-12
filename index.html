@@ -41,9 +41,11 @@
       }
     }
     </script>
+    <link rel="preload" as="image" href="/images/projects/project-media.webp" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&display=swap" rel="stylesheet" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet" /></noscript>
     <script type="module" src="/src/main.js"></script>
   </head>
   <body>
@@ -89,7 +91,18 @@
         <section class="top-grid" id="top">
           <h1 class="sr-only">CoIU Meetup — CoIU生の問い・活動・プロジェクトを探せる学生アーカイブ</h1>
           <div class="hero-slideshow" id="hero-slideshow" aria-label="学生プロジェクト紹介">
-            <div class="hero-slides" id="hero-slides"></div>
+            <div class="hero-slides" id="hero-slides">
+              <a class="hero-slide is-active" data-real-index="0" href="/students.html#project/coiu-media">
+                <picture>
+                  <source srcset="/images/projects/project-media.webp" type="image/webp" />
+                  <img class="hero-slide-img" src="/images/projects/project-media.jpg" alt="CoIU生の問いや活動を可視化するメディアづくり" fetchpriority="high" loading="eager" decoding="sync" width="1200" height="900" />
+                </picture>
+                <span class="hero-slide-num">Project 01</span>
+                <div class="hero-slide-card">
+                  <h2 class="hero-slide-project">CoIU生の問いや活動を可視化するメディアづくり</h2>
+                </div>
+              </a>
+            </div>
             <button class="hero-prev" id="hero-prev" aria-label="前へ">←</button>
             <button class="hero-next" id="hero-next" aria-label="次へ">→</button>
             <div class="hero-dots" id="hero-dots"></div>
@@ -98,7 +111,10 @@
 
         <div class="info-banner-row">
           <a class="base-banner" href="/coiu.html" aria-labelledby="base-title">
-            <img src="/images/hero/coiu-window.jpg" alt="CoIUの窓辺" />
+            <picture>
+              <source srcset="/images/hero/coiu-window.webp" type="image/webp" />
+              <img src="/images/hero/coiu-window.jpg" alt="CoIUの窓辺" width="1200" height="800" loading="lazy" decoding="async" />
+            </picture>
             <div>
               <p>問いを持って、社会に出る。</p>
               <h2 id="base-title">CoIUとは？</h2>
@@ -106,7 +122,10 @@
             </div>
           </a>
           <a class="base-banner base-banner--about" href="/about.html" aria-labelledby="about-title">
-            <img src="/images/hero/coiu-students.jpg" alt="CoIU学生たち" />
+            <picture>
+              <source srcset="/images/hero/coiu-students.webp" type="image/webp" />
+              <img src="/images/hero/coiu-students.jpg" alt="CoIU学生たち" width="1200" height="800" loading="lazy" decoding="async" />
+            </picture>
             <div>
               <p>このサイトについて。</p>
               <h2 id="about-title">Aboutとは？</h2>

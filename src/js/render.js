@@ -6,7 +6,7 @@ const linkOrder = ["contact", "note", "youtube", "podcast", "instagram", "x"];
 const HOME_STUDENT_LIMIT = 8;
 const CONTENT_FEED_SOURCE = {
   name: "宮井陽音",
-  image: "/images/students/haruto.jpg",
+  image: "/images/students/haruto.webp",
   noteUsername: "haruto_miyai",
   noteRssUrl: "https://note.com/haruto_miyai/m/ma9c2b38ca7c1/rss",
   links: {
@@ -130,9 +130,11 @@ const topicButton = (topic, isActive = false, className = "topic-chip") => `
   </button>
 `;
 
+const toWebP = (src) => src ? src.replace(/\.(jpe?g|png)$/i, ".webp") : src;
+
 const renderImage = (student, className, loading = "lazy") =>
   student.image
-    ? `<img class="${className}" src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" loading="${loading}" />`
+    ? `<picture><source srcset="${escapeHtml(toWebP(student.image))}" type="image/webp" /><img class="${className}" src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" loading="${loading}" decoding="async" /></picture>`
     : `<span class="image-fallback ${className}">${escapeHtml(student.name)}</span>`;
 
 const renderTags = (tags = [], limit = tags.length) =>
@@ -436,7 +438,7 @@ export const renderDiscoveryResults = () => {
 
 const renderSingleProjectCard = (project) => `
   <a class="project-related-card" href="/students.html#project/${escapeHtml(project.slug)}">
-    ${project.image ? `<img class="project-related-img" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" />` : `<div class="project-related-img project-related-img--empty"></div>`}
+    ${project.image ? `<picture><source srcset="${escapeHtml(toWebP(project.image))}" type="image/webp" /><img class="project-related-img" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" loading="lazy" decoding="async" /></picture>` : `<div class="project-related-img project-related-img--empty"></div>`}
     <div class="project-related-body">
       <div class="project-related-tags">${(project.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>
       <strong>${escapeHtml(project.title)}</strong>
@@ -447,7 +449,7 @@ const renderSingleProjectCard = (project) => `
 const renderInterviewItem = (item) => {
   const image = item.image
     ? `<figure class="interview-figure">
-        <img class="interview-img" src="${escapeHtml(item.image)}" alt="${escapeHtml(item.imageAlt || "")}" loading="lazy" />
+        <picture><source srcset="${escapeHtml(toWebP(item.image))}" type="image/webp" /><img class="interview-img" src="${escapeHtml(item.image)}" alt="${escapeHtml(item.imageAlt || "")}" loading="lazy" decoding="async" /></picture>
         ${item.imageCaption ? `<figcaption class="interview-figcaption">${escapeHtml(item.imageCaption)}</figcaption>` : ""}
       </figure>`
     : "";
@@ -634,7 +636,7 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
 
       ${project.image ? `
         <div class="project-detail-img-wrap">
-          <img class="project-detail-image" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" />
+          <picture><source srcset="${escapeHtml(toWebP(project.image))}" type="image/webp" /><img class="project-detail-image" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" loading="lazy" decoding="async" /></picture>
         </div>
       ` : ""}
 
@@ -654,7 +656,7 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
             <div class="profile-project-member-list">
               ${members.map((m) => `
                 <a class="profile-project-member" href="/students.html#student/${escapeHtml(m.slug)}">
-                  ${m.image ? `<img src="${escapeHtml(m.image)}" alt="${escapeHtml(m.name)}" />` : ""}
+                  ${m.image ? `<picture><source srcset="${escapeHtml(toWebP(m.image))}" type="image/webp" /><img src="${escapeHtml(m.image)}" alt="${escapeHtml(m.name)}" loading="lazy" decoding="async" /></picture>` : ""}
                   <div>
                     <strong>${escapeHtml(m.name)}</strong>
                     <p>${escapeHtml(m.catch || m.currentQuestion || "")}</p>
@@ -671,7 +673,7 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
             <div class="project-related-list">
               ${related.map((p) => `
                 <a class="project-related-card" href="#project/${escapeHtml(p.slug)}">
-                  ${p.image ? `<img class="project-related-img" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" />` : `<div class="project-related-img project-related-img--empty"></div>`}
+                  ${p.image ? `<picture><source srcset="${escapeHtml(toWebP(p.image))}" type="image/webp" /><img class="project-related-img" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" loading="lazy" decoding="async" /></picture>` : `<div class="project-related-img project-related-img--empty"></div>`}
                   <div class="project-related-body">
                     <div class="project-related-tags">
                       ${(p.tags || []).slice(0, 3).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}
@@ -703,9 +705,9 @@ const projectCard = (project, index) => {
       <span class="feature-card-number">project ${num}</span>
       <span class="feature-card-image-wrap">
         ${project.image
-          ? `<img class="feature-card-image" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" loading="lazy" />`
+          ? `<picture><source srcset="${escapeHtml(toWebP(project.image))}" type="image/webp" /><img class="feature-card-image" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" loading="lazy" decoding="async" /></picture>`
           : leadMember?.image
-            ? `<img class="feature-card-image" src="${escapeHtml(leadMember.image)}" alt="${escapeHtml(project.title)}" loading="lazy" />`
+            ? `<picture><source srcset="${escapeHtml(toWebP(leadMember.image))}" type="image/webp" /><img class="feature-card-image" src="${escapeHtml(leadMember.image)}" alt="${escapeHtml(project.title)}" loading="lazy" decoding="async" /></picture>`
             : `<span class="image-fallback feature-card-image">${escapeHtml(project.title[0])}</span>`
         }
       </span>

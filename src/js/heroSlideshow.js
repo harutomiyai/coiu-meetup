@@ -21,13 +21,20 @@ let animTo = 0;
 const getSlides = () => projects.filter((p) => p.image);
 const getTrack = () => document.getElementById("hero-slides");
 
-const slideWidth = () => getTrack()?.children[0]?.offsetWidth ?? 0;
-const containerWidth = () => getTrack()?.parentElement?.offsetWidth ?? 0;
+let cachedSlideWidth = 0;
+let cachedContainerWidth = 0;
+
+const measureSizes = () => {
+  const track = getTrack();
+  if (!track) return;
+  cachedSlideWidth = track.children[0]?.offsetWidth ?? 0;
+  cachedContainerWidth = track.parentElement?.offsetWidth ?? 0;
+};
 
 // vIdx 番のスライドを画面中央に置くオフセット
 const offsetFor = (vIdx) => {
-  const sw = slideWidth();
-  const cw = containerWidth();
+  const sw = cachedSlideWidth;
+  const cw = cachedContainerWidth;
   return (cw - sw) / 2 - vIdx * (sw + GAP);
 };
 
@@ -157,12 +164,15 @@ const startAuto = () => {
 };
 
 // --- スライドビルド ---
-const buildSlide = (project, realIndex, isActive) => {
+const buildSlide = (project, realIndex, isActive, isFirst = false) => {
   const members = getMemberStudents(project);
   const memberNames = members.map((m) => m.name).join(" / ");
+  const imgAttrs = isFirst
+    ? 'fetchpriority="high" loading="eager" decoding="sync"'
+    : 'loading="lazy" decoding="async"';
   return `
     <a class="hero-slide${isActive ? " is-active" : ""}" data-real-index="${realIndex}" href="/students.html#project/${escapeHtml(project.slug)}">
-      <img class="hero-slide-img" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" />
+      <picture><source srcset="${escapeHtml(project.image.replace(/\.(jpe?g|png)$/i, ".webp"))}" type="image/webp" /><img class="hero-slide-img" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" ${imgAttrs} /></picture>
       <span class="hero-slide-num">Project ${String(realIndex + 1).padStart(2, "0")}</span>
       <div class="hero-slide-card">
         ${memberNames ? `<p class="hero-slide-name">${escapeHtml(memberNames)}</p>` : ""}
@@ -183,15 +193,18 @@ export const initHeroSlideshow = () => {
   current = 0;
 
   // 3セット: [tail clone | originals | head clone]
-  const tail = list.map((p, i) => buildSlide(p, i, false));
-  const orig = list.map((p, i) => buildSlide(p, i, i === 0));
-  const head = list.map((p, i) => buildSlide(p, i, false));
+  const tail = list.map((p, i) => buildSlide(p, i, false, false));
+  const orig = list.map((p, i) => buildSlide(p, i, i === 0, i === 0));
+  const head = list.map((p, i) => buildSlide(p, i, false, false));
   container.innerHTML = [...tail, ...orig, ...head].join("");
 
   // 初期位置: 中央セットの current=0 → vIdx = total + 0 = total
-  vCurrent = total; // originals の先頭 → これで左にコンテンツが見える
+  vCurrent = total;
   renderDots();
-  requestAnimationFrame(() => applyOffset(offsetFor(vCurrent)));
+  requestAnimationFrame(() => {
+    measureSizes();
+    applyOffset(offsetFor(vCurrent));
+  });
 
   document.getElementById("hero-prev")?.addEventListener("click", (e) => {
     e.preventDefault(); goPrev(); clearInterval(timer); startAuto();
@@ -209,6 +222,7 @@ export const initHeroSlideshow = () => {
 
   window.addEventListener("resize", () => {
     cancelAnim();
+    measureSizes();
     applyOffset(offsetFor(vCurrent));
   });
 

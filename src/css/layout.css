@@ -502,12 +502,14 @@ main {
   background: #fff;
   padding: 40px 0 80px;
   overflow: hidden;
+  contain: layout;
 }
 
 .hero-slides {
   display: flex;
   align-items: flex-start;
   will-change: transform;
+  min-height: 400px;
 }
 
 .hero-slide {
@@ -740,6 +742,7 @@ main {
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
   background: var(--ink);
+  min-height: 300px;
 }
 
 .project-carousel-dots { display: none; }

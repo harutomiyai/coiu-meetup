@@ -24,7 +24,7 @@ const buildGridCell = (project, index) => {
           ${(project.tags || []).slice(0, 3).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}
         </div>
       </div>
-      ${img ? `<img class="project-grid-img" src="${escapeHtml(img)}" alt="${escapeHtml(project.title)}" loading="lazy" />` : `<div class="project-grid-img project-grid-img--empty"></div>`}
+      ${img ? `<picture><source srcset="${escapeHtml(img.replace(/\.(jpe?g|png)$/i, ".webp"))}" type="image/webp" /><img class="project-grid-img" src="${escapeHtml(img)}" alt="${escapeHtml(project.title)}" loading="lazy" decoding="async" /></picture>` : `<div class="project-grid-img project-grid-img--empty"></div>`}
     </a>
   `;
 };
