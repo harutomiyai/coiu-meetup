@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://coiu-meetup.vercel.app/sitemap.xml
