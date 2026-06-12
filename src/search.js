@@ -81,7 +81,7 @@ const personCard = (student) => {
     return first ? `${first}。` : student.projectDetail || keyLine;
   })();
   return `
-    <a class="feature-card" href="/students.html#student/${escapeHtml(student.slug)}"
+    <a class="feature-card" href="/students/${escapeHtml(student.slug)}.html"
        aria-label="${escapeHtml(student.name)}さんの詳細を見る">
       <span class="feature-card-place">CoIU / ${escapeHtml(student.generation || "")}</span>
       <span class="feature-card-badge">${num}</span>

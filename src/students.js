@@ -136,7 +136,8 @@ const showList = () => {
 const handleRoute = () => {
   const hash = location.hash.replace(/^#/, "");
   if (hash.startsWith("student/")) {
-    showDetail(hash.replace("student/", ""));
+    const slug = hash.replace("student/", "");
+    window.location.replace(`/students/${slug}.html`);
   } else if (hash.startsWith("project/")) {
     showProjectDetail(hash.replace("project/", ""));
   } else {

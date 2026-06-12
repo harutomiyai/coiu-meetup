@@ -37,7 +37,8 @@ export const handleRoute = () => {
   const hash = window.location.hash.replace(/^#/, "");
 
   if (hash.startsWith("student/")) {
-    showStudent(hash.replace("student/", ""));
+    const slug = hash.replace("student/", "");
+    window.location.replace(`/students/${slug}.html`);
     return;
   }
 
@@ -113,7 +114,8 @@ export const updateSearchQuery = (query) => {
   renderDiscoveryResults();
 
   if (window.location.hash.startsWith("#student/")) {
-    showHome();
+    const slug = window.location.hash.replace("#student/", "");
+    window.location.replace(`/students/${slug}.html`);
   }
 };
 

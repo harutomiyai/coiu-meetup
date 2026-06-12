@@ -1,7 +1,7 @@
 {
   "slug": "question-ai-tool",
   "title": "学生の関心と活動を整理して探しやすくする小さなAIツール",
-  "image": "/images/projects/project-zine.jpg",
+  "image": "/images/projects/project-dialogue.jpg",
   "tags": ["AI", "プログラミング", "教育"],
   "summary": "学生の関心タグ、活動メモ、制作物をもとに、あとから人物やテーマを探しやすくするAIツールを試作しています。",
   "detail": "学生の関心タグ、活動メモ、制作物をもとに、あとから人物やテーマを探しやすくするAIツールを試作しています。自然言語での検索や関連人物のレコメンドを目指しています。",

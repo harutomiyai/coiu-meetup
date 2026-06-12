@@ -1,34 +1,72 @@
-<!doctype html>
+#!/usr/bin/env node
+// Generates students/<slug>.html for each student before the Vite build.
+// Each file gets student-specific meta tags for SEO, then the client-side
+// JS loads the full detail view at runtime.
+
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = resolve(__dirname, "..");
+
+const BASE_URL = "https://coiu-meetup.vercel.app";
+
+const index = JSON.parse(
+  readFileSync(resolve(root, "public/data/students/index.json"), "utf-8")
+);
+
+mkdirSync(resolve(root, "students"), { recursive: true });
+
+for (const entry of index) {
+  const student = JSON.parse(
+    readFileSync(resolve(root, `public${entry.path}`), "utf-8")
+  );
+
+  const { slug, name, catch: catchPhrase, image, tags = [], currentQuestion, bio, generation } = student;
+  const url = `${BASE_URL}/students/${slug}.html`;
+  const ogImage = image ? `${BASE_URL}${image}` : `${BASE_URL}/images/hero/coiu-students.jpg`;
+  const titleSuffix = currentQuestion || catchPhrase || name;
+  const description = bio || catchPhrase || `${name}のプロフィール — CoIU Meetup`;
+  const keywords = ["CoIU", "CoIU Meetup", "学生", name, ...(generation ? [generation] : []), ...tags].join(", ");
+
+  const html = `<!doctype html>
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CoIU生と地域の人の会話を残す音声メディア | CoIU Meetup</title>
-    <meta name="description" content="CoIU生と地域の人の会話を録音し、活動の背景や選択が伝わる短い音声コンテンツとして編集しています。" />
-    <meta name="keywords" content="CoIU, CoIU Meetup, 学生プロジェクト, 活動公開, 地域, Podcast" />
+    <title>${escHtml(name)}｜${escHtml(titleSuffix)} | CoIU Meetup</title>
+    <meta name="description" content="${escAttr(description)}" />
+    <meta name="keywords" content="${escAttr(keywords)}" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://coiu-meetup.vercel.app/projects/voice-media.html" />
-    <meta property="og:title" content="CoIU生と地域の人の会話を残す音声メディア | CoIU Meetup" />
-    <meta property="og:description" content="CoIU生と地域の人の会話を録音し、活動の背景や選択が伝わる短い音声コンテンツとして編集しています。" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://coiu-meetup.vercel.app/projects/voice-media.html" />
-    <meta property="og:image" content="https://coiu-meetup.vercel.app/images/projects/project-zine.jpg" />
+    <link rel="canonical" href="${url}" />
+    <meta property="og:title" content="${escAttr(name)}｜${escAttr(titleSuffix)} | CoIU Meetup" />
+    <meta property="og:description" content="${escAttr(description)}" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="${url}" />
+    <meta property="og:image" content="${ogImage}" />
     <meta property="og:site_name" content="CoIU Meetup" />
     <meta property="og:locale" content="ja_JP" />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "CoIU生と地域の人の会話を残す音声メディア",
-      "description": "CoIU生と地域の人の会話を録音し、活動の背景や選択が伝わる短い音声コンテンツとして編集しています。",
-      "url": "https://coiu-meetup.vercel.app/projects/voice-media.html",
-      "image": "https://coiu-meetup.vercel.app/images/projects/project-zine.jpg",
+      "@type": "ProfilePage",
+      "name": "${escJson(name)}のプロフィール",
+      "description": "${escJson(description)}",
+      "url": "${url}",
+      "image": "${ogImage}",
       "inLanguage": "ja",
+      "mainEntity": {
+        "@type": "Person",
+        "name": "${escJson(name)}",
+        "description": "${escJson(description)}",
+        "url": "${url}"
+      },
       "isPartOf": {
         "@type": "WebSite",
         "name": "CoIU Meetup",
-        "url": "https://coiu-meetup.vercel.app/"
+        "url": "${BASE_URL}/"
       }
     }
     </script>
@@ -36,9 +74,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet" /></noscript>
-    <script type="module" src="/src/project-detail.js"></script>
+    <script type="module" src="/src/student-detail.js"></script>
   </head>
-  <body data-page="project-detail" data-slug="voice-media">
+  <body data-page="student-detail" data-slug="${escAttr(slug)}">
     <header class="site-header">
       <a class="brand" href="/index.html" aria-label="CoIU Meetup トップへ">
         <span class="brand-kana">こういう学生に会える場所</span>
@@ -108,3 +146,27 @@
     </footer>
   </body>
 </html>
+`;
+
+  writeFileSync(resolve(root, `students/${slug}.html`), html, "utf-8");
+  console.log(`  generated: students/${slug}.html`);
+}
+
+console.log(`\nDone. ${index.length} student pages generated.`);
+
+function escHtml(s) {
+  return String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function escAttr(s) {
+  return String(s ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;");
+}
+
+function escJson(s) {
+  return String(s ?? "").replaceAll('"', '\\"');
+}

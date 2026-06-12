@@ -6,17 +6,15 @@ injectSpeedInsights();
 import { loadAll } from "./js/data.js";
 import { projects, tagCategories } from "./js/state.js";
 import { escapeHtml, renderProjectDetail } from "./js/render.js";
-import { getMemberStudents, getProjectBySlug } from "./js/state.js";
+import { getProjectBySlug } from "./js/state.js";
 import { bindDrawerEvents } from "./js/drawer.js";
 
 const CELL_COLORS = [
-  "#ffffff", "#fdf6e3", "#ffffff", "#eef6fb",
-  "#ffffff", "#f3eeff", "#ffffff", "#edf7ee",
+  "#ffffff",
 ];
 
 const buildGridCell = (project, index) => {
-  const members = getMemberStudents(project);
-  const img = members[0]?.image ?? "";
+  const img = project.image ?? "";
   const num = String(index + 1).padStart(2, "0");
   const bg = CELL_COLORS[index % CELL_COLORS.length];
 

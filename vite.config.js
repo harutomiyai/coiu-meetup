@@ -8,6 +8,12 @@ const projectPages = Object.fromEntries(
     .map((f) => [`project-${f.replace(".html", "")}`, resolve(__dirname, "projects", f)])
 );
 
+const studentPages = Object.fromEntries(
+  readdirSync(resolve(__dirname, "students"))
+    .filter((f) => f.endsWith(".html"))
+    .map((f) => [`student-${f.replace(".html", "")}`, resolve(__dirname, "students", f)])
+);
+
 export default defineConfig({
   server: {
     proxy: {
@@ -27,6 +33,7 @@ export default defineConfig({
         students: resolve(__dirname, "students.html"),
         projects: resolve(__dirname, "projects.html"),
         ...projectPages,
+        ...studentPages,
       },
     },
   },

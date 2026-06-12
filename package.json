@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node scripts/generate-project-pages.js && vite",
-    "build": "node scripts/generate-project-pages.js && vite build",
+    "dev": "node scripts/generate-project-pages.js && node scripts/generate-student-pages.js && node scripts/generate-sitemap.js && vite",
+    "build": "node scripts/generate-project-pages.js && node scripts/generate-student-pages.js && node scripts/generate-sitemap.js && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {

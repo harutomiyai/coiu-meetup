@@ -175,7 +175,7 @@ export const personCard = (student) => {
   return `
     <a
       class="feature-card"
-      href="#student/${escapeHtml(student.slug)}"
+      href="/students/${escapeHtml(student.slug)}.html"
       data-student-slug="${escapeHtml(student.slug)}"
       aria-label="${escapeHtml(student.name)}さんの詳細を見る"
     >
@@ -197,7 +197,7 @@ export const personCard = (student) => {
 };
 
 const infoItem = (student) => `
-  <a class="info-item" href="#student/${escapeHtml(student.slug)}">
+  <a class="info-item" href="/students/${escapeHtml(student.slug)}.html">
     ${renderImage(student, "info-item-image")}
     <span>
       <small>CoIU / ${escapeHtml(getGenerationLabel(student))}</small>
@@ -248,7 +248,7 @@ const renderInterestList = (student) => {
 };
 
 const relatedPostCard = (student) => `
-  <a class="related-post-card" href="#student/${escapeHtml(student.slug)}">
+  <a class="related-post-card" href="/students/${escapeHtml(student.slug)}.html">
     ${renderImage(student, "related-post-image")}
     <span>
       <small>CoIU / ${escapeHtml(getGenerationLabel(student))}</small>
@@ -655,7 +655,7 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
             <h2>メンバー</h2>
             <div class="profile-project-member-list">
               ${members.map((m) => `
-                <a class="profile-project-member" href="/students.html#student/${escapeHtml(m.slug)}">
+                <a class="profile-project-member" href="/students/${escapeHtml(m.slug)}.html">
                   ${m.image ? `<picture><source srcset="${escapeHtml(toWebP(m.image))}" type="image/webp" /><img src="${escapeHtml(m.image)}" alt="${escapeHtml(m.name)}" loading="lazy" decoding="async" /></picture>` : ""}
                   <div>
                     <strong>${escapeHtml(m.name)}</strong>
