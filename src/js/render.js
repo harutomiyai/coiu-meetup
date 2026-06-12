@@ -167,7 +167,7 @@ const isStudentsPage = () => document.body.dataset.page === "students";
 
 const detailList = (items) => asArray(items).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
 
-const personCard = (student) => {
+export const personCard = (student) => {
   const genLabel = getGenerationLabel(student);
 
   return `
@@ -304,6 +304,9 @@ const contentCard = (article) => {
           <img src="${escapeHtml(authorImage)}" alt="" loading="lazy" />
           ${escapeHtml(authorName)}
         </em>
+      </span>
+      <span class="content-card-overlay">
+        <span class="content-card-overlay-btn">記事を見る ▶</span>
       </span>
     </a>
   `;
@@ -673,7 +676,7 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
                     <div class="project-related-tags">
                       ${(p.tags || []).slice(0, 3).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}
                     </div>
-                    <strong>${escapeHtml(p.title)}</strong>
+                    <strong class="project-related-title">${escapeHtml(p.title)}</strong>
                   </div>
                 </a>
               `).join("")}

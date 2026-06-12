@@ -616,77 +616,75 @@ body:has(#student-view:not([hidden])) .site-header {
 .project-related-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.profile-project-block .project-related-list {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 12px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 4px;
-}
-
-.profile-project-block .project-related-card {
-  flex: 0 0 260px;
-  scroll-snap-align: start;
+  gap: 14px;
+  margin-top: 4px;
 }
 
 .project-related-card {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  gap: 0;
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
   color: var(--ink);
   overflow: hidden;
-  transition: background 140ms ease;
+  transition: background 140ms ease, transform 140ms ease;
 }
 
 .project-related-card:hover {
-  background: #f7f7f2;
+  background: #f7f7ef;
+  transform: translateY(-2px);
 }
 
 .project-related-img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
-  flex-shrink: 0;
+  object-position: center 20%;
+  display: block;
+  border-bottom: 1.5px solid var(--ink);
 }
 
 .project-related-img--empty {
+  aspect-ratio: 3 / 2;
   background: #e8e8e8;
+  border-bottom: 1.5px solid var(--ink);
 }
 
 .project-related-body {
-  display: grid;
-  gap: 6px;
-  padding: 0 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 12px 14px;
   min-width: 0;
+  flex: 1;
 }
 
 .project-related-tags {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 4px;
+  overflow: hidden;
 }
 
 .project-related-tags span {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 900;
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 2px 8px;
   color: var(--muted);
+  flex-shrink: 0;
 }
 
-.project-related-body strong {
-  font-size: 0.88rem;
+.project-related-title {
+  font-size: 0.85rem;
   font-weight: 900;
   line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ── Project Timeline ── */

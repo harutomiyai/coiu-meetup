@@ -1,7 +1,7 @@
 import "./css/main.css";
 import { loadStudents, loadProjects, loadTagCategories } from "./js/data.js";
 import { students, state, tagCategories, getParentTagsForStudent } from "./js/state.js";
-import { escapeHtml, renderStudentDetail, renderProjectDetail } from "./js/render.js";
+import { escapeHtml, renderStudentDetail, renderProjectDetail, personCard } from "./js/render.js";
 import { bindDrawerEvents } from "./js/drawer.js";
 import { getProjectBySlug } from "./js/state.js";
 
@@ -49,32 +49,6 @@ const filterStudents = (q, tags) => {
   });
 };
 
-// ── Render helpers ──────────────────────────────────────────
-
-const renderImage = (student) =>
-  student.image
-    ? `<img class="feature-card-image" src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" loading="lazy" />`
-    : `<span class="image-fallback feature-card-image">${escapeHtml(student.name)}</span>`;
-
-const renderTags = (tags = []) =>
-  (Array.isArray(tags) ? tags : []).slice(0, 4)
-    .map((t) => `<span class="tag-pill">${escapeHtml(t)}</span>`).join("");
-
-const getGenerationLabel = (student) => student.generation || "1期生";
-
-const personCard = (student) => {
-  const keyLine = student.currentQuestion || student.catch || student.currentProject || "問いを準備中";
-  return `
-    <a class="feature-card" href="#student/${escapeHtml(student.slug)}"
-       aria-label="${escapeHtml(student.name)}さんの詳細を見る">
-      <span class="feature-card-image-wrap">${renderImage(student)}</span>
-      <span class="feature-card-body">
-        <span class="feature-card-title">${escapeHtml(student.name)}</span>
-        <span class="feature-card-question">${escapeHtml(keyLine)}</span>
-      </span>
-    </a>
-  `;
-};
 
 // ── Tag filter ──────────────────────────────────────────────
 

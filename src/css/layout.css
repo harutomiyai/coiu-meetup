@@ -720,11 +720,10 @@ main {
 }
 
 .project-carousel-desc {
-  margin: 0;
+  margin: 6px 0 0;
   font-size: 0.82rem;
   font-weight: 700;
   color: rgba(0,0,0,0.55);
-  align-self: flex-end;
 }
 
 .project-carousel-arrows { display: none; }
@@ -1418,71 +1417,96 @@ main {
 }
 
 .site-footer {
-  display: grid;
-  grid-template-columns: minmax(180px, 1fr) auto auto;
-  gap: 40px;
-  align-items: center;
-  margin-top: 0;
   background: var(--ink);
   color: #fff;
-  padding: 52px max(32px, calc((100% - var(--max)) / 2));
-  border-top: 2px solid var(--ink);
+  padding: 0 max(32px, calc((100% - var(--max)) / 2));
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 52px 0 48px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .footer-brand {
   display: grid;
-  gap: 6px;
+  gap: 8px;
 }
 
 .footer-brand .brand-kana {
   font-size: 0.62rem;
-  font-weight: 900;
-  color: rgba(255,255,255,0.45);
-  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.12em;
 }
 
 .footer-brand strong {
-  font-size: clamp(1.6rem, 4vw, 3rem);
+  font-size: clamp(2rem, 5vw, 3.6rem);
   font-weight: 900;
   line-height: 0.95;
   color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 0;
 }
 
 .site-footer nav {
-  display: grid;
-  gap: 10px;
-  font-size: 0.72rem;
-  font-weight: 900;
-  color: #fff;
-  letter-spacing: 0.08em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .site-footer nav a {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.5);
   transition: color 160ms ease;
 }
 
 .site-footer nav a:hover { color: #fff; }
 
-.page-top {
-  justify-self: end;
-  align-self: end;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  border: none;
-  border-radius: 999px;
-  background: var(--yellow);
-  color: var(--ink);
-  font-size: 0.72rem;
-  font-weight: 900;
-  padding: 10px 20px;
-  transition: opacity 160ms ease;
+.footer-copy {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
 }
 
-.page-top:hover { opacity: 0.85; }
+.page-top {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 10px 22px;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+
+.page-top:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.4);
+}
 
 .about-page {
   width: min(var(--max), calc(100% - 44px));
