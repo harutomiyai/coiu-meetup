@@ -42,6 +42,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+    <link rel="preload" as="image" href="/images/students/yu.webp" fetchpriority="high" />
     <script type="module" src="/src/student-detail.js"></script>
   </head>
   <body data-page="student-detail" data-slug="yu-takahashi">
@@ -83,7 +84,27 @@
     </div>
 
     <main>
-      <section class="student-detail" id="student-view" aria-live="polite"></section>
+      <section class="student-detail" id="student-view" aria-live="polite">
+        <div class="profile-news-shell">
+          <div class="profile-news-layout">
+            <article class="profile-article-main">
+              <header class="profile-article-header">
+                <p class="section-kicker">STUDENT PROFILE</p>
+                <div class="profile-article-meta">
+                  <span class="profile-article-gen">CoIU / 1期生</span>
+                </div>
+                <h1 id="detail-title">高橋悠｜学生の小さな実験は、どうすれば続く事業になるのか</h1>
+              </header>
+            <figure class="profile-main-figure">
+              <picture>
+                <source srcset="/images/students/yu.webp" type="image/webp" />
+                <img class="profile-main-image" src="/images/students/yu.jpg" alt="高橋悠さんの写真" loading="eager" decoding="async" fetchpriority="high" width="630" height="945" />
+              </picture>
+            </figure>
+            </article>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">

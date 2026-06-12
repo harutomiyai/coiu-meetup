@@ -29,6 +29,16 @@ for (const entry of index) {
   const description = summary || title;
   const keywords = ["CoIU", "CoIU Meetup", "学生プロジェクト", ...tags].join(", ");
 
+  const webpImage = image ? image.replace(/\.(jpe?g|png)$/i, ".webp") : null;
+  const tagPills = tags.map((t) => `<span class="project-detail-tag">${escHtml(t)}</span>`).join("");
+  const imgHtml = image ? `
+        <div class="project-detail-img-wrap">
+          <picture>
+            ${webpImage ? `<source srcset="${escAttr(webpImage)}" type="image/webp" />` : ""}
+            <img class="project-detail-image" src="${escAttr(image)}" alt="${escAttr(title)}" loading="eager" decoding="async" fetchpriority="high" width="680" height="510" />
+          </picture>
+        </div>` : "";
+
   const html = `<!doctype html>
 <html lang="ja">
   <head>
@@ -63,6 +73,7 @@ for (const entry of index) {
       }
     }
     </script>
+    ${image ? `<link rel="preload" as="image" href="${escAttr(webpImage || image)}" fetchpriority="high" />` : ""}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
@@ -108,7 +119,16 @@ for (const entry of index) {
     </div>
 
     <main>
-      <section class="student-detail" id="student-view" aria-live="polite"></section>
+      <section class="student-detail" id="student-view" aria-live="polite">
+        <div class="project-detail-page">
+          <div class="project-detail-hero">
+            <div class="project-detail-hero-inner">
+              <div class="project-detail-meta">${tagPills}</div>
+              <h1 class="project-detail-title" id="project-detail-title">${escHtml(title)}</h1>
+            </div>
+          </div>${imgHtml}
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">

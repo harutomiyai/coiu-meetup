@@ -154,6 +154,7 @@ body:has(#student-view:not([hidden])) .site-header {
 
 .profile-main-image {
   width: 100%;
+  aspect-ratio: 2 / 3;
   max-height: 820px;
   border: 1px solid var(--line-soft);
   object-fit: cover;

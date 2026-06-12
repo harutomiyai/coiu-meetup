@@ -32,6 +32,7 @@
       }
     }
     </script>
+    <link rel="preload" as="image" href="/images/projects/project-dialogue.webp" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
@@ -77,7 +78,22 @@
     </div>
 
     <main>
-      <section class="student-detail" id="student-view" aria-live="polite"></section>
+      <section class="student-detail" id="student-view" aria-live="polite">
+        <div class="project-detail-page">
+          <div class="project-detail-hero">
+            <div class="project-detail-hero-inner">
+              <div class="project-detail-meta"><span class="project-detail-tag">AI</span><span class="project-detail-tag">プログラミング</span><span class="project-detail-tag">教育</span></div>
+              <h1 class="project-detail-title" id="project-detail-title">学生の関心と活動を整理して探しやすくする小さなAIツール</h1>
+            </div>
+          </div>
+        <div class="project-detail-img-wrap">
+          <picture>
+            <source srcset="/images/projects/project-dialogue.webp" type="image/webp" />
+            <img class="project-detail-image" src="/images/projects/project-dialogue.jpg" alt="学生の関心と活動を整理して探しやすくする小さなAIツール" loading="eager" decoding="async" fetchpriority="high" width="680" height="510" />
+          </picture>
+        </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">

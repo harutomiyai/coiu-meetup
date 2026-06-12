@@ -32,6 +32,7 @@
       }
     }
     </script>
+    <link rel="preload" as="image" href="/images/projects/project-map.webp" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
@@ -77,7 +78,22 @@
     </div>
 
     <main>
-      <section class="student-detail" id="student-view" aria-live="polite"></section>
+      <section class="student-detail" id="student-view" aria-live="polite">
+        <div class="project-detail-page">
+          <div class="project-detail-hero">
+            <div class="project-detail-hero-inner">
+              <div class="project-detail-meta"><span class="project-detail-tag">地域</span><span class="project-detail-tag">起業</span><span class="project-detail-tag">問い</span></div>
+              <h1 class="project-detail-title" id="project-detail-title">まちの人への聞き書きから、新しい学びの場をつくる実験</h1>
+            </div>
+          </div>
+        <div class="project-detail-img-wrap">
+          <picture>
+            <source srcset="/images/projects/project-map.webp" type="image/webp" />
+            <img class="project-detail-image" src="/images/projects/project-map.jpg" alt="まちの人への聞き書きから、新しい学びの場をつくる実験" loading="eager" decoding="async" fetchpriority="high" width="680" height="510" />
+          </picture>
+        </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">

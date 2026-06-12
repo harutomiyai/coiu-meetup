@@ -32,6 +32,7 @@
       }
     }
     </script>
+    <link rel="preload" as="image" href="/images/projects/project-zine.webp" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
@@ -77,7 +78,22 @@
     </div>
 
     <main>
-      <section class="student-detail" id="student-view" aria-live="polite"></section>
+      <section class="student-detail" id="student-view" aria-live="polite">
+        <div class="project-detail-page">
+          <div class="project-detail-hero">
+            <div class="project-detail-hero-inner">
+              <div class="project-detail-meta"><span class="project-detail-tag">活動公開</span><span class="project-detail-tag">地域</span><span class="project-detail-tag">Podcast</span></div>
+              <h1 class="project-detail-title" id="project-detail-title">CoIU生と地域の人の会話を残す音声メディア</h1>
+            </div>
+          </div>
+        <div class="project-detail-img-wrap">
+          <picture>
+            <source srcset="/images/projects/project-zine.webp" type="image/webp" />
+            <img class="project-detail-image" src="/images/projects/project-zine.jpg" alt="CoIU生と地域の人の会話を残す音声メディア" loading="eager" decoding="async" fetchpriority="high" width="680" height="510" />
+          </picture>
+        </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">

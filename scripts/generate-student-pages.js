@@ -30,6 +30,15 @@ for (const entry of index) {
   const description = bio || catchPhrase || `${name}のプロフィール — CoIU Meetup`;
   const keywords = ["CoIU", "CoIU Meetup", "学生", name, ...(generation ? [generation] : []), ...tags].join(", ");
 
+  const webpImage = image ? image.replace(/\.(jpe?g|png)$/i, ".webp") : null;
+  const imgHtml = image ? `
+            <figure class="profile-main-figure">
+              <picture>
+                ${webpImage ? `<source srcset="${escAttr(webpImage)}" type="image/webp" />` : ""}
+                <img class="profile-main-image" src="${escAttr(image)}" alt="${escAttr(name)}さんの写真" loading="eager" decoding="async" fetchpriority="high" width="630" height="945" />
+              </picture>
+            </figure>` : "";
+
   const html = `<!doctype html>
 <html lang="ja">
   <head>
@@ -74,6 +83,7 @@ for (const entry of index) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
     <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet" /></noscript>
+    ${image ? `<link rel="preload" as="image" href="${escAttr(webpImage || image)}" fetchpriority="high" />` : ""}
     <script type="module" src="/src/student-detail.js"></script>
   </head>
   <body data-page="student-detail" data-slug="${escAttr(slug)}">
@@ -115,7 +125,21 @@ for (const entry of index) {
     </div>
 
     <main>
-      <section class="student-detail" id="student-view" aria-live="polite"></section>
+      <section class="student-detail" id="student-view" aria-live="polite">
+        <div class="profile-news-shell">
+          <div class="profile-news-layout">
+            <article class="profile-article-main">
+              <header class="profile-article-header">
+                <p class="section-kicker">STUDENT PROFILE</p>
+                <div class="profile-article-meta">
+                  <span class="profile-article-gen">CoIU / ${generation ? escHtml(generation) : ""}</span>
+                </div>
+                <h1 id="detail-title">${escHtml(name)}｜${escHtml(currentQuestion || catchPhrase || name)}</h1>
+              </header>${imgHtml}
+            </article>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer class="site-footer">
