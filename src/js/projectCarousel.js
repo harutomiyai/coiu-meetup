@@ -1,30 +1,32 @@
 import { projects, getMemberStudents } from "./state.js";
 import { escapeHtml } from "./render.js";
 
-const CELL_COLORS = ["#ffffff"];
+const toWebP = (src) => src ? src.replace(/\.(jpe?g|png)$/i, ".webp") : src;
 
 const buildGridCell = (project, index) => {
   const members = getMemberStudents(project);
   const img = project.image ?? members[0]?.image ?? "";
-  const num = String(index + 1).padStart(2, "0");
-  const bg = CELL_COLORS[index % CELL_COLORS.length];
+  const num = String(index + 1).padStart(3, "0");
 
   return `
     <a
-      class="project-grid-cell"
+      class="feature-card"
       href="/projects/${escapeHtml(project.slug)}.html"
-      style="--cell-bg: ${bg}"
       aria-label="${escapeHtml(project.title)}の詳細を見る"
     >
-      <span class="project-grid-num">${num}</span>
-      <div class="project-grid-body">
-        <h3 class="project-grid-title">${escapeHtml(project.title)}</h3>
-        <p class="project-grid-summary">${escapeHtml(project.summary)}</p>
-        <div class="project-grid-tags">
-          ${(project.tags || []).slice(0, 3).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}
-        </div>
-      </div>
-      ${img ? `<picture><source srcset="${escapeHtml(img.replace(/\.(jpe?g|png)$/i, ".webp"))}" type="image/webp" /><img class="project-grid-img" src="${escapeHtml(img)}" alt="${escapeHtml(project.title)}" loading="lazy" decoding="async" /></picture>` : `<div class="project-grid-img project-grid-img--empty"></div>`}
+      <span class="feature-card-place">CoIU Project</span>
+      <span class="feature-card-badge">${num}</span>
+      <span class="feature-card-image-wrap">
+        ${img
+          ? `<picture><source srcset="${escapeHtml(toWebP(img))}" type="image/webp" /><img class="feature-card-image" src="${escapeHtml(img)}" alt="${escapeHtml(project.title)}" loading="lazy" decoding="async" /></picture>`
+          : `<span class="image-fallback feature-card-image">${escapeHtml(project.title[0])}</span>`
+        }
+      </span>
+      <span class="feature-card-body">
+        <span class="feature-card-title">${escapeHtml(project.title)}</span>
+        <span class="feature-card-question">${escapeHtml(project.summary)}</span>
+        <span class="read-more">Read more</span>
+      </span>
     </a>
   `;
 };
@@ -39,5 +41,5 @@ export const initProjectCarousel = () => {
   track.innerHTML = visible.map((p, i) => buildGridCell(p, i)).join("");
 
   const more = document.getElementById("project-carousel-more");
-  if (more) more.hidden = projects.length <= HOME_PROJECT_LIMIT;
+  if (more) more.hidden = false;
 };

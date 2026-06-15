@@ -692,6 +692,7 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
 const projectCard = (project, index) => {
   const members = getMemberStudents(project);
   const leadMember = members[0];
+  const img = project.image ?? leadMember?.image ?? "";
   const num = String(index + 1).padStart(3, "0");
   return `
     <a
@@ -701,19 +702,15 @@ const projectCard = (project, index) => {
     >
       <span class="feature-card-place">CoIU Project</span>
       <span class="feature-card-badge">${num}</span>
-      <span class="feature-card-number">project ${num}</span>
       <span class="feature-card-image-wrap">
-        ${project.image
-          ? `<picture><source srcset="${escapeHtml(toWebP(project.image))}" type="image/webp" /><img class="feature-card-image" src="${escapeHtml(project.image)}" alt="${escapeHtml(project.title)}" loading="lazy" decoding="async" /></picture>`
-          : leadMember?.image
-            ? `<picture><source srcset="${escapeHtml(toWebP(leadMember.image))}" type="image/webp" /><img class="feature-card-image" src="${escapeHtml(leadMember.image)}" alt="${escapeHtml(project.title)}" loading="lazy" decoding="async" /></picture>`
-            : `<span class="image-fallback feature-card-image">${escapeHtml(project.title[0])}</span>`
+        ${img
+          ? `<picture><source srcset="${escapeHtml(toWebP(img))}" type="image/webp" /><img class="feature-card-image" src="${escapeHtml(img)}" alt="${escapeHtml(project.title)}" loading="lazy" decoding="async" /></picture>`
+          : `<span class="image-fallback feature-card-image">${escapeHtml(project.title[0])}</span>`
         }
       </span>
       <span class="feature-card-body">
         <span class="feature-card-title">${escapeHtml(project.title)}</span>
         <span class="feature-card-question">${escapeHtml(project.summary)}</span>
-        <span class="tag-row">${(project.tags || []).map((t) => `<span class="tag-pill">${escapeHtml(t)}</span>`).join("")}</span>
         <span class="read-more">Read more</span>
       </span>
     </a>

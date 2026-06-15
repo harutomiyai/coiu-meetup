@@ -1,3 +1,4 @@
 [
-  { "slug": "coiu-media", "title": "CoIU生の問いや活動を可視化するメディアづくり", "path": "/data/projects/coiu-media.json" }
+  { "slug": "coiu-media", "title": "CoIU生の問いや活動を可視化するメディアづくり", "path": "/data/projects/coiu-media.json" },
+  { "slug": "podcast", "title": "問いと、対話と。", "path": "/data/projects/podcast.json" }
 ]
