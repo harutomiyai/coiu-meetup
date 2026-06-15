@@ -1,4 +1,4 @@
-import { projects, getMemberStudents } from "./state.js";
+import { projects, getMemberStudents, shuffled } from "./state.js";
 import { escapeHtml } from "./render.js";
 
 const GAP = 24;
@@ -18,7 +18,7 @@ let animStart = null;
 let animFrom = 0;
 let animTo = 0;
 
-const getSlides = () => projects.filter((p) => p.image);
+const getSlides = () => shuffled(projects.filter((p) => p.image));
 const getTrack = () => document.getElementById("hero-slides");
 
 let cachedSlideWidth = 0;

@@ -1,4 +1,4 @@
-import { students, projects, state, getAllTopics, getInterestTopics, getProjectBySlug, getMemberStudents, getParentTagsForStudent, tagCategories } from "./state.js";
+import { students, projects, state, getAllTopics, getInterestTopics, getProjectBySlug, getMemberStudents, getParentTagsForStudent, tagCategories, shuffled } from "./state.js";
 import { selectors } from "./selectors.js";
 import { fetchNoteArticles } from "../lib/noteRss.js";
 
@@ -132,9 +132,16 @@ const topicButton = (topic, isActive = false, className = "topic-chip") => `
 
 const toWebP = (src) => src ? src.replace(/\.(jpe?g|png)$/i, ".webp") : src;
 
+const positionStyle = (pos) => {
+  if (!pos) return "";
+  const map = { top: "center top", center: "center center", bottom: "center bottom" };
+  const val = map[pos] ?? pos;
+  return ` style="object-position:${val}"`;
+};
+
 const renderImage = (student, className, loading = "lazy") =>
   student.image
-    ? `<picture><source srcset="${escapeHtml(toWebP(student.image))}" type="image/webp" /><img class="${className}" src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" loading="${loading}" decoding="async" /></picture>`
+    ? `<picture><source srcset="${escapeHtml(toWebP(student.image))}" type="image/webp" /><img class="${className}" src="${escapeHtml(student.image)}" alt="${escapeHtml(student.name)}さんの写真" loading="${loading}" decoding="async"${positionStyle(student.imagePosition)} /></picture>`
     : `<span class="image-fallback ${className}">${escapeHtml(student.name)}</span>`;
 
 const renderTags = (tags = [], limit = tags.length) =>
@@ -405,7 +412,8 @@ export const renderPeopleGrid = () => {
   if (!selectors.peopleGrid) return;
 
   const filtered = getFilteredStudents();
-  const visibleStudents = isStudentsPage() ? filtered : filtered.slice(0, HOME_STUDENT_LIMIT);
+  const pool = isStudentsPage() ? filtered : shuffled(filtered);
+  const visibleStudents = isStudentsPage() ? filtered : pool.slice(0, HOME_STUDENT_LIMIT);
 
   if (selectors.topicResultHead) {
     selectors.topicResultHead.innerHTML = `

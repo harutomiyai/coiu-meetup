@@ -9,42 +9,8 @@ import { escapeHtml, renderProjectDetail } from "./js/render.js";
 import { getProjectBySlug } from "./js/state.js";
 import { bindDrawerEvents } from "./js/drawer.js";
 
-const CELL_COLORS = [
-  "#ffffff",
-];
-
-const buildGridCell = (project, index) => {
-  const img = project.image ?? "";
-  const num = String(index + 1).padStart(2, "0");
-  const bg = CELL_COLORS[index % CELL_COLORS.length];
-
-  return `
-    <a
-      class="project-grid-cell"
-      href="/projects/${escapeHtml(project.slug)}.html"
-      style="--cell-bg: ${bg}"
-      aria-label="${escapeHtml(project.title)}の詳細を見る"
-    >
-      <span class="project-grid-num">${num}</span>
-      <div class="project-grid-body">
-        <h3 class="project-grid-title">${escapeHtml(project.title)}</h3>
-        <p class="project-grid-summary">${escapeHtml(project.summary)}</p>
-        <div class="project-grid-tags">
-          ${(project.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}
-        </div>
-      </div>
-      ${img
-        ? `<img class="project-grid-img" src="${escapeHtml(img)}" alt="${escapeHtml(project.title)}" loading="lazy" />`
-        : `<div class="project-grid-img project-grid-img--empty"></div>`
-      }
-    </a>
-  `;
-};
-
-// ── Tag filter ────────────────────────────────────────────────
-
-let currentParent = "";  // 選択中の親タグ label
-let currentChild  = "";  // 選択中の子タグ
+let currentParent = "";
+let currentChild  = "";
 
 const getParentTags = () => {
   const usedChildren = new Set();
@@ -56,46 +22,19 @@ const getParentTags = () => {
 
 const renderTagFilter = () => {
   const parentEl = document.getElementById("projects-page-tags");
-  const childEl  = document.getElementById("projects-page-child-tags");
   if (!parentEl) return;
 
-  // 親タグ行（全件表示）
   const parents = getParentTags();
-
-  const parentButtons = [
+  parentEl.innerHTML = [
     `<button class="search-page-tag${!currentParent ? " is-active" : ""}" type="button" data-parent="">すべて</button>`,
     ...parents.map((cat) =>
       `<button class="search-page-tag${currentParent === cat.label ? " is-active" : ""}" type="button" data-parent="${escapeHtml(cat.label)}">${escapeHtml(cat.label)}</button>`
     ),
-  ];
-  parentEl.innerHTML = parentButtons.join("");
-
-  // 子タグ行
-  if (!childEl) return;
-  if (!currentParent) {
-    childEl.hidden = true;
-    childEl.innerHTML = "";
-    return;
-  }
-  const cat = tagCategories.find((c) => c.label === currentParent);
-  if (!cat) { childEl.hidden = true; return; }
-
-  const usedChildren = new Set();
-  projects.forEach((p) => (p.tags || []).forEach((t) => usedChildren.add(t)));
-  const children = cat.children.filter((c) => usedChildren.has(c));
-
-  childEl.hidden = false;
-  childEl.innerHTML = children
-    .map((c) =>
-      `<button class="search-page-tag search-page-tag--child${currentChild === c ? " is-active" : ""}" type="button" data-child="${escapeHtml(c)}">${escapeHtml(c)}</button>`
-    )
-    .join("");
+  ].join("");
 };
 
 const getFilteredProjects = () => {
-  if (currentChild) {
-    return projects.filter((p) => (p.tags || []).includes(currentChild));
-  }
+  if (currentChild) return projects.filter((p) => (p.tags || []).includes(currentChild));
   if (currentParent) {
     const cat = tagCategories.find((c) => c.label === currentParent);
     if (!cat) return projects;
@@ -104,28 +43,55 @@ const getFilteredProjects = () => {
   return projects;
 };
 
-// ── Results ──────────────────────────────────────────────────
-
 const renderGrid = () => {
-  const grid = document.getElementById("projects-grid");
+  const grid  = document.getElementById("projects-grid");
   const empty = document.getElementById("projects-page-empty");
+  const count = document.getElementById("projects-page-count");
   if (!grid) return;
 
   const filtered = getFilteredProjects();
-  grid.innerHTML = filtered.map((p, i) => buildGridCell(p, i)).join("");
-  if (empty) empty.hidden = filtered.length > 0;
-};
 
-// ── Init ──────────────────────────────────────────────────────
+  // render.js の projectCard を流用するため、renderProjectGrid を直接呼ばず
+  // projects-grid に feature-card を直接埋め込む
+  const toWebP = (src) => src ? src.replace(/\.(jpe?g|png)$/i, ".webp") : src;
+  grid.innerHTML = filtered.map((project, index) => {
+    const img = project.image ?? "";
+    const num = String(index + 1).padStart(3, "0");
+    return `
+      <a
+        class="feature-card"
+        href="/projects/${escapeHtml(project.slug)}.html"
+        aria-label="${escapeHtml(project.title)}の詳細を見る"
+      >
+        <span class="feature-card-place">CoIU Project</span>
+        <span class="feature-card-badge">${num}</span>
+        <span class="feature-card-image-wrap">
+          ${img
+            ? `<picture><source srcset="${escapeHtml(toWebP(img))}" type="image/webp" /><img class="feature-card-image" src="${escapeHtml(img)}" alt="${escapeHtml(project.title)}" loading="lazy" decoding="async" /></picture>`
+            : `<span class="image-fallback feature-card-image">${escapeHtml(project.title[0])}</span>`
+          }
+        </span>
+        <span class="feature-card-body">
+          <span class="feature-card-title">${escapeHtml(project.title)}</span>
+          <span class="feature-card-question">${escapeHtml(project.summary)}</span>
+          <span class="read-more">Read more</span>
+        </span>
+      </a>
+    `;
+  }).join("");
+
+  if (empty) empty.hidden = filtered.length > 0;
+  if (count) count.textContent = `${filtered.length} 件`;
+};
 
 const init = async () => {
   await loadAll();
 
-  const listView = document.getElementById("projects-list-view");
+  const listView   = document.querySelector(".search-page--projects");
   const detailView = document.getElementById("student-view");
 
   const showList = () => {
-    if (listView) listView.hidden = false;
+    if (listView)   listView.hidden   = false;
     if (detailView) detailView.hidden = true;
   };
 
@@ -133,7 +99,7 @@ const init = async () => {
     const project = getProjectBySlug(slug);
     if (!project) { showList(); return; }
     renderProjectDetail(project);
-    if (listView) listView.hidden = true;
+    if (listView)   listView.hidden   = true;
     if (detailView) detailView.hidden = false;
     window.scrollTo({ top: 0, behavior: "auto" });
   };
@@ -147,37 +113,21 @@ const init = async () => {
     }
   };
 
-  // URLパラメータからタグフィルターを初期設定
   const urlTag = new URLSearchParams(location.search).get("tag");
   if (urlTag) {
     const parent = getParentTag(urlTag);
-    if (parent) {
-      currentParent = parent;
-      currentChild  = urlTag;
-    } else {
-      currentChild = urlTag;
-    }
+    if (parent) { currentParent = parent; currentChild = urlTag; }
+    else { currentChild = urlTag; }
   }
 
   renderTagFilter();
   renderGrid();
 
-  const tagArea = document.getElementById("projects-page-tags");
-  const childArea = document.getElementById("projects-page-child-tags");
-
-  tagArea?.addEventListener("click", (e) => {
+  document.getElementById("projects-page-tags")?.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-parent]");
     if (!btn) return;
     currentParent = btn.dataset.parent;
     currentChild  = "";
-    renderTagFilter();
-    renderGrid();
-  });
-
-  childArea?.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-child]");
-    if (!btn) return;
-    currentChild = currentChild === btn.dataset.child ? "" : btn.dataset.child;
     renderTagFilter();
     renderGrid();
   });

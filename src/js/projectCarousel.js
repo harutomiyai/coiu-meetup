@@ -1,4 +1,4 @@
-import { projects, getMemberStudents } from "./state.js";
+import { projects, getMemberStudents, shuffled } from "./state.js";
 import { escapeHtml } from "./render.js";
 
 const toWebP = (src) => src ? src.replace(/\.(jpe?g|png)$/i, ".webp") : src;
@@ -37,7 +37,7 @@ export const initProjectCarousel = () => {
   const track = document.getElementById("project-carousel-track");
   if (!track || !projects.length) return;
 
-  const visible = projects.slice(0, HOME_PROJECT_LIMIT);
+  const visible = shuffled(projects).slice(0, HOME_PROJECT_LIMIT);
   track.innerHTML = visible.map((p, i) => buildGridCell(p, i)).join("");
 
   const more = document.getElementById("project-carousel-more");

@@ -50,7 +50,13 @@
   border: 2px solid var(--ink);
   background: #222;
   gap: 2px;
-  min-height: 320px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.project-carousel-wrap .people-grid {
+  border: none;
+  border-radius: 0;
 }
 
 .feature-card {
@@ -59,7 +65,7 @@
   min-height: 448px;
   background: #fff;
   color: var(--ink);
-  padding: 22px;
+  padding: 16px;
   border-radius: 0;
   transition: background 200ms ease, border-radius 200ms ease;
 }
@@ -68,19 +74,13 @@
 .feature-card:focus-visible {
   background: #f5f5e8;
   border-radius: 14px;
-  z-index: 1;
-}
-
-.feature-card:hover .feature-card-image,
-.feature-card:focus-visible .feature-card-image {
-  filter: brightness(0.88);
 }
 
 .feature-card-place {
   display: block;
   min-height: 20px;
   padding-right: 42px;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   line-height: 1.35;
 }
 
@@ -92,7 +92,7 @@
   width: 38px;
   height: 38px;
   place-items: center;
-  border: 1px solid var(--line);
+  border: 2px solid var(--ink);
   border-radius: 50%;
   background: #fff;
   font-size: 0.62rem;
@@ -113,17 +113,16 @@
 
 .feature-card-image-wrap {
   display: block;
-  width: calc(100% - 22px);
-  margin: 34px 0 22px auto;
+  width: 100%;
+  margin: 12px 0 16px;
 }
 
 .feature-card-image {
   width: 100%;
   aspect-ratio: 4 / 3;
-  border-radius: var(--radius-sm);
+  border-radius: 6px;
   object-fit: cover;
   object-position: center 20%;
-  transition: filter 200ms ease;
 }
 
 .feature-card-body {
