@@ -153,7 +153,7 @@ for (const entry of index) {
             <a href="https://coiu.jp" target="_blank" rel="noopener noreferrer">CoIUとは</a>
             <a href="/about.html">ABOUT</a>
           </nav>
-          <p class="footer-copy">&copy; 2024 CoIU meetup</p>
+          <p class="footer-copy">&copy; 2026 CoIU meetup</p>
         </div>
       </div>
     </footer>
