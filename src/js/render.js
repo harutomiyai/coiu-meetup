@@ -525,14 +525,13 @@ export const renderStudentDetail = (student) => {
           <figure class="profile-main-figure">
             ${renderImage(student, "profile-main-image", "eager")}
             <figcaption class="profile-main-figcaption">
+              ${student.nameRoman ? `<span class="section-kicker eyebrow">${escapeHtml(student.nameRoman)}</span>` : ""}
               <strong class="profile-main-name">${escapeHtml(student.name)}</strong>
               ${student.bio ? `<p class="profile-main-bio">${escapeHtml(student.bio)}</p>` : ""}
             </figcaption>
           </figure>
 
-          <p class="profile-lead">${escapeHtml(getStudentStoryLead(student))}</p>
-
-          <div class="profile-summary-box">
+<div class="profile-summary-box">
             <p class="section-kicker">QUESTION</p>
             <strong>${escapeHtml(student.currentQuestion || getStudentKeyLine(student))}</strong>
           </div>
@@ -628,7 +627,7 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
       <div class="project-detail-hero">
         <div class="project-detail-hero-inner">
           <div class="project-detail-meta">
-            ${(project.tags || []).map((t) => `<span class="project-detail-tag">${escapeHtml(t)}</span>`).join("")}
+            ${(project.tags || []).map((t) => `<a class="project-detail-tag" href="/projects.html?tag=${encodeURIComponent(t)}">${escapeHtml(t)}</a>`).join("")}
           </div>
           <h1 class="project-detail-title" id="project-detail-title">${escapeHtml(project.title)}</h1>
         </div>
@@ -644,7 +643,7 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
         <section class="project-detail-section">
           <p class="section-kicker">OVERVIEW</p>
           <h2>プロジェクト概要</h2>
-          <p>${escapeHtml(project.detail || project.summary)}</p>
+          <p>${escapeHtml(project.detail || project.summary).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</p>
         </section>
 
         ${renderProjectTimeline(project)}
@@ -676,7 +675,7 @@ export const renderProjectDetail = (project, { backUrl } = {}) => {
                   ${p.image ? `<picture><source srcset="${escapeHtml(toWebP(p.image))}" type="image/webp" /><img class="project-related-img" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" loading="lazy" decoding="async" /></picture>` : `<div class="project-related-img project-related-img--empty"></div>`}
                   <div class="project-related-body">
                     <div class="project-related-tags">
-                      ${(p.tags || []).slice(0, 3).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}
+                      ${(p.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}
                     </div>
                     <strong class="project-related-title">${escapeHtml(p.title)}</strong>
                   </div>
@@ -714,7 +713,7 @@ const projectCard = (project, index) => {
       <span class="feature-card-body">
         <span class="feature-card-title">${escapeHtml(project.title)}</span>
         <span class="feature-card-question">${escapeHtml(project.summary)}</span>
-        <span class="tag-row">${(project.tags || []).slice(0, 4).map((t) => `<span class="tag-pill">${escapeHtml(t)}</span>`).join("")}</span>
+        <span class="tag-row">${(project.tags || []).map((t) => `<span class="tag-pill">${escapeHtml(t)}</span>`).join("")}</span>
         <span class="read-more">Read more</span>
       </span>
     </a>

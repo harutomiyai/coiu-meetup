@@ -110,7 +110,7 @@ body:has(#student-view:not([hidden])) .site-header {
 
 .profile-article-header h1 {
   margin: 0;
-  font-size: clamp(1.55rem, 3.2vw, 2.55rem);
+  font-size: clamp(1.25rem, 2.4vw, 1.9rem);
   font-weight: 900;
   line-height: 1.45;
 }
@@ -154,8 +154,8 @@ body:has(#student-view:not([hidden])) .site-header {
 
 .profile-main-image {
   width: 100%;
-  aspect-ratio: 2 / 3;
-  max-height: 820px;
+  height: clamp(320px, 70vw, 600px);
+  max-height: 600px;
   border: 1px solid var(--line-soft);
   object-fit: cover;
   object-position: center 18%;
@@ -165,7 +165,7 @@ body:has(#student-view:not([hidden])) .site-header {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 24px;
 }
 
 .profile-main-name {
@@ -543,14 +543,21 @@ body:has(#student-view:not([hidden])) .site-header {
 .project-detail-tag {
   display: inline-flex;
   align-items: center;
-  height: 22px;
+  height: 28px;
   border: 1.5px solid var(--line);
   border-radius: 999px;
   background: #fff;
   color: var(--ink);
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   font-weight: 900;
-  padding: 0 7px;
+  padding: 0 11px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.project-detail-tag:hover {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
 }
 
 .project-detail-title {

@@ -4,7 +4,7 @@ import { injectSpeedInsights } from "@vercel/speed-insights";
 inject();
 injectSpeedInsights();
 import { loadAll } from "./js/data.js";
-import { projects, tagCategories } from "./js/state.js";
+import { projects, tagCategories, getParentTag } from "./js/state.js";
 import { escapeHtml, renderProjectDetail } from "./js/render.js";
 import { getProjectBySlug } from "./js/state.js";
 import { bindDrawerEvents } from "./js/drawer.js";
@@ -30,7 +30,7 @@ const buildGridCell = (project, index) => {
         <h3 class="project-grid-title">${escapeHtml(project.title)}</h3>
         <p class="project-grid-summary">${escapeHtml(project.summary)}</p>
         <div class="project-grid-tags">
-          ${(project.tags || []).slice(0, 3).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}
+          ${(project.tags || []).map((t) => `<span>${escapeHtml(t)}</span>`).join("")}
         </div>
       </div>
       ${img
@@ -43,10 +43,8 @@ const buildGridCell = (project, index) => {
 
 // ── Tag filter ────────────────────────────────────────────────
 
-const VISIBLE_LIMIT = 5;
 let currentParent = "";  // 選択中の親タグ label
 let currentChild  = "";  // 選択中の子タグ
-let tagsExpanded  = false;
 
 const getParentTags = () => {
   const usedChildren = new Set();
@@ -61,22 +59,15 @@ const renderTagFilter = () => {
   const childEl  = document.getElementById("projects-page-child-tags");
   if (!parentEl) return;
 
-  // 親タグ行
+  // 親タグ行（全件表示）
   const parents = getParentTags();
-  const visible = tagsExpanded ? parents : parents.slice(0, VISIBLE_LIMIT);
-  const hasMore = parents.length > VISIBLE_LIMIT;
 
   const parentButtons = [
     `<button class="search-page-tag${!currentParent ? " is-active" : ""}" type="button" data-parent="">すべて</button>`,
-    ...visible.map((cat) =>
+    ...parents.map((cat) =>
       `<button class="search-page-tag${currentParent === cat.label ? " is-active" : ""}" type="button" data-parent="${escapeHtml(cat.label)}">${escapeHtml(cat.label)}</button>`
     ),
   ];
-  if (hasMore) {
-    parentButtons.push(
-      `<button class="search-page-tag search-page-tag--more" type="button" data-action="toggle-tags">${tagsExpanded ? "閉じる ↑" : `もっと見る +${parents.length - VISIBLE_LIMIT}`}</button>`
-    );
-  }
   parentEl.innerHTML = parentButtons.join("");
 
   // 子タグ行
@@ -156,6 +147,18 @@ const init = async () => {
     }
   };
 
+  // URLパラメータからタグフィルターを初期設定
+  const urlTag = new URLSearchParams(location.search).get("tag");
+  if (urlTag) {
+    const parent = getParentTag(urlTag);
+    if (parent) {
+      currentParent = parent;
+      currentChild  = urlTag;
+    } else {
+      currentChild = urlTag;
+    }
+  }
+
   renderTagFilter();
   renderGrid();
 
@@ -163,13 +166,8 @@ const init = async () => {
   const childArea = document.getElementById("projects-page-child-tags");
 
   tagArea?.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-parent], [data-action]");
+    const btn = e.target.closest("[data-parent]");
     if (!btn) return;
-    if (btn.dataset.action === "toggle-tags") {
-      tagsExpanded = !tagsExpanded;
-      renderTagFilter();
-      return;
-    }
     currentParent = btn.dataset.parent;
     currentChild  = "";
     renderTagFilter();

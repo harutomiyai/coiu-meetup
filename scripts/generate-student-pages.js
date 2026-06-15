@@ -118,7 +118,7 @@ for (const entry of index) {
         <nav class="nav-drawer-nav" aria-label="メインナビゲーション">
           <a href="/students.html">STUDENTS</a>
           <a href="/projects.html">PROJECTS</a>
-          <a href="/coiu.html">CoIUとは</a>
+          <a href="https://coiu.jp" target="_blank" rel="noopener noreferrer">CoIUとは</a>
           <a href="/about.html">ABOUT</a>
         </nav>
       </div>
@@ -161,7 +161,7 @@ for (const entry of index) {
             <a href="/index.html">TOP</a>
             <a href="/index.html#contents">CONTENTS</a>
             <a href="/index.html#feature">FEATURE</a>
-            <a href="/coiu.html">CoIUとは</a>
+            <a href="https://coiu.jp" target="_blank" rel="noopener noreferrer">CoIUとは</a>
             <a href="/about.html">ABOUT</a>
           </nav>
           <p class="footer-copy">&copy; 2024 CoIU meetup</p>

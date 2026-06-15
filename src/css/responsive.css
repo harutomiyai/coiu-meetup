@@ -5,6 +5,88 @@
     grid-template-columns: 1fr;
   }
 
+  .coiu-hero {
+    grid-template-columns: 1fr;
+    min-height: unset;
+    padding: 0;
+    gap: 0;
+    position: relative;
+  }
+
+  .coiu-hero-figure {
+    order: -1;
+    border-radius: 0;
+    width: 100%;
+    margin: 0;
+  }
+
+  .coiu-hero-figure img {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    display: block;
+  }
+
+  .coiu-hero-figure::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.08) 100%);
+    pointer-events: none;
+  }
+
+  .coiu-hero-inner {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 36px max(24px, calc((100vw - var(--max)) / 2)) 40px;
+    color: #fff;
+    z-index: 1;
+  }
+
+  .coiu-hero-inner .section-kicker {
+    color: rgba(255,255,255,0.65);
+  }
+
+  .coiu-hero-title {
+    color: #fff;
+  }
+
+  .coiu-hero-lead {
+    color: rgba(255,255,255,0.85);
+  }
+
+  .coiu-concept-item {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .coiu-concept-item--rev {
+    direction: ltr;
+  }
+
+  .coiu-flow-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .coiu-flow-item {
+    border-right: none;
+    border-bottom: 2px solid rgba(255,255,255,0.12);
+  }
+
+  .coiu-flow-item:last-child {
+    border-bottom: none;
+  }
+
+  .coiu-theme-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .coiu-year-item {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
   .top-side {
     grid-template-columns: minmax(220px, 0.42fr) minmax(0, 0.58fr);
     align-items: stretch;
@@ -46,6 +128,11 @@
   /* header: ブランド＋ハンバーガーの横並びはそのまま維持 */
   .site-header {
     padding-inline: 20px;
+  }
+
+  .about-story-item {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .top-grid {
@@ -178,6 +265,98 @@
 
 /* ── 560px ── */
 @media (max-width: 560px) {
+  /* coiu page */
+  .coiu-hero-inner {
+    padding: 24px 16px 36px;
+  }
+
+  .coiu-hero-figure img {
+    aspect-ratio: 3 / 2;
+  }
+
+  .coiu-hero-title {
+    font-size: clamp(2rem, 10vw, 3rem);
+    margin: 12px 0 20px;
+  }
+
+  .coiu-hero-lead {
+    font-size: 0.92rem;
+  }
+
+  .coiu-concept {
+    padding: 56px 16px;
+  }
+
+  .coiu-concept-item {
+    gap: 28px;
+    padding: 44px 0;
+  }
+
+  .coiu-flow {
+    padding: 56px 16px;
+  }
+
+  .coiu-flow-list {
+    grid-template-columns: 1fr;
+  }
+
+  .coiu-flow-item {
+    padding: 28px 20px;
+    gap: 16px;
+  }
+
+  .coiu-curriculum {
+    padding: 56px 16px;
+  }
+
+  .coiu-year-item {
+    padding: 28px 0;
+    gap: 12px;
+  }
+
+  .coiu-themes {
+    padding: 56px 16px;
+  }
+
+  .coiu-theme-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .coiu-theme-card {
+    padding: 24px 20px;
+  }
+
+  .coiu-cta {
+    padding: 56px 16px;
+  }
+
+  .coiu-cta-actions {
+    flex-direction: column;
+  }
+
+  .coiu-cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .coiu-section-head {
+    margin-bottom: 36px;
+  }
+
+  /* about story */
+  .about-story {
+    padding: 56px 0 72px;
+  }
+
+  .about-story-head {
+    margin-bottom: 40px;
+  }
+
+  .about-story-item {
+    padding: 28px 0;
+    gap: 12px;
+  }
+
   /* info-banner-row: 横スクロール */
   .info-banner-row {
     display: flex;
@@ -295,6 +474,21 @@
 
   .project-grid-summary {
     display: none;
+  }
+
+  /* nav drawer */
+  .nav-drawer-panel {
+    padding: 80px 20px 56px;
+    gap: 40px;
+  }
+
+  .nav-drawer-close {
+    right: 16px;
+  }
+
+  .nav-drawer-nav a {
+    font-size: clamp(1.3rem, 7vw, 2rem);
+    padding: 16px 0;
   }
 
   /* hero slideshow: モバイルでは余白なし・画面端まで広げる */
@@ -595,6 +789,15 @@
     grid-column: auto;
   }
 
+  /* projects page */
+  .projects-page {
+    padding: 36px 16px 56px;
+  }
+
+  .projects-page-title {
+    font-size: clamp(1.8rem, 10vw, 3rem);
+  }
+
   /* search page */
   .search-page {
     padding-top: 48px;
@@ -639,11 +842,11 @@
 
   /* profile */
   .profile-article-header h1 {
-    font-size: clamp(1.35rem, 8vw, 2rem);
+    font-size: clamp(1.05rem, 6vw, 1.55rem);
   }
 
   .profile-main-image {
-    max-height: none;
+    max-height: 600px;
   }
 
   .profile-summary-box,
@@ -659,6 +862,47 @@
 
   .related-post-image {
     width: 82px;
+  }
+
+  /* profile detail grids */
+  .profile-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .profile-news-shell {
+    width: calc(100% - 32px);
+    margin: 24px auto 56px;
+  }
+
+  body:has(#student-view:not([hidden])) .site-header {
+    padding-inline: 16px;
+    min-height: 60px;
+  }
+
+  /* project detail */
+  .project-detail-hero {
+    padding: 40px 16px 32px;
+  }
+
+  .project-detail-img-wrap,
+  .project-detail-body {
+    width: calc(100% - 32px);
+  }
+
+  .project-detail-title {
+    font-size: clamp(1.5rem, 7vw, 2.4rem);
+  }
+
+  .project-related-list {
+    grid-template-columns: 1fr;
   }
 
   /* footer */
