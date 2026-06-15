@@ -50,6 +50,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://coiu-meetup.vercel.app/students/atsuto-kishimoto.html</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://coiu-meetup.vercel.app/projects/coiu-media.html</loc>
     <lastmod>2026-06-15</lastmod>
     <changefreq>weekly</changefreq>

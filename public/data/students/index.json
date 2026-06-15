@@ -13,5 +13,10 @@
     "slug": "harutaro-nagata",
     "name": "長田晴太郎",
     "path": "/data/students/harutaro-nagata.json"
+  },
+  {
+    "slug": "atsuto-kishimoto",
+    "name": "岸本篤斗",
+    "path": "/data/students/atsuto-kishimoto.json"
   }
 ]
