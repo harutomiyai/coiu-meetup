@@ -16,6 +16,14 @@ const index = JSON.parse(
   readFileSync(resolve(root, "public/data/projects/index.json"), "utf-8")
 );
 
+// メンバー解決用に全学生データを事前ロード
+const studentsIndex = JSON.parse(
+  readFileSync(resolve(root, "public/data/students/index.json"), "utf-8")
+);
+const allStudents = studentsIndex.map((entry) =>
+  JSON.parse(readFileSync(resolve(root, `public${entry.path}`), "utf-8"))
+);
+
 mkdirSync(resolve(root, "projects"), { recursive: true });
 
 for (const entry of index) {
@@ -31,6 +39,25 @@ for (const entry of index) {
 
   const webpImage = image ? image.replace(/\.(jpe?g|png)$/i, ".webp") : null;
   const tagPills = tags.map((t) => `<span class="project-detail-tag">${escHtml(t)}</span>`).join("");
+
+  // ---- JSON-LD: build as object, serialize with JSON.stringify ----
+  const ldJson = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description,
+    url,
+    image: ogImage,
+    inLanguage: "ja",
+    ...(tags.length ? { keywords: tags.join(", ") } : {}),
+    isPartOf: {
+      "@type": "WebSite",
+      name: "CoIU Meetup",
+      url: `${BASE_URL}/`,
+    },
+  };
+
+  // ---- prerender: image ----
   const imgHtml = image ? `
         <div class="project-detail-img-wrap">
           <picture>
@@ -38,6 +65,76 @@ for (const entry of index) {
             <img class="project-detail-image" src="${escAttr(image)}" alt="${escAttr(title)}" loading="eager" decoding="async" fetchpriority="high" width="680" height="510" />
           </picture>
         </div>` : "";
+
+  // ---- prerender: OVERVIEW ----
+  const detailText = project.detail || project.summary || "";
+  const overviewHtml = detailText
+    ? `
+        <section class="project-detail-section">
+          <div class="project-block-head">
+            <p class="section-kicker">OVERVIEW</p>
+            <h2>プロジェクト概要</h2>
+          </div>
+          ${detailText
+            .split(/\n\n+/)
+            .map((block) => `<p>${escHtml(block.replace(/\n/g, " "))}</p>`)
+            .join("\n          ")}
+        </section>`
+    : "";
+
+  // ---- prerender: TIMELINE ----
+  const timelineItems = Array.isArray(project.timeline)
+    ? project.timeline.filter((e) => e.date && e.label)
+    : [];
+  const timelineHtml = timelineItems.length
+    ? `
+        <section class="project-detail-section project-timeline-section">
+          <p class="section-kicker">TIMELINE</p>
+          <h2>活動の記録</h2>
+          <ol class="project-timeline">
+            ${timelineItems.map((entry, i) => `<li class="project-timeline-item${i === timelineItems.length - 1 ? " is-latest" : ""}">
+              <div class="project-timeline-dot"></div>
+              <div class="project-timeline-content">
+                <time class="project-timeline-date">${escHtml(entry.date)}</time>
+                <strong class="project-timeline-label">${escHtml(entry.label)}</strong>
+                ${entry.body ? `<p class="project-timeline-body">${escHtml(entry.body)}</p>` : ""}
+              </div>
+            </li>`).join("\n            ")}
+          </ol>
+        </section>`
+    : "";
+
+  // ---- prerender: MEMBERS ----
+  const memberSlugs = [
+    ...( Array.isArray(project.projectSlugs) ? project.projectSlugs : []),
+    ...( Array.isArray(project.members) ? project.members : []),
+  ];
+  const members = memberSlugs
+    .map((s) => allStudents.find((st) => st.slug === s))
+    .filter(Boolean);
+
+  const membersHtml = members.length
+    ? `
+        <section class="project-detail-section">
+          <p class="section-kicker">MEMBERS</p>
+          <h2>メンバー</h2>
+          <div class="profile-project-member-list">
+            ${members.map((m) => {
+              const mWebp = m.image ? m.image.replace(/\.(jpe?g|png)$/i, ".webp") : null;
+              const mImg = m.image
+                ? `<picture><source srcset="${escAttr(mWebp || m.image)}" type="image/webp" /><img src="${escAttr(m.image)}" alt="${escAttr(m.name)}" loading="lazy" decoding="async" /></picture>`
+                : "";
+              return `<a class="profile-project-member" href="/students/${escAttr(m.slug)}.html">
+              ${mImg}
+              <div>
+                <strong>${escHtml(m.name)}</strong>
+                <p>${escHtml(m.catch || m.currentQuestion || "")}</p>
+              </div>
+            </a>`;
+            }).join("\n            ")}
+          </div>
+        </section>`
+    : "";
 
   const html = `<!doctype html>
 <html lang="ja">
@@ -59,20 +156,7 @@ for (const entry of index) {
     <meta property="og:locale" content="ja_JP" />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "${escJson(title)}",
-      "description": "${escJson(description)}",
-      "url": "${url}",
-      "image": "${ogImage}",
-      "inLanguage": "ja",
-      "isPartOf": {
-        "@type": "WebSite",
-        "name": "CoIU Meetup",
-        "url": "${BASE_URL}/"
-      }
-    }
+    ${JSON.stringify(ldJson, null, 2).split("\n").join("\n    ")}
     </script>
     ${image ? `<link rel="preload" as="image" href="${escAttr(webpImage || image)}" fetchpriority="high" />` : ""}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -128,6 +212,8 @@ for (const entry of index) {
               <h1 class="project-detail-title" id="project-detail-title">${escHtml(title)}</h1>
             </div>
           </div>${imgHtml}
+          <div class="project-detail-body">${overviewHtml}${timelineHtml}${membersHtml}
+          </div>
         </div>
       </section>
     </main>
@@ -179,8 +265,4 @@ function escAttr(s) {
   return String(s ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll('"', "&quot;");
-}
-
-function escJson(s) {
-  return String(s ?? "").replaceAll('"', '\\"');
 }
