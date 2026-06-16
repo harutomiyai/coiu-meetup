@@ -516,7 +516,6 @@ body:has(#student-view:not([hidden])) .site-header {
 .project-detail-page {
   width: 100%;
   background: #fff;
-  min-height: calc(100vh - 76px);
 }
 
 .project-detail-hero {

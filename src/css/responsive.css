@@ -257,6 +257,14 @@
 
 /* ── 560px ── */
 @media (max-width: 560px) {
+  main {
+    padding-top: 50px;
+  }
+
+  .tag-pill--parent {
+    display: none;
+  }
+
   .projects-grid {
     grid-template-columns: 1fr;
   }
@@ -369,7 +377,7 @@
     padding: 20px 0;
     width: 100vw;
     margin-left: calc(50% - 50vw);
-    scroll-padding-left: 16px;
+    scroll-padding-left: 24px;
     box-sizing: border-box;
     scrollbar-width: none;
   }
@@ -379,17 +387,17 @@
   }
 
   .base-banner:first-child {
-    margin-left: 16px;
+    margin-left: 24px;
   }
 
   .base-banner:last-child {
-    margin-right: 16px;
+    margin-right: 24px;
   }
 
   .base-banner {
-    flex: 0 0 calc(100% - 32px);
-    width: calc(100% - 32px) !important;
-    scroll-snap-align: start;
+    flex: 0 0 calc(100vw - 96px);
+    width: calc(100vw - 96px) !important;
+    scroll-snap-align: center;
     position: relative;
     grid-template-columns: 1fr;
     min-height: 180px;
@@ -478,69 +486,112 @@
     padding: 16px 0;
   }
 
-  /* hero slideshow: モバイルでは余白なし・画面端まで広げる */
+  /* hero slideshow: モバイルでは横スクロール */
   .hero-slideshow {
     padding: 16px 0 40px;
-    width: 100%;
+    overflow: visible;
   }
 
   .hero-slides {
     align-items: stretch;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    scroll-padding-left: 24px;
+    box-sizing: border-box;
+    /* JSのtransformを無効化 */
+    transform: none !important;
+    will-change: auto;
+    gap: 16px;
+  }
+
+  .hero-slides::-webkit-scrollbar {
+    display: none;
   }
 
   .hero-slide {
-    flex: 0 0 78vw;
+    flex: 0 0 calc(100vw - 96px);
+    margin-right: 0;
+    transform: none !important;
+    display: block;
+    position: relative;
+    opacity: 1;
+    transition: none;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  .hero-slide:first-child {
+    margin-left: 24px;
+  }
+
+  .hero-slide:last-child {
     margin-right: 24px;
-    transform: none;
-    display: flex;
-    flex-direction: column;
-    opacity: 0.45;
-    transition: opacity 400ms ease;
   }
 
   .hero-slide.is-active {
-    transform: none;
+    transform: none !important;
     opacity: 1;
+  }
+
+  .hero-slide.is-active .hero-slide-img {
+    outline: none;
+  }
+
+  .hero-slide-img {
+    aspect-ratio: 3 / 4;
+    border: 2px solid var(--ink);
   }
 
   .hero-slide-num {
     display: none;
   }
 
-  /* カードを絶対位置からフロー内に戻す */
   .hero-slide-card {
-    position: static;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     width: 100%;
-    margin-top: 10px;
-    border-radius: 8px;
-    padding: 12px 14px;
-    gap: 6px;
+    margin-top: 0;
+    border-radius: 0 0 8px 8px;
+    border: none;
+    padding: 40px 14px 16px;
+    gap: 4px;
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.72));
+    color: #fff;
   }
 
   .hero-slide-project {
-    font-size: 0.95rem;
+    font-size: 1.3rem;
     line-height: 1.4;
+    color: #fff;
   }
 
   .hero-slide-name {
     font-size: 0.72rem;
+    color: rgba(255,255,255,0.75);
   }
 
   .hero-slide-summary {
     -webkit-line-clamp: 2;
     font-size: 0.74rem;
+    color: rgba(255,255,255,0.85);
   }
 
   .hero-prev,
   .hero-next {
-    width: 36px;
-    height: 36px;
-    font-size: 0.85rem;
-    top: 30%;
+    display: none;
   }
 
-  .hero-prev { left: 4px; }
-  .hero-next { right: 4px; }
+  .hero-dots {
+    display: none;
+  }
 
   /* header */
   .site-header {

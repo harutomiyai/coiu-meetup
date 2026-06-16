@@ -4,6 +4,9 @@ import { escapeHtml } from "./render.js";
 const GAP = 24;
 const DURATION = 600;
 const INTERVAL = 5000;
+const MOBILE_BP = 560;
+
+const isMobile = () => window.innerWidth <= MOBILE_BP;
 
 // 3セット複製: [clone-tail | originals | clone-head]
 // current は originals 内のインデックス (0 〜 total-1)
@@ -40,7 +43,12 @@ const offsetFor = (vIdx) => {
 
 const applyOffset = (x) => {
   const t = getTrack();
-  if (t) t.style.transform = `translateX(${x}px)`;
+  if (!t) return;
+  if (isMobile()) {
+    t.style.transform = "";
+    return;
+  }
+  t.style.transform = `translateX(${x}px)`;
 };
 
 // --- RAF イージング ---
@@ -56,6 +64,7 @@ const animateTo = (from, to, onDone) => {
   animFrom = from;
   animTo = to;
   const step = (ts) => {
+    if (isMobile()) { rafId = null; animStart = null; return; }
     if (animStart === null) animStart = ts;
     const t = Math.min((ts - animStart) / DURATION, 1);
     applyOffset(animFrom + (animTo - animFrom) * ease(t));
@@ -116,6 +125,7 @@ const moveTo = (newReal, animated, onDone) => {
 
 // 次へ（アニメが走っていたら無視）
 const goNext = () => {
+  if (isMobile()) { clearInterval(timer); return; }
   if (rafId) return;
   const nextReal = (current + 1) % total;
   const from = offsetFor(vCurrent);
@@ -159,6 +169,7 @@ const goPrev = () => {
 
 // --- 自動再生 ---
 const startAuto = () => {
+  if (isMobile()) return;
   clearInterval(timer);
   timer = setInterval(goNext, INTERVAL);
 };
@@ -192,6 +203,16 @@ export const initHeroSlideshow = () => {
   total = list.length;
   current = 0;
 
+  if (isMobile()) {
+    // モバイル: オリジナルのみ、横スクロール・transform不要
+    const orig = list.map((p, i) => buildSlide(p, i, i === 0, i === 0));
+    container.innerHTML = orig.join("");
+    container.style.transform = "";
+    vCurrent = 0;
+    renderDots();
+    return;
+  }
+
   // 3セット: [tail clone | originals | head clone]
   const tail = list.map((p, i) => buildSlide(p, i, false, false));
   const orig = list.map((p, i) => buildSlide(p, i, i === 0, i === 0));
@@ -221,6 +242,13 @@ export const initHeroSlideshow = () => {
   });
 
   window.addEventListener("resize", () => {
+    if (isMobile()) {
+      cancelAnim();
+      clearInterval(timer);
+      const track = getTrack();
+      if (track) track.style.transform = "";
+      return;
+    }
     cancelAnim();
     measureSizes();
     applyOffset(offsetFor(vCurrent));
