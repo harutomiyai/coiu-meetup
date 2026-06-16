@@ -118,6 +118,7 @@ for (const entry of index) {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <title>${escHtml(name)}｜${escHtml(titleSuffix)} | CoIU Meetup</title>
     <meta name="description" content="${escAttr(description)}" />
     <meta name="keywords" content="${escAttr(keywords)}" />
