@@ -39,6 +39,80 @@ for (const entry of index) {
               </picture>
             </figure>` : "";
 
+  // ---- JSON-LD: build as object, serialize with JSON.stringify ----
+  const personEntity = {
+    "@type": "Person",
+    name,
+    description,
+    url,
+    image: ogImage,
+    alumniOf: { "@type": "CollegeOrUniversity", "name": "CoIU（Co-Innovation University）" },
+  };
+
+  const sameAsLinks = ["note", "youtube", "x", "instagram"]
+    .map((k) => student.links?.[k])
+    .filter((u) => u && u !== "#");
+  if (sameAsLinks.length) personEntity.sameAs = sameAsLinks;
+
+  if (tags.length) personEntity.knowsAbout = tags;
+
+  const ldJson = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    name: `${name}のプロフィール`,
+    description,
+    url,
+    image: ogImage,
+    inLanguage: "ja",
+    mainEntity: personEntity,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "CoIU Meetup",
+      url: `${BASE_URL}/`,
+    },
+  };
+
+  // ---- prerender: QUESTION ----
+  const questionHtml = currentQuestion
+    ? `
+              <div class="profile-summary-box">
+                <p class="section-kicker">QUESTION</p>
+                <strong>${escHtml(currentQuestion)}</strong>
+              </div>`
+    : "";
+
+  // ---- prerender: PROFILE / 活動の紹介 ----
+  const aboutItems = Array.isArray(student.about) && student.about.length
+    ? student.about
+    : student.story ? [student.story] : [];
+  const profileHtml = aboutItems.length
+    ? `
+              <section class="profile-article-block">
+                <div class="profile-block-head">
+                  <p class="section-kicker">PROFILE</p>
+                  <h2>活動の紹介</h2>
+                </div>
+                ${aboutItems.map((p) => `<p>${escHtml(p)}</p>`).join("\n                ")}
+              </section>`
+    : "";
+
+  // ---- prerender: INTERVIEW ----
+  const interviewItems = Array.isArray(student.interview) && student.interview.length
+    ? student.interview : [];
+
+  const interviewHtml = interviewItems.length
+    ? `
+              <section class="profile-article-block profile-interview">
+                <div class="profile-block-head">
+                  <p class="section-kicker">INTERVIEW</p>
+                  <h2>インタビュー</h2>
+                </div>
+                <ol class="interview-list">
+                  ${interviewItems.map(renderInterviewItem).join("\n                  ")}
+                </ol>
+              </section>`
+    : "";
+
   const html = `<!doctype html>
 <html lang="ja">
   <head>
@@ -58,26 +132,7 @@ for (const entry of index) {
     <meta property="og:locale" content="ja_JP" />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfilePage",
-      "name": "${escJson(name)}のプロフィール",
-      "description": "${escJson(description)}",
-      "url": "${url}",
-      "image": "${ogImage}",
-      "inLanguage": "ja",
-      "mainEntity": {
-        "@type": "Person",
-        "name": "${escJson(name)}",
-        "description": "${escJson(description)}",
-        "url": "${url}"
-      },
-      "isPartOf": {
-        "@type": "WebSite",
-        "name": "CoIU Meetup",
-        "url": "${BASE_URL}/"
-      }
-    }
+    ${JSON.stringify(ldJson, null, 2).split("\n").join("\n    ")}
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -135,7 +190,7 @@ for (const entry of index) {
                   <span class="profile-article-gen">CoIU / ${generation ? escHtml(generation) : ""}</span>
                 </div>
                 <h1 id="detail-title">${escHtml(name)}｜${escHtml(currentQuestion || catchPhrase || name)}</h1>
-              </header>${imgHtml}
+              </header>${imgHtml}${questionHtml}${profileHtml}${interviewHtml}
             </article>
           </div>
         </div>
@@ -191,6 +246,20 @@ function escAttr(s) {
     .replaceAll('"', "&quot;");
 }
 
-function escJson(s) {
-  return String(s ?? "").replaceAll('"', '\\"');
+function renderInterviewItem(item) {
+  const toWebp = (src) => src ? src.replace(/\.(jpe?g|png)$/i, ".webp") : src;
+  const figure = item.image
+    ? `<figure class="interview-figure">
+          <picture><source srcset="${escAttr(toWebp(item.image))}" type="image/webp" /><img class="interview-img" src="${escAttr(item.image)}" alt="${escAttr(item.imageAlt || "")}" loading="lazy" decoding="async" /></picture>
+          ${item.imageCaption ? `<figcaption class="interview-figcaption">${escHtml(item.imageCaption)}</figcaption>` : ""}
+        </figure>`
+    : "";
+  const quote = item.quote
+    ? `<blockquote class="interview-quote">${escHtml(item.quote)}</blockquote>`
+    : "";
+  return `<li class="interview-item">
+                    <p class="interview-q">${escHtml(item.question)}</p>
+                    <p class="interview-a">${escHtml(item.answer)}</p>
+                    ${quote}${figure}
+                  </li>`;
 }
