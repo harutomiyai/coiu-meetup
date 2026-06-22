@@ -475,6 +475,8 @@
   .nav-drawer-panel {
     padding: 80px 20px 56px;
     gap: 40px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .nav-drawer-close {
