@@ -113,5 +113,10 @@
       "question": "CoIUでやりたいこと",
       "answer": "地域創生というものを、言葉ではなく自分の行動で体現していきたいと思っています。このサイトもその一つで、飛騨古川という場所にいながら、ここに集まる人たちの問いや活動を外の世界へ届けていくことをやり続けたいです。"
     }
-  ]
+  ],
+  "interviewer": {
+    "name": "宮井陽音",
+    "role": "CoIU Meetup 編集",
+    "image": "/images/students/haruto-miyai/profile.webp"
+  }
 }

@@ -43,5 +43,10 @@
     "slug": "haruto-hori",
     "name": "堀晴登",
     "path": "/data/students/haruto-hori.json"
+  },
+  {
+    "slug": "ryohei-yamamoto",
+    "name": "山元涼平",
+    "path": "/data/students/ryohei-yamamoto.json"
   }
 ]

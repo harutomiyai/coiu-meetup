@@ -106,5 +106,10 @@
       "image": "/images/students/harutaro-nagata/profile2.webp",
       "imageAlt": "長田晴太郎さんの写真"
     }
-  ]
+  ],
+  "interviewer": {
+    "name": "北林拓実",
+    "role": "CoIU Meetup 編集",
+    "image": "/images/students/takumi-kitabayashi/profile.webp"
+  }
 }

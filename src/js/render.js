@@ -490,6 +490,26 @@ const renderInterviewSection = (student) => {
   `;
 };
 
+const renderInterviewerSection = (student) => {
+  const interviewer = student.interviewer;
+  if (!interviewer) return "";
+  const img = interviewer.image
+    ? `<picture><source srcset="${escapeHtml(toWebP(interviewer.image))}" type="image/webp" /><img class="interviewer-avatar" src="${escapeHtml(interviewer.image)}" alt="${escapeHtml(interviewer.name)}" loading="lazy" decoding="async" /></picture>`
+    : `<span class="interviewer-avatar interviewer-avatar--fallback">${escapeHtml(interviewer.name?.[0] ?? "?")}</span>`;
+  return `
+    <div class="profile-interviewer">
+      <p class="profile-interviewer-label">このインタビューを担当した人</p>
+      <div class="profile-interviewer-card">
+        ${img}
+        <div class="profile-interviewer-info">
+          <strong>${escapeHtml(interviewer.name)}</strong>
+          ${interviewer.role ? `<span>${escapeHtml(interviewer.role)}</span>` : ""}
+        </div>
+      </div>
+    </div>
+  `;
+};
+
 const renderProjectSection = (student) => {
   const slugs = asArray(student.projectSlugs).length
     ? asArray(student.projectSlugs)
@@ -592,6 +612,8 @@ export const renderStudentDetail = (student) => {
               `
               : ""
           }
+
+          ${renderInterviewerSection(student)}
 
           <section class="profile-article-block profile-request-block">
             <div class="profile-block-head">

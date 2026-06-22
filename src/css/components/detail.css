@@ -880,3 +880,62 @@ body:has(#student-view:not([hidden])) .site-header {
   color: var(--muted);
   line-height: 1.6;
 }
+
+/* Interviewer credit */
+.profile-interviewer {
+  border-top: 1px solid var(--line);
+  padding: 28px 0;
+  display: grid;
+  gap: 12px;
+}
+
+.profile-interviewer-label {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.profile-interviewer-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.interviewer-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 20%;
+  flex-shrink: 0;
+  border: 1px solid var(--line-soft);
+}
+
+.interviewer-avatar--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.profile-interviewer-info {
+  display: grid;
+  gap: 3px;
+}
+
+.profile-interviewer-info strong {
+  font-size: 0.92rem;
+  font-weight: 900;
+  color: var(--ink);
+}
+
+.profile-interviewer-info span {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
