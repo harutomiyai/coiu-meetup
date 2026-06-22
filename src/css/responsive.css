@@ -702,13 +702,11 @@
     flex: 0 0 auto;
   }
 
-  /* people grid: 1カラム・全幅・角丸なし */
+  /* people grid: 2カラムに・左右枠線なし */
   .people-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     border-left: none;
     border-right: none;
-    border-radius: 0;
-    width: 100%;
   }
 
   .students-section .project-carousel-wrap {
