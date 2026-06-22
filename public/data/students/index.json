@@ -23,5 +23,25 @@
     "slug": "fuka-sakamoto",
     "name": "坂本楓花",
     "path": "/data/students/fuka-sakamoto.json"
+  },
+  {
+    "slug": "kenshi-sakamoto",
+    "name": "坂本健志",
+    "path": "/data/students/kenshi-sakamoto.json"
+  },
+  {
+    "slug": "ryoma-hayashi",
+    "name": "林諒馬",
+    "path": "/data/students/ryoma-hayashi.json"
+  },
+  {
+    "slug": "takeru-koide",
+    "name": "小出武瑠",
+    "path": "/data/students/takeru-koide.json"
+  },
+  {
+    "slug": "haruto-hori",
+    "name": "堀晴登",
+    "path": "/data/students/haruto-hori.json"
   }
 ]

@@ -339,6 +339,31 @@ body:has(#student-view:not([hidden])) .site-header {
   font-size: 0.8rem;
 }
 
+.profile-request-block p {
+  font-size: 0.86rem;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.profile-request-link {
+  display: inline-block;
+  padding: 10px 24px;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.profile-request-link:hover,
+.profile-request-link:focus-visible {
+  background: var(--ink);
+  color: #fff;
+}
+
 .related-posts {
   position: sticky;
   top: 24px;

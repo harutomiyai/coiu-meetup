@@ -592,6 +592,15 @@ export const renderStudentDetail = (student) => {
               `
               : ""
           }
+
+          <section class="profile-article-block profile-request-block">
+            <div class="profile-block-head">
+              <p class="section-kicker">FEEDBACK</p>
+              <h2>リクエスト・報告</h2>
+            </div>
+            <p>掲載内容への修正リクエストや誤りの報告はこちらから送っていただけます。</p>
+            <a class="profile-request-link" href="https://forms.gle/oom12dSjt1KxMpkj9" target="_blank" rel="noopener noreferrer">フォームを開く</a>
+          </section>
         </article>
 
       </div>
