@@ -458,6 +458,25 @@
     padding-inline: 16px;
   }
 
+  .project-carousel-wrap {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+
+  .projects-feature-grid,
+  .projects-grid-wrap,
+  .projects-grid {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+
+  .search-page .projects-grid-wrap,
+  .search-page .projects-feature-grid {
+    margin-inline: -16px;
+  }
+
   .project-carousel-track,
   .projects-grid-list {
     grid-template-columns: 1fr;
@@ -702,10 +721,10 @@
     flex: 0 0 auto;
   }
 
-  /* people grid: 1カラム・全幅・左右枠線なし・角丸なし */
+  /* people grid: 2カラム・全幅・左右枠線なし・角丸なし */
   .people-grid {
-    grid-template-columns: 1fr;
-    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-inline: -16px;
     border-left: none;
     border-right: none;
     border-radius: 0;
@@ -727,6 +746,10 @@
 
   .students-section .project-carousel-more {
     margin-inline: auto;
+  }
+
+  .students-section .people-grid {
+    margin-inline: 0;
   }
 
   /* feature card: スマートフォン2列では縦積みレイアウト */
