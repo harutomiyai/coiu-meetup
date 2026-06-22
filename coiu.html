@@ -46,7 +46,7 @@
     <header class="site-header">
       <a class="brand" href="/index.html" aria-label="CoIU Meetup トップへ">
         <span class="brand-kana">こういう学生に会える場所</span>
-        <span class="brand-logo">CoIU meetup ...</span>
+        <span class="brand-logo">CoIU meetup</span>
       </a>
       <button class="hamburger" type="button" id="hamburger-btn" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-drawer">
         <span></span><span></span><span></span>
@@ -153,28 +153,25 @@
 
     <footer class="site-footer">
       <div class="footer-inner">
-        <div class="footer-top">
-          <div class="footer-brand">
-            <span class="brand-kana">こういう学生に会える場所</span>
-            <strong>CoIU meetup ...</strong>
-          </div>
-          <a class="page-top" href="#">
-            <span>Page Top</span>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M8 12V4M4 8l4-4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </a>
-        </div>
-        <div class="footer-bottom">
-          <nav aria-label="フッターナビゲーション">
-            <a href="/index.html">TOP</a>
-            <a href="/index.html#contents">CONTENTS</a>
-            <a href="/index.html#feature">FEATURE</a>
-            <a href="https://coiu.ac.jp" target="_blank" rel="noopener noreferrer" aria-current="page">CoIUとは</a>
-            <a href="/about.html">ABOUT</a>
-            <a href="https://forms.gle/oom12dSjt1KxMpkj9" target="_blank" rel="noopener noreferrer">リクエスト・報告</a>
-          </nav>
+        <nav class="footer-nav" aria-label="フッターナビゲーション（左）">
+          <a href="/index.html">Top</a>
+          <a href="/students.html">Students</a>
+          <a href="/projects.html">Projects</a>
+        </nav>
+        <nav class="footer-nav" aria-label="フッターナビゲーション（右）">
+          <a href="/about.html">About</a>
+          <a href="/coiu.html" aria-current="page">CoIUとは</a>
+          <a href="https://forms.gle/oom12dSjt1KxMpkj9" target="_blank" rel="noopener noreferrer">Request</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
           <p class="footer-copy">&copy; 2026 CoIU meetup</p>
+
+        </div>
+        <div class="footer-brand">
+          <span class="brand-kana">こういう学生に会える場所</span>
+          <strong>CoIU meetup</strong>
         </div>
       </div>
     </footer>
