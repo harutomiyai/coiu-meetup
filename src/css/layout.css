@@ -64,14 +64,16 @@
   background: var(--ink);
   color: #fff;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 280ms ease;
+  transition: opacity 280ms ease, visibility 280ms ease;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 .nav-drawer.is-open {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
 

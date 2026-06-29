@@ -53,5 +53,10 @@
     "slug": "akihiro-yamamoto",
     "name": "山本哲広",
     "path": "/data/students/akihiro-yamamoto.json"
+  },
+  {
+    "slug": "yuto-hirata",
+    "name": "平田悠人",
+    "path": "/data/students/yuto-hirata.json"
   }
 ]
