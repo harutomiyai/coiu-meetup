@@ -48,5 +48,10 @@
     "slug": "ryohei-yamamoto",
     "name": "山元涼平",
     "path": "/data/students/ryohei-yamamoto.json"
+  },
+  {
+    "slug": "akihiro-yamamoto",
+    "name": "山本哲広",
+    "path": "/data/students/akihiro-yamamoto.json"
   }
 ]
